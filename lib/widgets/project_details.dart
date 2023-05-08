@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/modules/project.dart';
+import 'package:projeto_computacao_movel/popups/pop_up_payment.dart';
 
 class ProjectDetails extends StatelessWidget {
   final Project? project;
@@ -20,20 +21,73 @@ class ProjectDetails extends StatelessWidget {
               style: const TextStyle(fontSize: 18),
             ),
           ),
+          Stack(
+            children: [
+              Container(
+                margin: const EdgeInsets.fromLTRB(50, 5, 50, 0),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black),
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image(
+                    image: AssetImage(
+                      'assets/images/${project!.image}',
+                    ),
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ),
+              Align(
+                heightFactor: 8.2,
+                alignment: const Alignment(.7, 1),
+                child: ElevatedButton(
+                  onPressed: () async {
+                    double? val = await showDialog(
+                      context: context,
+                      builder: (context) => const PopUpPayment(),
+                    );
+                  },
+                  child: const Text(
+                    "Finance",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              ),
+            ],
+          ),
           Container(
-            margin: const EdgeInsets.fromLTRB(50, 5, 50, 0),
+            margin: const EdgeInsets.fromLTRB(80, 5, 80, 0),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.black),
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
             ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image(
-                image: AssetImage(
-                  'assets/images/${project!.image}',
+            child: Column(
+              children: [
+                LinearProgressIndicator(
+                  backgroundColor: Colors.blue,
+                  value: (project!.financedValue / project!.finalValue),
+                  valueColor: const AlwaysStoppedAnimation(Colors.green),
+                  minHeight: 10,
                 ),
-                fit: BoxFit.fill,
-              ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(3),
+                      child: Text(
+                        '${project!.financedValue.toString()}€',
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(3),
+                      child: Text(
+                        '${(project!.finalValue - project!.financedValue).toString()}€',
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
           Row(

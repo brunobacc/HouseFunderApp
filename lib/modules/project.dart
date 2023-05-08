@@ -7,6 +7,7 @@ class Project {
   String title;
   String location;
   String description;
+  double financedValue;
   double finalValue;
   int totalInvestor;
 
@@ -19,6 +20,7 @@ class Project {
     this.title,
     this.location,
     this.description,
+    this.financedValue,
     this.finalValue,
     this.totalInvestor,
   );
