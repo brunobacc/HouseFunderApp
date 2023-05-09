@@ -50,7 +50,7 @@ class ProjectDetails extends StatelessWidget {
                     );
                   },
                   child: const Text(
-                    "Finance",
+                    "Financer",
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
