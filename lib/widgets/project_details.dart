@@ -4,13 +4,13 @@ import 'package:projeto_computacao_movel/popups/pop_up_payment.dart';
 
 class ProjectDetails extends StatelessWidget {
   final Project? project;
-  const ProjectDetails({super.key, this.project});
+  ProjectDetails({super.key, this.project});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Flutter'),
+        title: Text('flutter'),
       ),
       body: Column(
         children: [

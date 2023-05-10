@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_computacao_movel/widgets/drawer_widget.dart';
 import 'package:projeto_computacao_movel/widgets/project_details.dart';
 
 import '../modules/projects.dart';
@@ -6,7 +7,6 @@ import '../popups/pop_up1.dart';
 
 class HomePageFinancer extends StatefulWidget {
   late Projects projects;
-
   HomePageFinancer({super.key}) {
     projects = Projects();
   }
@@ -16,11 +16,22 @@ class HomePageFinancer extends StatefulWidget {
 }
 
 class _HomePageFinancerState extends State<HomePageFinancer> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
-        title: const Text('Flutter Widgets'),
+        title: const Text('Flutter'),
+        leading: IconButton(
+          onPressed: () => _scaffoldKey.currentState?.openDrawer(),
+          icon: Icon(Icons.menu),
+          iconSize: 30,
+        ),
+      ),
+      drawer: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.2,
+        child: DrawerWidget(),
       ),
       body: Column(
         children: [
