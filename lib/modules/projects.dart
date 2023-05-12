@@ -11,7 +11,7 @@ class Projects {
         2,
         1,
         'House1.jpg',
-        'Ola',
+        'Construção T2',
         'Guimaraes',
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus rhoncus commodo dui, eget molestie leo posuere sed. Ut sit amet quam risus. Donec dignissim viverra ante, eu suscipit leo tristique et. Aliquam dictum sem tortor, ac commodo lacus scelerisque fringilla. Nulla imperdiet consequat erat, eu sodales ante sollicitudin non. Aenean ac augue sollicitudin, volutpat tellus quis, cursus odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
         0,

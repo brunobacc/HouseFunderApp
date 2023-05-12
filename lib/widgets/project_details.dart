@@ -10,7 +10,7 @@ class ProjectDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('flutter'),
+        title: Text('Missão'),
       ),
       body: Column(
         children: [
@@ -26,7 +26,7 @@ class ProjectDetails extends StatelessWidget {
               Container(
                 margin: const EdgeInsets.fromLTRB(50, 5, 50, 0),
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black),
+                  border: Border.all(color: Colors.white),
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                 ),
                 child: ClipRRect(
@@ -41,7 +41,7 @@ class ProjectDetails extends StatelessWidget {
               ),
               Align(
                 heightFactor: 8.2,
-                alignment: const Alignment(.7, 1),
+                alignment: const Alignment(0, 1),
                 child: ElevatedButton(
                   onPressed: () async {
                     double? val = await showDialog(
@@ -50,7 +50,7 @@ class ProjectDetails extends StatelessWidget {
                     );
                   },
                   child: const Text(
-                    "Financer",
+                    "Financiar",
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
@@ -58,9 +58,9 @@ class ProjectDetails extends StatelessWidget {
             ],
           ),
           Container(
-            margin: const EdgeInsets.fromLTRB(80, 5, 80, 0),
+            margin: const EdgeInsets.fromLTRB(30, 5, 30, 0),
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.black),
+              border: Border.all(color: Colors.white),
             ),
             child: Column(
               children: [
