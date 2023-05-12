@@ -22,7 +22,7 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: const Text('Flutter'),
+        title: const Text('Flutter Teste'),
         leading: IconButton(
           onPressed: () => _scaffoldKey.currentState?.openDrawer(),
           icon: Icon(Icons.menu),
