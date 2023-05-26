@@ -23,20 +23,91 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
+      /* appBar: AppBar(
         title: const Text('Home'),
         leading: IconButton(
           onPressed: () => _scaffoldKey.currentState?.openDrawer(),
           icon: Icon(Icons.menu),
           iconSize: 30,
         ),
-      ),
+      ),*/
       drawer: SizedBox(
         width: MediaQuery.of(context).size.width * 0.55,
         child: DrawerWidget(),
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          SizedBox(
+            height: 20,
+          ),
+
+          Padding(
+            padding: const EdgeInsets.only(left: 25.0),
+            child: Container(
+              height: 50,
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.white),
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.grey[200],
+              ),
+              child: Icon(Icons.menu),
+            ),
+          ),
+
+          SizedBox(
+            height: 20,
+          ),
+
+          // search bar
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  border: Border.all(color: Colors.white),
+                  borderRadius: BorderRadius.circular(12)),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Container(
+                      height: 30,
+                      child: Icon(Icons.search),
+                    ),
+                  ),
+                  Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Search for a mission',
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Container(
+                    height: 50,
+                    padding: EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(Icons.filter_2),
+                  )
+                ],
+              ),
+            ),
+          ),
+
+          SizedBox(
+            height: 30,
+          ),
+
+          // missions
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -44,12 +115,13 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
                   ? ListView.builder(
                       itemCount: widget.projects.count,
                       itemBuilder: (BuildContext context, int i) {
+                        // CARDS
                         return Card(
                           child: ListTile(
                             title: Container(
                               margin: const EdgeInsets.fromLTRB(50, 5, 50, 0),
                               decoration: BoxDecoration(
-                                border: Border.all(color: Colors.black),
+                                border: Border.all(color: Colors.white),
                                 borderRadius:
                                     const BorderRadius.all(Radius.circular(10)),
                               ),
