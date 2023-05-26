@@ -13,8 +13,8 @@ class DrawerWidget extends StatelessWidget {
           Container(
             height: 200,
             child: DrawerHeader(
-              decoration: const BoxDecoration(
-                color: Colors.blue,
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor, // Gives error
                 image: DecorationImage(
                   image: AssetImage('null'),
                   fit: BoxFit.cover,
@@ -55,48 +55,17 @@ class DrawerWidget extends StatelessWidget {
               ),
             ),
             leading: const Icon(Icons.person),
-            subtitle: const Text(
-              'Go to you profile',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey,
-              ),
-            ),
             onTap: () => null,
           ),
           const ListTile(
             title: Text(
-              'Shop',
+              'Notifications',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            leading: Icon(Icons.shopify_rounded),
-            subtitle: Text(
-              'Exchange points for vouchers',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey,
-              ),
-            ),
-          ),
-          const ListTile(
-            title: Text(
-              'Propose',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            leading: Icon(Icons.play_lesson),
-            subtitle: Text(
-              'Propose a project',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey,
-              ),
-            ),
+            leading: Icon(Icons.notifications),
           ),
           const ListTile(
             title: Text(
@@ -107,13 +76,26 @@ class DrawerWidget extends StatelessWidget {
               ),
             ),
             leading: Icon(Icons.settings),
-            subtitle: Text(
-              'Modify your settings',
+          ),
+          const ListTile(
+            title: Text(
+              'About Us',
               style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
               ),
             ),
+            leading: Icon(Icons.info),
+          ),
+          const ListTile(
+            title: Text(
+              'Logout',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            leading: Icon(Icons.logout),
           ),
         ],
       ),

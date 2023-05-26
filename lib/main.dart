@@ -6,6 +6,15 @@ void main() {
   runApp(const MyApp());
 }
 
+class Palette {
+  static const MaterialColor kToDark = MaterialColor(
+    0xFFB89888,
+    const <int, Color>{
+      50: Color(0xFFB89888), //10%
+    },
+  );
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -14,8 +23,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
+        primaryColor: Color(0xFFB89888),
         colorScheme: ColorScheme.fromSwatch(
-          primarySwatch: Colors.brown,
+          primarySwatch: Colors.brown, //stand by
         ),
       ),
       home: HomePageFinancer(),

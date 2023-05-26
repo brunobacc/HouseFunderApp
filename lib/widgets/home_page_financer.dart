@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:projeto_computacao_movel/widgets/drawer_widget.dart';
 import 'package:projeto_computacao_movel/widgets/project_details.dart';
 
 import '../modules/projects.dart';
 import '../popups/pop_up1.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 
 class HomePageFinancer extends StatefulWidget {
   late Projects projects;
@@ -22,7 +24,7 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: const Text('Flutter Teste'),
+        title: const Text('Home'),
         leading: IconButton(
           onPressed: () => _scaffoldKey.currentState?.openDrawer(),
           icon: Icon(Icons.menu),
@@ -30,7 +32,7 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
         ),
       ),
       drawer: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.2,
+        width: MediaQuery.of(context).size.width * 0.55,
         child: DrawerWidget(),
       ),
       body: Column(
@@ -111,6 +113,34 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: Container(
+        color: Color(0xFFB89888),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
+          child: GNav(
+            backgroundColor: Color(0xFFB89888),
+            color: Colors.white,
+            activeColor: Colors.white,
+            tabBackgroundColor: Colors.grey.shade800,
+            gap: 8,
+            padding: EdgeInsets.all(16),
+            tabs: const [
+              GButton(
+                icon: Icons.shop,
+                text: 'Shop',
+              ),
+              GButton(
+                icon: Icons.home,
+                text: 'Home',
+              ),
+              GButton(
+                icon: Icons.person,
+                text: 'Profile',
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

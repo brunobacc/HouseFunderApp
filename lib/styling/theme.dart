@@ -12,7 +12,7 @@ class MyAppTheme extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         brightness: Brightness.light,
-        primaryColor: Color.fromARGB(255, 253, 226, 157),
+        primaryColor: Color(0xFFB89888),
         fontFamily: 'Calibri',
       ),
     );
