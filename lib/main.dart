@@ -1,18 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_computacao_movel/styling/theme.dart';
 import 'package:projeto_computacao_movel/widgets/home_page_financer.dart';
+import 'package:projeto_computacao_movel/widgets/profile.dart';
 
 void main() {
   runApp(const MyApp());
-}
-
-class Palette {
-  static const MaterialColor kToDark = MaterialColor(
-    0xFFB89888,
-    const <int, Color>{
-      50: Color(0xFFB89888), //10%
-    },
-  );
 }
 
 class MyApp extends StatelessWidget {
@@ -28,7 +19,11 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.brown, //stand by
         ),
       ),
-      home: HomePageFinancer(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => HomePageFinancer(),
+        '/profile': (context) => const Profile()
+      },
     );
   }
 }
