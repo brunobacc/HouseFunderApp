@@ -31,6 +31,7 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
           iconSize: 30,
         ),
       ),*/
+
       drawer: SizedBox(
         width: MediaQuery.of(context).size.width * 0.55,
         child: DrawerWidget(),
@@ -122,7 +123,7 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
           ),
 
           SizedBox(
-            height: 30,
+            height: 10,
           ),
 
           // missions
