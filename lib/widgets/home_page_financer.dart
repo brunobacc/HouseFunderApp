@@ -42,7 +42,7 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
             height: 20,
           ),
 
-          Padding(
+          /* Padding(
             padding: const EdgeInsets.only(left: 25.0),
             child: Container(
               height: 50,
@@ -54,7 +54,7 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
               ),
               child: Icon(Icons.menu),
             ),
-          ),
+          ),*/
 
           SizedBox(
             height: 20,
@@ -71,6 +71,24 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
                   borderRadius: BorderRadius.circular(12)),
               child: Row(
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 0.0),
+                    child: Container(
+                        height: 50,
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white),
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white,
+                        ),
+                        child: Container(
+                          child: TextButton(
+                            child: Icon(Icons.menu),
+                            onPressed: () =>
+                                _scaffoldKey.currentState?.openDrawer(),
+                          ),
+                        )),
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Container(
