@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:projeto_computacao_movel/widgets/bottom_navigation_bar_widget.dart';
 import 'package:projeto_computacao_movel/widgets/drawer_widget.dart';
 import 'package:projeto_computacao_movel/widgets/project_details.dart';
@@ -22,122 +21,84 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      /* appBar: AppBar(
-        title: const Text('Home'),
-        leading: IconButton(
-          onPressed: () => _scaffoldKey.currentState?.openDrawer(),
-          icon: Icon(Icons.menu),
-          iconSize: 30,
-        ),
-      ),*/
-
       drawer: SizedBox(
         width: MediaQuery.of(context).size.width * 0.55,
         child: DrawerWidget(),
       ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: 20,
-          ),
-
-          /* Padding(
-            padding: const EdgeInsets.only(left: 25.0),
-            child: Container(
-              height: 50,
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.white),
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.grey[200],
-              ),
-              child: Icon(Icons.menu),
-            ),
-          ),*/
-
-          SizedBox(
-            height: 20,
-          ),
-
           // search bar
-
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25.0),
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  border: Border.all(color: Colors.white),
-                  borderRadius: BorderRadius.circular(12)),
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 0.0),
-                    child: Container(
-                        height: 50,
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.white),
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white,
-                        ),
-                        child: Container(
-                          child: TextButton(
-                            child: Icon(Icons.menu),
-                            onPressed: () =>
-                                _scaffoldKey.currentState?.openDrawer(),
-                          ),
-                        )),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Container(
-                      height: 30,
-                      child: Icon(Icons.search),
+          Container(
+            padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+            child: Row(
+              children: [
+                SizedBox(
+                  height: 36,
+                  width: 36,
+                  child: TextButton(
+                    child: const Center(
+                      child: Icon(Icons.menu),
                     ),
+                    onPressed: () => _scaffoldKey.currentState?.openDrawer(),
                   ),
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'Search for a mission',
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                    child: Container(
+                      height: 36,
+                      decoration: const BoxDecoration(color: Colors.white12),
+                      child: Row(
+                        children: const [
+                          Center(
+                            child: Icon(Icons.search),
+                          ),
+                          Expanded(
+                            child: TextField(
+                              textAlign: TextAlign.center,
+                              decoration: InputDecoration(
+                                contentPadding:
+                                    EdgeInsets.symmetric(vertical: 15),
+                                border: InputBorder.none,
+                                hintText: 'Search for a project',
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    height: 50,
-                    padding: EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
+                ),
+                SizedBox(
+                  height: 36,
+                  width: 36,
+                  child: TextButton(
+                    child: const Center(
+                      child: Icon(Icons.filter_1),
                     ),
-                    child: Icon(Icons.filter_2),
-                  )
-                ],
-              ),
+                    onPressed: () => _scaffoldKey.currentState?.openDrawer(),
+                  ),
+                ),
+              ],
             ),
-          ),
-
-          SizedBox(
-            height: 10,
           ),
 
           // Projects
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.fromLTRB(25, 10, 25, 0),
               child: widget.projects.count > 0
                   ? ListView.builder(
                       itemCount: widget.projects.count,
                       itemBuilder: (BuildContext context, int i) {
                         // CARDS
                         return Card(
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
                           child: ListTile(
                             title: Container(
-                              margin: const EdgeInsets.fromLTRB(50, 5, 50, 0),
+                              margin: const EdgeInsets.fromLTRB(0, 5, 0, 0),
                               decoration: BoxDecoration(
                                 border: Border.all(color: Colors.white),
                                 borderRadius:

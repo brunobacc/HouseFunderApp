@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:projeto_computacao_movel/widgets/home_page_financer.dart';
-import 'package:projeto_computacao_movel/widgets/profile.dart';
-import 'package:projeto_computacao_movel/widgets/shop_page_widget.dart';
 
 class BottomNavigationBarWidget extends StatelessWidget {
   int selectedIndex = 0;
@@ -11,16 +8,16 @@ class BottomNavigationBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xFFB89888),
+      color: Theme.of(context).primaryColor,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
         child: GNav(
-          backgroundColor: Color(0xFFB89888),
+          backgroundColor: Theme.of(context).primaryColor,
           color: Colors.white,
           activeColor: Colors.white,
           tabBackgroundColor: Colors.grey.shade800,
           gap: 8,
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           selectedIndex: selectedIndex,
           onTabChange: (index) {
             if (index == selectedIndex) {
