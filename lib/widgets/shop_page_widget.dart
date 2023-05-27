@@ -53,7 +53,7 @@ class _ShopPageWidgetState extends State<ShopPageWidget> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBarWidget(),
+      bottomNavigationBar: BottomNavigationBarWidget(selectedIndex: 0),
     );
   }
 }

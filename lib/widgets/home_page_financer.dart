@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:projeto_computacao_movel/widgets/bottom_navigation_bar_widget.dart';
 import 'package:projeto_computacao_movel/widgets/drawer_widget.dart';
 import 'package:projeto_computacao_movel/widgets/project_details.dart';
 
 import '../modules/projects.dart';
-import '../popups/pop_up1.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 
 class HomePageFinancer extends StatefulWidget {
   late Projects projects;
@@ -126,7 +125,7 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
             height: 10,
           ),
 
-          // missions
+          // Projects
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -205,33 +204,8 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
           ),
         ],
       ),
-      bottomNavigationBar: Container(
-        color: Color(0xFFB89888),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
-          child: GNav(
-            backgroundColor: Color(0xFFB89888),
-            color: Colors.white,
-            activeColor: Colors.white,
-            tabBackgroundColor: Colors.grey.shade800,
-            gap: 8,
-            padding: EdgeInsets.all(16),
-            tabs: const [
-              GButton(
-                icon: Icons.shop,
-                text: 'Shop',
-              ),
-              GButton(
-                icon: Icons.home,
-                text: 'Home',
-              ),
-              GButton(
-                icon: Icons.person,
-                text: 'Profile',
-              ),
-            ],
-          ),
-        ),
+      bottomNavigationBar: BottomNavigationBarWidget(
+        selectedIndex: 1,
       ),
     );
   }
