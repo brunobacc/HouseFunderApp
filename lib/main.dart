@@ -16,7 +16,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         primaryColor: Color(0xFFB89888),
-        cardColor: Color(0x00AFB1B6),
+        bottomAppBarTheme: BottomAppBarTheme(
+          color: Color(0xFFB89888),
+        ),
+        cardColor: Color(0xFFE5DFDF),
         textTheme: TextTheme(bodyLarge: TextStyle()),
         colorScheme: ColorScheme.fromSwatch(
           primarySwatch: Colors.brown, //stand by

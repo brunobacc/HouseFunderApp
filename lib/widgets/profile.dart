@@ -3,6 +3,7 @@ import 'package:projeto_computacao_movel/widgets/bottom_navigation_bar_widget.da
 import 'package:projeto_computacao_movel/widgets/project_details.dart';
 
 import '../modules/projects.dart';
+import 'drawer_widget.dart';
 
 class Profile extends StatefulWidget {
   late Projects projects;
@@ -17,11 +18,36 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.55,
+        child: DrawerWidget(),
+      ),
       body: Padding(
-        padding: EdgeInsets.all(40),
+        padding: const EdgeInsets.fromLTRB(25, 20, 25, 0),
         child: Column(
           children: [
+            Row(
+              children: [
+                SizedBox(
+                  height: 36,
+                  width: 36,
+                  child: TextButton(
+                    child: const Center(
+                      child: Icon(Icons.menu),
+                    ),
+                    onPressed: () => _scaffoldKey.currentState?.openDrawer(),
+                  ),
+                ),
+                const Expanded(
+                  child: Center(
+                    child: Text('Profile'),
+                  ),
+                )
+              ],
+            ),
             Row(
               children: [
                 // User Image
@@ -29,13 +55,13 @@ class _ProfileState extends State<Profile> {
                   height: 130,
                   width: 130,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(100)),
+                    borderRadius: const BorderRadius.all(Radius.circular(100)),
                     border: Border.all(
                       width: 2,
                       color: Colors.black,
                     ),
                   ),
-                  child: Icon(Icons.accessibility_rounded),
+                  child: const Icon(Icons.accessibility_rounded),
                 ),
                 // Info about the user (Username and Email) and button to edit profile
                 Expanded(
@@ -56,7 +82,7 @@ class _ProfileState extends State<Profile> {
               ],
             ),
             Padding(
-              padding: EdgeInsets.only(top: 30),
+              padding: const EdgeInsets.only(top: 30),
               child: Table(
                 border: TableBorder.all(
                   width: 1,
@@ -64,9 +90,13 @@ class _ProfileState extends State<Profile> {
                 ),
                 children: [
                   TableRow(
+                    decoration: BoxDecoration(
+                      color: Color(0xFFE5DFDF),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                        padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                         child: Column(
                           children: const [
                             Text('Financing'),
@@ -76,7 +106,7 @@ class _ProfileState extends State<Profile> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                        padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                         child: Column(
                           children: const [
                             Text('Total Amount'),
@@ -86,7 +116,7 @@ class _ProfileState extends State<Profile> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                        padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                         child: Column(
                           children: const [
                             Text('Accepted'),
@@ -100,7 +130,7 @@ class _ProfileState extends State<Profile> {
                 ],
               ),
             ),
-            Align(
+            const Align(
               alignment: Alignment.topLeft,
               child: Padding(
                 padding: EdgeInsets.only(top: 20),
@@ -110,34 +140,56 @@ class _ProfileState extends State<Profile> {
             // Projects
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                 child: widget.projects.count > 0
                     ? ListView.builder(
                         itemCount: widget.projects.count,
                         itemBuilder: (BuildContext context, int i) {
-                          // CARDS
-                          return Card(
-                            child: ListTile(
-                              title: Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.white),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10)),
-                                ),
-                                child: ClipRRect(
+                          return ListTile(
+                            title: Stack(
+                              children: [
+                                ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
                                   child: Image(
                                     image: AssetImage(
                                         'assets/images/${widget.projects.list[i].image}'),
+                                    width: double.infinity,
+                                    height: 250,
                                     fit: BoxFit.fill,
                                   ),
                                 ),
-                              ),
-                              onTap: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => ProjectDetails(
-                                    project: widget.projects.list[i],
+                                Positioned(
+                                  bottom: 10,
+                                  left: 10,
+                                  child: Container(
+                                    color: Colors.black54,
+                                    padding: const EdgeInsets.all(10),
+                                    child: Text(
+                                      '${widget.projects.list[i].title}',
+                                      style: const TextStyle(
+                                          fontSize: 20, color: Colors.white),
+                                    ),
                                   ),
+                                ),
+                                Positioned(
+                                  bottom: 10,
+                                  right: 10,
+                                  child: Container(
+                                    color: Colors.black54,
+                                    padding: const EdgeInsets.all(10),
+                                    child: Text(
+                                      '${widget.projects.list[i].financedValue}',
+                                      style: const TextStyle(
+                                          fontSize: 20, color: Colors.white),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            onTap: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => ProjectDetails(
+                                  project: widget.projects.list[i],
                                 ),
                               ),
                             ),
@@ -145,7 +197,7 @@ class _ProfileState extends State<Profile> {
                         },
                       )
                     : const Center(
-                        child: Text('Zero products to show!'),
+                        child: Text('Zero projects to show!'),
                       ),
               ),
             ),

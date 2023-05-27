@@ -91,10 +91,11 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
                   ? ListView.builder(
                       itemCount: widget.projects.count,
                       itemBuilder: (BuildContext context, int i) {
-                        // CARDS
+                        // Display the projects in Cards
                         return Card(
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
+                            //side: BorderSide(color: )
                           ),
                           child: ListTile(
                             title: Container(
