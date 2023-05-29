@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_computacao_movel/popups/pop_up_edit_profile.dart';
 import 'package:projeto_computacao_movel/widgets/bottom_navigation_bar_widget.dart';
 import 'package:projeto_computacao_movel/widgets/project_details.dart';
 
@@ -41,9 +42,12 @@ class _ProfileState extends State<Profile> {
                     onPressed: () => _scaffoldKey.currentState?.openDrawer(),
                   ),
                 ),
-                const Expanded(
+                Expanded(
                   child: Center(
-                    child: Text('Profile'),
+                    child: Text(
+                      'Profile',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
                   ),
                 )
               ],
@@ -66,15 +70,29 @@ class _ProfileState extends State<Profile> {
                 // Info about the user (Username and Email) and button to edit profile
                 Expanded(
                   child: Column(
-                    children: const [
-                      Text('BrunoBACC'),
+                    children: [
+                      Text(
+                        'BrunoBACC',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
                       Padding(
-                        padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                        child: Text('a24603@alunos.ipca.pt'),
+                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                        child: Text(
+                          'a24603@alunos.ipca.pt',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
                       ),
                       ElevatedButton(
-                        onPressed: null,
-                        child: Text('Edit Profile'),
+                        child: Text(
+                          'Edit Profile',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        onPressed: () async {
+                          double? val = await showDialog(
+                            context: context,
+                            builder: (context) => const PopUpEditProfile(),
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -98,30 +116,57 @@ class _ProfileState extends State<Profile> {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                         child: Column(
-                          children: const [
-                            Text('Financing'),
-                            Text('Done'),
-                            Text('2'),
+                          children: [
+                            Text(
+                              'Financing',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                            Text(
+                              'Done',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                            Text(
+                              '2',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
                           ],
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                         child: Column(
-                          children: const [
-                            Text('Total Amount'),
-                            Text('Financed'),
-                            Text('250€'),
+                          children: [
+                            Text(
+                              'Total Amount',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                            Text(
+                              'Financed',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                            Text(
+                              '250€',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
                           ],
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                         child: Column(
-                          children: const [
-                            Text('Accepted'),
-                            Text('Projects'),
-                            Text('5'),
+                          children: [
+                            Text(
+                              'Accepted',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                            Text(
+                              'Projects',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                            Text(
+                              '5',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
                           ],
                         ),
                       ),
@@ -130,11 +175,14 @@ class _ProfileState extends State<Profile> {
                 ],
               ),
             ),
-            const Align(
+            Align(
               alignment: Alignment.topLeft,
               child: Padding(
-                padding: EdgeInsets.only(top: 20),
-                child: Text('Financed Projects'),
+                padding: const EdgeInsets.only(top: 20),
+                child: Text(
+                  'Financed Projects',
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
               ),
             ),
             // Projects
@@ -165,9 +213,10 @@ class _ProfileState extends State<Profile> {
                                     color: Colors.black54,
                                     padding: const EdgeInsets.all(10),
                                     child: Text(
-                                      '${widget.projects.list[i].title}',
-                                      style: const TextStyle(
-                                          fontSize: 20, color: Colors.white),
+                                      widget.projects.list[i].title,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelMedium,
                                     ),
                                   ),
                                 ),
@@ -179,8 +228,9 @@ class _ProfileState extends State<Profile> {
                                     padding: const EdgeInsets.all(10),
                                     child: Text(
                                       '${widget.projects.list[i].financedValue}',
-                                      style: const TextStyle(
-                                          fontSize: 20, color: Colors.white),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelMedium,
                                     ),
                                   ),
                                 )

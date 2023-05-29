@@ -36,8 +36,9 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
                   height: 36,
                   width: 36,
                   child: TextButton(
-                    child: const Center(
-                      child: Icon(Icons.menu),
+                    child: const Icon(
+                      Icons.menu,
+                      size: 36,
                     ),
                     onPressed: () => _scaffoldKey.currentState?.openDrawer(),
                   ),
@@ -49,8 +50,8 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
                       height: 36,
                       decoration: const BoxDecoration(color: Colors.white12),
                       child: Row(
-                        children: const [
-                          Center(
+                        children: [
+                          const Center(
                             child: Icon(Icons.search),
                           ),
                           Expanded(
@@ -58,8 +59,10 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
                               textAlign: TextAlign.center,
                               decoration: InputDecoration(
                                 contentPadding:
-                                    EdgeInsets.symmetric(vertical: 15),
+                                    const EdgeInsets.symmetric(vertical: 15),
                                 border: InputBorder.none,
+                                hintStyle:
+                                    Theme.of(context).textTheme.bodySmall,
                                 hintText: 'Search for a project',
                               ),
                             ),
@@ -74,7 +77,10 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
                   width: 36,
                   child: TextButton(
                     child: const Center(
-                      child: Icon(Icons.filter_1),
+                      child: Icon(
+                        Icons.filter_1,
+                        size: 36,
+                      ),
                     ),
                     onPressed: () => _scaffoldKey.currentState?.openDrawer(),
                   ),
@@ -126,6 +132,9 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
                                       child: Text(
                                         widget.projects.list[i].location,
                                         maxLines: 2,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
                                       ),
                                     ),
                                     Padding(
@@ -134,6 +143,9 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
                                       child: Text(
                                         '${widget.projects.list[i].finalValue.toString()}€',
                                         maxLines: 2,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
                                       ),
                                     )
                                   ],
@@ -144,6 +156,8 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
                                   child: Text(
                                     widget.projects.list[i].description,
                                     maxLines: 2,
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall,
                                   ),
                                 )
                               ],

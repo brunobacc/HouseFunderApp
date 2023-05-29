@@ -9,9 +9,7 @@ class ProjectDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Missão'),
-      ),
+      appBar: AppBar(),
       body: Column(
         children: [
           Padding(
