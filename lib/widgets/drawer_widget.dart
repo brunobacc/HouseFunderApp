@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class DrawerWidget extends StatelessWidget {
   DrawerWidget({super.key});
@@ -10,51 +8,39 @@ class DrawerWidget extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          Container(
-            height: 200,
+          SizedBox(
+            height: 220,
             child: DrawerHeader(
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor, // Gives error
-                image: DecorationImage(
-                  image: AssetImage('null'),
-                  fit: BoxFit.cover,
-                ),
+                color: Theme.of(context).primaryColor,
               ),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   CircleAvatar(
                     radius: 50,
                     backgroundImage: AssetImage('null'),
                   ),
-                  SizedBox(height: 10),
-                  Text(
-                    'usernameexample',
-                    style: TextStyle(
-                      fontSize: 22,
-                      color: Colors.white,
-                    ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 10),
+                    child: Text('BrunoBACC',
+                        style: Theme.of(context).textTheme.labelLarge),
                   ),
-                  Text(
-                    'emailexample',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.white,
-                    ),
-                  ),
+                  Text('a24603@alunos.ipca.pt',
+                      style: Theme.of(context).textTheme.labelSmall),
                 ],
               ),
             ),
           ),
           ListTile(
             title: const Text(
-              'Profile',
+              'Propose',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            leading: const Icon(Icons.person),
+            leading: const Icon(Icons.edit_document),
             onTap: () => null,
           ),
           const ListTile(

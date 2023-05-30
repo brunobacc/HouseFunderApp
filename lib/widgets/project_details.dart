@@ -9,24 +9,21 @@ class ProjectDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        iconTheme: Theme.of(context).iconTheme,
+        centerTitle: true,
+        title: Text(
+          project!.title,
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        backgroundColor: Colors.white,
+      ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(6),
-            child: Text(
-              project!.title,
-              style: const TextStyle(fontSize: 18),
-            ),
-          ),
           Stack(
             children: [
-              Container(
-                margin: const EdgeInsets.fromLTRB(50, 5, 50, 0),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white),
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image(
