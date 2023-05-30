@@ -10,7 +10,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
     return Container(
       color: Theme.of(context).primaryColor,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
+        padding: const EdgeInsets.all(15),
         child: GNav(
           backgroundColor: Theme.of(context).primaryColor,
           color: Colors.white,
@@ -33,19 +33,20 @@ class BottomNavigationBarWidget extends StatelessWidget {
               Navigator.pushNamed(context, '/profile');
             }
           },
-          tabs: const [
+          tabs: [
             GButton(
               icon: Icons.shop,
               text: 'Shop',
+              textStyle: Theme.of(context).textTheme.labelMedium,
             ),
             GButton(
-              icon: Icons.home,
-              text: 'Home',
-            ),
+                icon: Icons.home,
+                text: 'Home',
+                textStyle: Theme.of(context).textTheme.labelMedium),
             GButton(
-              icon: Icons.person,
-              text: 'Profile',
-            ),
+                icon: Icons.person,
+                text: 'Profile',
+                textStyle: Theme.of(context).textTheme.labelMedium),
           ],
         ),
       ),

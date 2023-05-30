@@ -19,8 +19,7 @@ class MyApp extends StatelessWidget {
         cardColor: Color(0xFFE5DFDF),
         textTheme: const TextTheme(
           titleMedium: TextStyle(fontSize: 28),
-          titleSmall: TextStyle(
-              fontSize: 20, fontStyle: FontStyle.italic), // trocar por bold
+          titleSmall: TextStyle(fontSize: 20), // trocar por bold
           bodyLarge: TextStyle(fontSize: 24),
           bodyMedium: TextStyle(fontSize: 19),
           bodySmall: TextStyle(fontSize: 16),
