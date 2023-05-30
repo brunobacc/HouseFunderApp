@@ -89,6 +89,7 @@ class _ProfileState extends State<Profile> {
                         ),
                         onPressed: () async {
                           double? val = await showDialog(
+                            barrierDismissible: false,
                             context: context,
                             builder: (context) => const PopUpEditProfile(),
                           );

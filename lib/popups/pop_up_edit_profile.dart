@@ -8,10 +8,11 @@ class PopUpEditProfile extends StatefulWidget {
 }
 
 class _PopUpEditProfileState extends State<PopUpEditProfile> {
+  
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      insetPadding: EdgeInsets.fromLTRB(80, 180, 80, 180),
+      insetPadding: const EdgeInsets.fromLTRB(80, 180, 80, 180),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -28,9 +29,9 @@ class _PopUpEditProfileState extends State<PopUpEditProfile> {
                     ),
                   ),
                 ),
-                const TextButton(
-                  onPressed: null,
-                  child: Icon(Icons.close),
+                TextButton(
+                  onPressed: Navigator.of(context).pop,
+                  child: const Icon(Icons.close),
                 ),
               ],
             ),
