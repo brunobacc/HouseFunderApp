@@ -36,6 +36,7 @@ class _ShopPageWidgetState extends State<ShopPageWidget> {
                     itemBuilder: (BuildContext context, int index) {
                       Product product = products.list[index];
                       return Card(
+                        margin: EdgeInsets.all(10),
                         child: Column(
                           children: [
                             Image.asset(product.image),
