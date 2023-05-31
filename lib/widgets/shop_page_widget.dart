@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/popups/buy_product.dart';
-import 'package:projeto_computacao_movel/popups/pop_up_edit_profile.dart';
 import 'package:projeto_computacao_movel/widgets/bottom_navigation_bar_widget.dart';
 
 import '../modules/product.dart';
 import '../modules/products.dart';
+import 'drawer_widget.dart';
 
 class ShopPageWidget extends StatefulWidget {
   @override
@@ -13,6 +13,7 @@ class ShopPageWidget extends StatefulWidget {
 
 class _ShopPageWidgetState extends State<ShopPageWidget> {
   late Products products;
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -23,6 +24,29 @@ class _ShopPageWidgetState extends State<ShopPageWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
+      drawer: DrawerWidget(),
+      appBar: AppBar(
+        leading: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+          child: IconButton(
+            padding: const EdgeInsets.all(
+                0), // used to make the icon with centered inside the button
+            icon: const Icon(
+              Icons.menu,
+              size: 36,
+              color: Colors.black,
+            ),
+            onPressed: () => scaffoldKey.currentState?.openDrawer(),
+          ),
+        ),
+        centerTitle: true,
+        title: Text(
+          'Profile',
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        backgroundColor: Colors.white,
+      ),
       body: Column(
         children: [
           Expanded(

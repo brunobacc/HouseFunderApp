@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 
-class DrawerWidget extends StatelessWidget {
-  DrawerWidget({super.key});
+class DrawerWidget extends StatefulWidget {
+  const DrawerWidget({super.key});
+
+  @override
+  State<DrawerWidget> createState() => _DrawerWidgetState();
+}
+
+class _DrawerWidgetState extends State<DrawerWidget> {
+  bool dark = false;
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -17,12 +24,13 @@ class DrawerWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 50,
-                    backgroundImage: AssetImage('null'),
+                    backgroundColor: Colors.transparent,
+                    child: Icon(Icons.accessibility_rounded),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 10),
+                    padding: const EdgeInsets.only(top: 10),
                     child: Text('BrunoBACC',
                         style: Theme.of(context).textTheme.labelLarge),
                   ),
@@ -33,55 +41,52 @@ class DrawerWidget extends StatelessWidget {
             ),
           ),
           ListTile(
-            title: const Text(
+            title: Text(
               'Propose',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
             leading: const Icon(Icons.edit_document),
-            onTap: () =>  Navigator.pushNamed(context, '/proposal'),
+            onTap: () => Navigator.pushNamed(context, '/proposal'),
           ),
-          const ListTile(
+          ListTile(
             title: Text(
               'Notifications',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
-            leading: Icon(Icons.notifications),
+            leading: const Icon(Icons.notifications),
           ),
-          const ListTile(
-            title: Text(
-              'Options',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+          ExpansionTile(
+            title: Text('Options',
+                style: Theme.of(context).textTheme.headlineMedium),
+            leading: const Icon(Icons.settings),
+            children: [
+              ListTile(
+                title: Text('Dark Mode',
+                    style: Theme.of(context).textTheme.bodySmall),
+                trailing: Switch(
+                  value: dark,
+                  onChanged: (_) => setState(
+                    () {
+                      dark = !dark;
+                    },
+                  ),
+                ),
               ),
-            ),
-            leading: Icon(Icons.settings),
+            ],
           ),
-          const ListTile(
+          ListTile(
             title: Text(
               'About Us',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
-            leading: Icon(Icons.info),
+            leading: const Icon(Icons.info),
           ),
-          const ListTile(
+          ListTile(
             title: Text(
               'Logout',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
-            leading: Icon(Icons.logout),
+            leading: const Icon(Icons.logout),
           ),
         ],
       ),

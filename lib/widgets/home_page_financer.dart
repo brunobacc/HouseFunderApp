@@ -1,3 +1,4 @@
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/widgets/bottom_navigation_bar_widget.dart';
 import 'package:projeto_computacao_movel/widgets/drawer_widget.dart';
@@ -44,7 +45,7 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
                 child: Container(
                   height: 36,
                   decoration: const BoxDecoration(
-                    color: Colors.black54,
+                    color: Color(0xFFE5DFDF),
                     borderRadius: BorderRadius.all(
                       Radius.circular(100),
                     ),
@@ -54,6 +55,7 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
                       const Padding(
                         padding: EdgeInsets.only(left: 10),
                         child: Icon(
+                          color: Colors.black,
                           Icons.search,
                           size: 30,
                         ),
@@ -63,7 +65,7 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
                           textAlign: TextAlign.center,
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintStyle: Theme.of(context).textTheme.labelSmall,
+                            hintStyle: Theme.of(context).textTheme.bodySmall,
                             hintText: 'Search for a project',
                           ),
                           style: Theme.of(context).textTheme.labelSmall,
@@ -74,16 +76,13 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
                 ),
               ),
             ),
-            const SizedBox(
+            SizedBox(
               height: 36,
               width: 36,
               child: IconButton(
-                padding: EdgeInsets.all(
+                padding: const EdgeInsets.all(
                     0), // used to make the icon with centered inside the button
-                icon: Icon(
-                  Icons.filter_1,
-                  size: 36,
-                ),
+                icon: SvgPicture.asset('assets/icons/filter.svg', height: 30),
                 onPressed: null,
               ),
             ),
@@ -95,67 +94,6 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
         padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
         child: Column(
           children: [
-            // search bar
-            /*Row(
-              children: [
-                SizedBox(
-                  height: 36,
-                  width: 36,
-                  child: IconButton(
-                    padding: const EdgeInsets.all(
-                        0), // used to make the icon with centered inside the button
-                    icon: const Icon(
-                      Icons.menu,
-                      size: 36,
-                    ),
-                    onPressed: () => _scaffoldKey.currentState?.openDrawer(),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-                    child: Container(
-                      height: 36,
-                      decoration: const BoxDecoration(color: Colors.white12),
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.search,
-                            size: 30,
-                          ),
-                          Expanded(
-                            child: TextField(
-                              textAlign: TextAlign.center,
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintStyle:
-                                    Theme.of(context).textTheme.bodySmall,
-                                hintText: 'Search for a project',
-                              ),
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 36,
-                  width: 36,
-                  child: IconButton(
-                    padding: EdgeInsets.all(
-                        0), // used to make the icon with centered inside the button
-                    icon: Icon(
-                      Icons.filter_1,
-                      size: 36,
-                    ),
-                    onPressed: null,
-                  ),
-                ),
-              ],
-            ),*/
-
             // Projects
             Expanded(
               child: widget.projects.count > 0

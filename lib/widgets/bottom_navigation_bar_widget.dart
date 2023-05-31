@@ -15,7 +15,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
           backgroundColor: Theme.of(context).primaryColor,
           color: Colors.white,
           activeColor: Colors.white,
-          tabBackgroundColor: Colors.grey.shade800,
+          tabBackgroundColor: Color(0xFFD9C5AD),
           gap: 8,
           padding: const EdgeInsets.all(16),
           selectedIndex: selectedIndex,

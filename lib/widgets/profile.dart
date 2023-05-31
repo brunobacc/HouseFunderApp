@@ -100,7 +100,11 @@ class _ProfileState extends State<Profile> {
                               double? val = await showDialog(
                                 barrierDismissible: false,
                                 context: context,
-                                builder: (context) => const PopUpEditProfile(),
+                                builder: (context) =>
+                                    const SingleChildScrollView(
+                                  // use this widget, so when using the keyboard, don't compress the pop-up window by oversizing the data inside
+                                  child: PopUpEditProfile(),
+                                ),
                               );
                             },
                           ),

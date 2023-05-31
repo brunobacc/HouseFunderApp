@@ -16,17 +16,27 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primaryColor: const Color(0xFFB89888),
+        primaryColor: const Color(0xFF867563),
         cardColor: const Color(0xFFE5DFDF),
         textTheme: const TextTheme(
           titleMedium: TextStyle(fontSize: 28),
-          titleSmall: TextStyle(fontSize: 20), // trocar por bold
+          titleSmall: TextStyle(
+              fontSize: 20, fontWeight: FontWeight.bold), // trocar por bold
           bodyLarge: TextStyle(fontSize: 24),
           bodyMedium: TextStyle(fontSize: 19),
           bodySmall: TextStyle(fontSize: 16),
+          headlineMedium: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+          headlineSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           labelLarge: TextStyle(fontSize: 22, color: Colors.white),
           labelMedium: TextStyle(fontSize: 18, color: Colors.white),
           labelSmall: TextStyle(fontSize: 16, color: Colors.white),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(
+              const Color(0xFFD9C5AD),
+            ),
+          ),
         ),
         iconTheme: IconThemeData(color: Colors.black),
         colorScheme: ColorScheme.fromSwatch(

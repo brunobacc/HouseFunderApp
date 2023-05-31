@@ -8,11 +8,10 @@ class PopUpEditProfile extends StatefulWidget {
 }
 
 class _PopUpEditProfileState extends State<PopUpEditProfile> {
-  
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      insetPadding: const EdgeInsets.fromLTRB(80, 180, 80, 180),
+      insetPadding: const EdgeInsets.fromLTRB(20, 110, 20, 110),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -36,7 +35,7 @@ class _PopUpEditProfileState extends State<PopUpEditProfile> {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 20),
+              padding: const EdgeInsets.only(top: 10),
               child: Text(
                 'Username:',
                 style: Theme.of(context).textTheme.titleSmall,
@@ -104,7 +103,7 @@ class _PopUpEditProfileState extends State<PopUpEditProfile> {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 20),
+              padding: const EdgeInsets.only(top: 10),
               child: Center(
                 child: ElevatedButton(
                   onPressed: null,
