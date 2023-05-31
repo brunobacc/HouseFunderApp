@@ -19,90 +19,102 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
-      key: _scaffoldKey,
-      drawer: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.55,
-        child: DrawerWidget(),
+      key: scaffoldKey,
+      drawer: DrawerWidget(),
+      appBar: AppBar(
+        leading: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+          child: IconButton(
+            padding: const EdgeInsets.all(
+                0), // used to make the icon with centered inside the button
+            icon: const Icon(
+              Icons.menu,
+              size: 36,
+              color: Colors.black,
+            ),
+            onPressed: () => scaffoldKey.currentState?.openDrawer(),
+          ),
+        ),
+        centerTitle: true,
+        title: Text(
+          'Profile',
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        backgroundColor: Colors.white,
       ),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(25, 20, 25, 0),
+        padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
         child: Column(
           children: [
-            Row(
-              children: [
-                SizedBox(
-                  height: 36,
-                  width: 36,
-                  child: TextButton(
-                    child: const Center(
-                      child: Icon(Icons.menu),
-                    ),
-                    onPressed: () => _scaffoldKey.currentState?.openDrawer(),
-                  ),
-                ),
-                Expanded(
-                  child: Center(
-                    child: Text(
-                      'Profile',
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                  ),
-                )
-              ],
-            ),
-            Row(
-              children: [
-                // User Image
-                Container(
-                  height: 130,
-                  width: 130,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(100)),
-                    border: Border.all(
-                      width: 2,
-                      color: Colors.black,
-                    ),
-                  ),
-                  child: const Icon(Icons.accessibility_rounded),
-                ),
-                // Info about the user (Username and Email) and button to edit profile
-                Expanded(
-                  child: Column(
-                    children: [
-                      Text(
-                        'BrunoBACC',
-                        style: Theme.of(context).textTheme.bodyMedium,
+            Padding(
+              // give space between the top bar(menu icon and title) and user information
+              padding: const EdgeInsets.only(top: 10),
+              child: Row(
+                children: [
+                  // User Image
+                  Container(
+                    height: 130,
+                    width: 130,
+                    decoration: BoxDecoration(
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(100)),
+                      border: Border.all(
+                        width: 2,
+                        color: Colors.black,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                        child: Text(
-                          'a24603@alunos.ipca.pt',
-                          style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    child: const Icon(Icons.accessibility_rounded),
+                  ),
+                  // Info about the user (Username and Email) and button to edit profile
+                  SizedBox(
+                    // used the size box, because the column is not taking up all the space on the main axis within the row
+                    height: 110,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: Text(
+                            'BrunoBACC',
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
                         ),
-                      ),
-                      ElevatedButton(
-                        child: Text(
-                          'Edit Profile',
-                          style: Theme.of(context).textTheme.bodyMedium,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: Text(
+                            'a24603@alunos.ipca.pt',
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
                         ),
-                        onPressed: () async {
-                          double? val = await showDialog(
-                            barrierDismissible: false,
-                            context: context,
-                            builder: (context) => const PopUpEditProfile(),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: ElevatedButton(
+                            child: Text(
+                              'Edit Profile',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                            onPressed: () async {
+                              double? val = await showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (context) => const PopUpEditProfile(),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 30),
               child: Table(
+                // present data in a table about what the user has done in the application
                 border: TableBorder.all(
                   width: 1,
                   borderRadius: BorderRadius.circular(20),
@@ -188,69 +200,65 @@ class _ProfileState extends State<Profile> {
             ),
             // Projects
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                child: widget.projects.count > 0
-                    ? ListView.builder(
-                        itemCount: widget.projects.count,
-                        itemBuilder: (BuildContext context, int i) {
-                          return ListTile(
-                            title: Stack(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Image(
-                                    image: AssetImage(
-                                        'assets/images/${widget.projects.list[i].image}'),
-                                    width: double.infinity,
-                                    height: 250,
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                                Positioned(
-                                  bottom: 10,
-                                  left: 10,
-                                  child: Container(
-                                    color: Colors.black54,
-                                    padding: const EdgeInsets.all(10),
-                                    child: Text(
-                                      widget.projects.list[i].title,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelMedium,
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  bottom: 10,
-                                  right: 10,
-                                  child: Container(
-                                    color: Colors.black54,
-                                    padding: const EdgeInsets.all(10),
-                                    child: Text(
-                                      '${widget.projects.list[i].financedValue}',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelMedium,
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                            onTap: () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => ProjectDetails(
-                                  project: widget.projects.list[i],
+              child: widget.projects.count > 0
+                  ? ListView.builder(
+                      padding: EdgeInsets.only(top: 10),
+                      itemCount: widget.projects.count,
+                      itemBuilder: (BuildContext context, int i) {
+                        return ListTile(
+                          title: Stack(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image(
+                                  image: AssetImage(
+                                      'assets/images/${widget.projects.list[i].image}'),
+                                  width: double.infinity,
+                                  height: 200,
+                                  fit: BoxFit.fill,
                                 ),
                               ),
+                              Positioned(
+                                bottom: 10,
+                                left: 10,
+                                child: Container(
+                                  color: Colors.black54,
+                                  padding: const EdgeInsets.all(10),
+                                  child: Text(
+                                    widget.projects.list[i].title,
+                                    style:
+                                        Theme.of(context).textTheme.labelMedium,
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                bottom: 10,
+                                right: 10,
+                                child: Container(
+                                  color: Colors.black54,
+                                  padding: const EdgeInsets.all(10),
+                                  child: Text(
+                                    '${widget.projects.list[i].financedValue}',
+                                    style:
+                                        Theme.of(context).textTheme.labelMedium,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => ProjectDetails(
+                                project: widget.projects.list[i],
+                              ),
                             ),
-                          );
-                        },
-                      )
-                    : const Center(
-                        child: Text('Zero projects to show!'),
-                      ),
-              ),
+                          ),
+                        );
+                      },
+                    )
+                  : const Center(
+                      child: Text('Zero projects to show!'),
+                    ),
             ),
           ],
         ),

@@ -15,16 +15,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primaryColor: Color(0xFFB89888),
-        cardColor: Color(0xFFE5DFDF),
+        primaryColor: const Color(0xFFB89888),
+        cardColor: const Color(0xFFE5DFDF),
         textTheme: const TextTheme(
           titleMedium: TextStyle(fontSize: 28),
           titleSmall: TextStyle(fontSize: 20), // trocar por bold
           bodyLarge: TextStyle(fontSize: 24),
           bodyMedium: TextStyle(fontSize: 19),
           bodySmall: TextStyle(fontSize: 16),
-          labelMedium: TextStyle(fontSize: 19, color: Colors.white),
+          labelLarge: TextStyle(fontSize: 22, color: Colors.white),
+          labelMedium: TextStyle(fontSize: 18, color: Colors.white),
+          labelSmall: TextStyle(fontSize: 16, color: Colors.white),
         ),
+        iconTheme: IconThemeData(color: Colors.black),
         colorScheme: ColorScheme.fromSwatch(
           primarySwatch: Colors.brown, //stand by
         ),
