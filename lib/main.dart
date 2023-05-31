@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/widgets/home_page_financer.dart';
 import 'package:projeto_computacao_movel/widgets/profile.dart';
+import 'package:projeto_computacao_movel/widgets/proposal_page.dart';
 import 'package:projeto_computacao_movel/widgets/shop_page_widget.dart';
 
 void main() {
@@ -36,7 +37,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/home': (context) => HomePageFinancer(),
         '/shop': (context) => ShopPageWidget(),
-        '/profile': (context) => Profile()
+        '/profile': (context) => Profile(),
+        '/proposal': (context) => ProposalPage()
       },
     );
   }

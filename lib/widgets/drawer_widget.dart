@@ -41,7 +41,7 @@ class DrawerWidget extends StatelessWidget {
               ),
             ),
             leading: const Icon(Icons.edit_document),
-            onTap: () => null,
+            onTap: () =>  Navigator.pushNamed(context, '/proposal'),
           ),
           const ListTile(
             title: Text(
