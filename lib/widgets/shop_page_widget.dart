@@ -56,8 +56,8 @@ class _ShopPageWidgetState extends State<ShopPageWidget> {
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 8, horizontal: 12),
-                                decoration: BoxDecoration(
-                                  color: Colors.black54,
+                                decoration: const BoxDecoration(
+                                  color:Colors.black54,
                                   borderRadius: BorderRadius.only(
                                     bottomLeft: Radius.circular(10),
                                     bottomRight: Radius.circular(10),
