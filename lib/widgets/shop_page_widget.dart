@@ -35,16 +35,26 @@ class _ShopPageWidgetState extends State<ShopPageWidget> {
                     ),
                     itemBuilder: (BuildContext context, int index) {
                       Product product = products.list[index];
-                      return Card(
-                        margin: EdgeInsets.all(10),
-                        child: Column(
-                          children: [
-                            Image.asset(product.image),
-                            Text(product.title),
-                            Text(product.description),
-                            Text('\$${product.price.toStringAsFixed(2)}'),
-                          ],
-                        ),
+                      return Stack(
+                        children: [
+                          Card(
+                            margin: EdgeInsets.fromLTRB(10, 10, 10, 20),
+                            child: Image.asset(product.image),
+                          ),
+                          Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 10),
+                              child: Text(product.title),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 25,
+                            right: 25,
+                            child: Text('${product.price}Points',
+                                style: TextStyle(color: Colors.white)),
+                          ),
+                        ],
                       );
                     },
                   )

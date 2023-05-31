@@ -5,7 +5,7 @@ class Products {
 
   Products() {
     _products = [
-      Product(productId: 1, image: 'Product1.jpg', title: 'Finance 5 dollars', description: 'Finance 5 dollars', price: 5),
+      Product(productId: 1, image: 'assets/images/5euros.png', title: 'Finance 5 dollars', description: 'Finance 5 dollars', price: 5),
       Product(productId: 2, image: 'Produc2.jpg', title: 'Finance 10 dollars', description: 'Finance 10 dollars', price: 10),
       Product(productId: 3, image: 'Product3.jpg', title: 'Finance 15 dollars', description: 'Finance 15 dollars', price: 15),
       Product(productId: 4, image: 'Product4.jpg', title: 'Finance 20 dollars', description: 'Finance 20 dollars', price: 20),
