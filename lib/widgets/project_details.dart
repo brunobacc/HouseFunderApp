@@ -1,10 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:projeto_computacao_movel/modules/financer.dart';
+import 'package:projeto_computacao_movel/modules/financers.dart';
 import 'package:projeto_computacao_movel/modules/project.dart';
 import 'package:projeto_computacao_movel/popups/pop_up_payment.dart';
 
-class ProjectDetails extends StatelessWidget {
-  final Project? project;
+class ProjectDetails extends StatefulWidget {
+  late Project? project;
   ProjectDetails({super.key, this.project});
+
+  @override
+  State<ProjectDetails> createState() => _ProjectDetailsState();
+}
+
+class _ProjectDetailsState extends State<ProjectDetails> {
+  late Financers financers;
+
+  @override
+  void initState() {
+    super.initState();
+    financers = Financers();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,112 +29,183 @@ class ProjectDetails extends StatelessWidget {
         iconTheme: Theme.of(context).iconTheme,
         centerTitle: true,
         title: Text(
-          project!.title,
+          widget.project!.title,
           style: Theme.of(context).textTheme.titleMedium,
         ),
         backgroundColor: Colors.white,
       ),
-      body: Column(
-        children: [
-          Stack(
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image(
-                    image: AssetImage(
-                      'assets/images/${project!.image}',
-                    ),
-                    fit: BoxFit.fill,
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image(
+                  image: AssetImage(
+                    'assets/images/${widget.project!.image}',
                   ),
+                  fit: BoxFit.fill,
                 ),
               ),
-              Align(
-                heightFactor: 8.2,
-                alignment: const Alignment(0, 1),
-                child: ElevatedButton(
-                  onPressed: () async {
-                    double? val = await showDialog(
-                      context: context,
-                      builder: (context) => const PopUpPayment(),
-                    );
-                  },
-                  child: const Text(
-                    "Financiar",
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Container(
-            margin: const EdgeInsets.fromLTRB(30, 5, 30, 0),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.white),
-            ),
-            child: Column(
-              children: [
-                LinearProgressIndicator(
-                  backgroundColor: Colors.blue,
-                  value: (project!.financedValue / project!.finalValue),
-                  valueColor: const AlwaysStoppedAnimation(Colors.green),
-                  minHeight: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Container(
+                padding: const EdgeInsets.only(top: 10),
+                child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(3),
-                      child: Text(
-                        '${project!.financedValue.toString()}€',
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(3),
-                      child: Text(
-                        '${(project!.finalValue - project!.financedValue).toString()}€',
+                    SizedBox(
+                      height: 33,
+                      child: Stack(
+                        children: [
+                          SizedBox.expand(
+                            child: LinearProgressIndicator(
+                              backgroundColor: Colors.black45,
+                              value: (widget.project!.financedValue /
+                                  widget.project!.finalValue),
+                              valueColor: const AlwaysStoppedAnimation(
+                                  Color(0xFF867563)),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.center,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(3),
+                                  child: Text(
+                                    '${widget.project!.financedValue.toString()}€',
+                                    style:
+                                        Theme.of(context).textTheme.labelSmall,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(3),
+                                  child: Text(
+                                    '${(widget.project!.finalValue - widget.project!.financedValue).toString()}€',
+                                    style:
+                                        Theme.of(context).textTheme.labelSmall,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () => null,
+                      child: Text(
+                        'Finance',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    padding: const EdgeInsets.all(
+                        0), // used to make the icon with centered inside the button
+                    icon:
+                        SvgPicture.asset('assets/icons/heart.svg', height: 30),
+                    onPressed: () => null,
+                  ),
+                ],
+              ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(30, 10, 0, 10),
-                child: Text(
-                  project!.location,
-                  style: const TextStyle(fontSize: 15),
+                padding: const EdgeInsets.only(top: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      widget.project!.location,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                    Text(
+                      '${widget.project!.finalValue.toString()}€',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ],
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(0, 10, 30, 10),
+                padding: const EdgeInsets.only(top: 10),
                 child: Text(
-                  '${project!.finalValue.toString()}€',
-                  style: const TextStyle(fontSize: 15),
+                  widget.project!.description,
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Text(
+                  'Financers',
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.width * 0.5,
+                child: financers.countFinancers > 0
+                    ? GridView.builder(
+                        itemCount: financers.countFinancers,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 10.0,
+                          mainAxisSpacing: 10.0,
+                        ),
+                        itemBuilder: (BuildContext context, int index) {
+                          Financer financer = financers.list[index];
+                          return Card(
+                            elevation: 4,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.asset(
+                                    financer.image,
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  left: 0,
+                                  right: 0,
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                      color: Colors.black54,
+                                      borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(10),
+                                        bottomRight: Radius.circular(10),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      textAlign: TextAlign.center,
+                                      financer.name,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelSmall,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      )
+                    : const Center(
+                        child: Text('Zero financers to show!'),
+                      ),
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(30, 0, 30, 5),
-            child: Text(
-              project!.description,
-              style: const TextStyle(fontSize: 15),
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(30, 5, 30, 0),
-            child: Text(
-              'Financers',
-              style: TextStyle(fontSize: 18),
-            ),
-          )
-        ],
+        ),
       ),
     );
   }

@@ -129,7 +129,7 @@ class _ProfileState extends State<Profile> {
                       color: Color(0xFFE5DFDF),
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    children: <Widget>[
+                    children: [
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                         child: Column(
@@ -227,9 +227,11 @@ class _ProfileState extends State<Profile> {
                                 left: 10,
                                 child: Container(
                                   color: Colors.black54,
+                                  width: 200,
                                   padding: const EdgeInsets.all(10),
                                   child: Text(
                                     widget.projects.list[i].title,
+                                    maxLines: 1,
                                     style:
                                         Theme.of(context).textTheme.labelMedium,
                                   ),

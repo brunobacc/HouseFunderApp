@@ -22,7 +22,7 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      drawer: DrawerWidget(),
+      drawer: const DrawerWidget(),
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),

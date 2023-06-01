@@ -11,9 +11,15 @@ class _PopUpEditProfileState extends State<PopUpEditProfile> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      insetPadding: const EdgeInsets.fromLTRB(20, 110, 20, 110),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      insetPadding: EdgeInsets.symmetric(
+        horizontal: MediaQuery.of(context).size.width * 0.05,
+        vertical: MediaQuery.of(context).size.height * 0.1,
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -30,7 +36,10 @@ class _PopUpEditProfileState extends State<PopUpEditProfile> {
                 ),
                 TextButton(
                   onPressed: Navigator.of(context).pop,
-                  child: const Icon(Icons.close),
+                  child: const Icon(
+                    Icons.close,
+                    color: Colors.black,
+                  ),
                 ),
               ],
             ),

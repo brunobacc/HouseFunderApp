@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_computacao_movel/popups/buy_product.dart';
+import 'package:projeto_computacao_movel/popups/pop_up_buy_product.dart';
 import 'package:projeto_computacao_movel/widgets/bottom_navigation_bar_widget.dart';
 
 import '../modules/product.dart';
@@ -42,7 +42,7 @@ class _ShopPageWidgetState extends State<ShopPageWidget> {
         ),
         centerTitle: true,
         title: Text(
-          'Profile',
+          'Shop',
           style: Theme.of(context).textTheme.titleMedium,
         ),
         backgroundColor: Colors.white,
@@ -66,10 +66,9 @@ class _ShopPageWidgetState extends State<ShopPageWidget> {
                           double? val = await showDialog(
                             barrierDismissible: false,
                             context: context,
-                            builder: (context) => BuyProductPopUp(
-                                price: product.price,
-                                title: product.title,
-                                image: product.image),
+                            builder: (context) => PopUpBuyProduct(
+                              product: product,
+                            ),
                           );
                         },
                         child: Card(
