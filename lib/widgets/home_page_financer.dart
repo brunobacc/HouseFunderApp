@@ -1,4 +1,3 @@
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/widgets/bottom_navigation_bar_widget.dart';
 import 'package:projeto_computacao_movel/widgets/drawer_widget.dart';
@@ -32,7 +31,6 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
             icon: const Icon(
               Icons.menu,
               size: 36,
-              color: Colors.black,
             ),
             onPressed: () => _scaffoldKey.currentState?.openDrawer(),
           ),
@@ -55,7 +53,6 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
                       const Padding(
                         padding: EdgeInsets.only(left: 10),
                         child: Icon(
-                          color: Colors.black,
                           Icons.search,
                           size: 30,
                         ),
@@ -82,13 +79,15 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
               child: IconButton(
                 padding: const EdgeInsets.all(
                     0), // used to make the icon with centered inside the button
-                icon: SvgPicture.asset('assets/icons/filter.svg', height: 30),
-                onPressed: null,
+                icon: const Icon(
+                  Icons.tune,
+                  size: 30,
+                ),
+                onPressed: () => null,
               ),
             ),
           ],
         ),
-        backgroundColor: Colors.white,
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),

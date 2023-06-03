@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../main.dart';
+
 class DrawerWidget extends StatefulWidget {
   const DrawerWidget({super.key});
 
@@ -7,8 +9,9 @@ class DrawerWidget extends StatefulWidget {
   State<DrawerWidget> createState() => _DrawerWidgetState();
 }
 
+bool dark = false;
+
 class _DrawerWidgetState extends State<DrawerWidget> {
-  bool dark = false;
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -68,6 +71,11 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   onChanged: (_) => setState(
                     () {
                       dark = !dark;
+                      if (dark == true) {
+                        MyApp.of(context).changeTheme(ThemeMode.dark);
+                      } else {
+                        MyApp.of(context).changeTheme(ThemeMode.light);
+                      }
                     },
                   ),
                 ),
