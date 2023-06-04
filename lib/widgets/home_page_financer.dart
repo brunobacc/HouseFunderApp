@@ -4,6 +4,7 @@ import 'package:projeto_computacao_movel/widgets/drawer_widget.dart';
 import 'package:projeto_computacao_movel/widgets/project_details.dart';
 
 import '../modules/projects.dart';
+import '../modules/searchs/search_projects.dart';
 
 class HomePageFinancer extends StatefulWidget {
   late Projects projects;
@@ -30,12 +31,24 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
                 0), // used to make the icon with centered inside the button
             icon: const Icon(
               Icons.menu,
-              size: 36,
             ),
             onPressed: () => _scaffoldKey.currentState?.openDrawer(),
           ),
         ),
-        title: Row(
+        actions: [
+          IconButton(
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: SearchProjects(allProjects: widget.projects.list),
+              );
+            },
+            icon: const Icon(
+              Icons.search,
+            ),
+          ),
+        ],
+        /*title: Row(
           children: [
             Expanded(
               child: Padding(
@@ -87,7 +100,7 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
               ),
             ),
           ],
-        ),
+        ),*/
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),

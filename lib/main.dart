@@ -33,7 +33,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white,
-          iconTheme: IconThemeData(color: Colors.black),
+          iconTheme: IconThemeData(color: Colors.black, size: 36),
         ),
         scaffoldBackgroundColor: Colors.white,
         primaryColor: const Color(0xFF867563),
@@ -98,7 +98,7 @@ class _MyAppState extends State<MyApp> {
         '/home': (context) => HomePageFinancer(),
         '/shop': (context) => ShopPageWidget(),
         '/profile': (context) => Profile(),
-        '/proposal': (context) => ProposalPage()
+        '/proposal': (context) => ProposalPage(),
       },
     );
   }
