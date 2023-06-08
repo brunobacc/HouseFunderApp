@@ -24,8 +24,8 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
       key: _scaffoldKey,
       drawer: const DrawerWidget(),
       appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+        leading: SizedBox(
+          width: 10,
           child: IconButton(
             padding: const EdgeInsets.all(
                 0), // used to make the icon with centered inside the button
