@@ -3,10 +3,27 @@ import 'package:projeto_computacao_movel/modules/project.dart';
 
 import '../../widgets/project_details.dart';
 
+/// search projects by title and description
 class SearchProjects extends SearchDelegate {
   final List<Project> allProjects;
 
   SearchProjects({required this.allProjects});
+
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+
+    return theme.copyWith(
+      appBarTheme: AppBarTheme(
+        backgroundColor: theme.appBarTheme.backgroundColor,
+        iconTheme: theme.iconTheme,
+      ),
+      inputDecorationTheme: searchFieldDecorationTheme ??
+          const InputDecorationTheme(
+            border: InputBorder.none,
+          ),
+    );
+  }
 
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -14,7 +31,6 @@ class SearchProjects extends SearchDelegate {
       IconButton(
         icon: const Icon(
           Icons.clear,
-          color: Colors.black,
           size: 36,
         ),
         onPressed: () {
@@ -33,7 +49,6 @@ class SearchProjects extends SearchDelegate {
     return IconButton(
       icon: const Icon(
         Icons.arrow_back,
-        color: Colors.black,
         size: 36,
       ),
       onPressed: () => {
@@ -44,13 +59,10 @@ class SearchProjects extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    final List<Project> filteredProjects = allProjects
-        .where(
-          (p) => p.title.toLowerCase().contains(
-                query.toLowerCase(),
-              ),
-        )
-        .toList();
+    final List<Project> filteredProjects = allProjects.where((p) {
+      return p.title.toLowerCase().contains(query.toLowerCase()) ||
+          p.description.toLowerCase().contains(query.toLowerCase());
+    }).toList();
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
@@ -122,20 +134,17 @@ class SearchProjects extends SearchDelegate {
               },
             )
           : const Center(
-              child: Text('Zero products to show!'),
+              child: Text('Zero projects to show!'),
             ),
     );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final List<Project> filteredProjects = allProjects
-        .where(
-          (p) => p.title.toLowerCase().contains(
-                query.toLowerCase(),
-              ),
-        )
-        .toList();
+    final List<Project> filteredProjects = allProjects.where((p) {
+      return p.title.toLowerCase().contains(query.toLowerCase()) ||
+          p.description.toLowerCase().contains(query.toLowerCase());
+    }).toList();
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
@@ -158,7 +167,8 @@ class SearchProjects extends SearchDelegate {
                         child: Image(
                           image: AssetImage(
                               'assets/images/${filteredProjects[i].image}'),
-                          fit: BoxFit.fill,
+                          height: MediaQuery.sizeOf(context).height * 0.2,
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ),
@@ -207,7 +217,7 @@ class SearchProjects extends SearchDelegate {
               },
             )
           : const Center(
-              child: Text('Zero products to show!'),
+              child: Text('Zero projects to show!'),
             ),
     );
   }

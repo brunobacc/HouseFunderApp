@@ -3,29 +3,41 @@ class Project {
   int statusId;
   int categoryId;
   int partnershipId;
+  String location;
   String image;
   String title;
-  String location;
   String description;
-  double financedValue;
+  double totalFinanced;
   double finalValue;
   int totalInvestor;
 
-  Project(
-    this.projectId,
-    this.statusId,
-    this.categoryId,
-    this.partnershipId,
-    this.image,
-    this.title,
-    this.location,
-    this.description,
-    this.financedValue,
-    this.finalValue,
-    this.totalInvestor,
-  );
+  Project({
+    required this.projectId,
+    required this.statusId,
+    required this.categoryId,
+    required this.partnershipId,
+    required this.location,
+    required this.image,
+    required this.title,
+    required this.description,
+    required this.totalFinanced,
+    required this.finalValue,
+    required this.totalInvestor,
+  });
 
-  @override
-  String toString() =>
-      'Project: $projectId, Status: $statusId, Category: $categoryId, Partnership: $partnershipId, Image: $image, Title: $title, Location: $location, Description: $description, Value: $finalValue, Investors: $totalInvestor';
+  factory Project.fromJson(Map<String, dynamic> json) {
+    return Project(
+      projectId: json['project_id'],
+      statusId: json['status_id'],
+      categoryId: json['category_id'],
+      partnershipId: json['partnership_id'],
+      location: json['location'],
+      image: json['image'],
+      title: json['title'],
+      description: json['description'],
+      totalFinanced: double.parse(json['total_financed'].toString()),
+      finalValue: double.parse(json['final_value'].toString()),
+      totalInvestor: json['total_investor'],
+    );
+  }
 }

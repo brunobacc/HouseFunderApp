@@ -3,7 +3,7 @@ import 'package:projeto_computacao_movel/popups/pop_up_buy_product.dart';
 import 'package:projeto_computacao_movel/widgets/bottom_navigation_bar_widget.dart';
 
 import '../modules/product.dart';
-import '../modules/products.dart';
+import '../data/products.dart';
 import 'drawer_widget.dart';
 
 class ShopPageWidget extends StatefulWidget {
@@ -25,7 +25,7 @@ class _ShopPageWidgetState extends State<ShopPageWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      drawer: DrawerWidget(),
+      drawer: const DrawerWidget(),
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
@@ -35,7 +35,6 @@ class _ShopPageWidgetState extends State<ShopPageWidget> {
             icon: const Icon(
               Icons.menu,
               size: 36,
-              color: Colors.black,
             ),
             onPressed: () => scaffoldKey.currentState?.openDrawer(),
           ),
@@ -45,7 +44,6 @@ class _ShopPageWidgetState extends State<ShopPageWidget> {
           'Shop',
           style: Theme.of(context).textTheme.titleMedium,
         ),
-        backgroundColor: Colors.white,
       ),
       body: Column(
         children: [

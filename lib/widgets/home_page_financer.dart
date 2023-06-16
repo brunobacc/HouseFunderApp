@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_computacao_movel/modules/project.dart';
 import 'package:projeto_computacao_movel/widgets/bottom_navigation_bar_widget.dart';
 import 'package:projeto_computacao_movel/widgets/drawer_widget.dart';
 import 'package:projeto_computacao_movel/widgets/project_details.dart';
 
-import '../modules/projects.dart';
+import '../data/projects.dart';
 import '../modules/searchs/search_projects.dart';
 
 class HomePageFinancer extends StatefulWidget {
-  late Projects projects;
-  HomePageFinancer({super.key}) {
-    projects = Projects();
-  }
+  const HomePageFinancer({super.key});
 
   @override
   State<HomePageFinancer> createState() => _HomePageFinancerState();
@@ -18,6 +16,15 @@ class HomePageFinancer extends StatefulWidget {
 
 class _HomePageFinancerState extends State<HomePageFinancer> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  late Future<List<Project>> _projects;
+  late List<Project> projects;
+
+  @override
+  void initState() {
+    super.initState();
+    _projects = Projects.fetchNext();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,10 +44,11 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
         ),
         actions: [
           IconButton(
-            onPressed: () {
+            onPressed: () async {
               showSearch(
                 context: context,
-                delegate: SearchProjects(allProjects: widget.projects.list),
+                delegate:
+                    SearchProjects(allProjects: await Projects.fetchNext()),
               );
             },
             icon: const Icon(
@@ -48,59 +56,6 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
             ),
           ),
         ],
-        /*title: Row(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-                child: Container(
-                  height: 36,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFE5DFDF),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(100),
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.only(left: 10),
-                        child: Icon(
-                          Icons.search,
-                          size: 30,
-                        ),
-                      ),
-                      Expanded(
-                        child: TextField(
-                          textAlign: TextAlign.center,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintStyle: Theme.of(context).textTheme.bodySmall,
-                            hintText: 'Search for a project',
-                          ),
-                          style: Theme.of(context).textTheme.labelSmall,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 36,
-              width: 36,
-              child: IconButton(
-                padding: const EdgeInsets.all(
-                    0), // used to make the icon with centered inside the button
-                icon: const Icon(
-                  Icons.tune,
-                  size: 30,
-                ),
-                onPressed: () => null,
-              ),
-            ),
-          ],
-        ),*/
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
@@ -108,13 +63,16 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
           children: [
             // Projects
             Expanded(
-              child: widget.projects.count > 0
-                  ? ListView.builder(
+              child: FutureBuilder<List<Project>>(
+                future: _projects,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
                       padding: const EdgeInsets.only(
                           top:
                               0), // change the default top padding of a ListView
-                      itemCount: widget.projects.count,
-                      itemBuilder: (BuildContext context, int i) {
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (BuildContext context, int index) {
                         // Display the projects in Cards
                         return Card(
                           shape: const RoundedRectangleBorder(
@@ -127,8 +85,10 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
                                 borderRadius: BorderRadius.circular(10),
                                 child: Image(
                                   image: AssetImage(
-                                      'assets/images/${widget.projects.list[i].image}'),
-                                  fit: BoxFit.fill,
+                                      'assets/images/${snapshot.data![index].image}'),
+                                  height:
+                                      MediaQuery.sizeOf(context).height * 0.2,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                             ),
@@ -141,7 +101,7 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
                                     Padding(
                                       padding: const EdgeInsets.only(top: 10),
                                       child: Text(
-                                        widget.projects.list[i].location,
+                                        snapshot.data![index].location,
                                         maxLines: 2,
                                         style: Theme.of(context)
                                             .textTheme
@@ -151,7 +111,7 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
                                     Padding(
                                       padding: const EdgeInsets.only(top: 10),
                                       child: Text(
-                                        '${widget.projects.list[i].finalValue.toString()}€',
+                                        '${snapshot.data![index].finalValue.toString()}€',
                                         maxLines: 2,
                                         style: Theme.of(context)
                                             .textTheme
@@ -164,7 +124,7 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
                                   padding:
                                       const EdgeInsets.fromLTRB(0, 10, 0, 10),
                                   child: Text(
-                                    widget.projects.list[i].description,
+                                    snapshot.data![index].description,
                                     maxLines: 2,
                                     style:
                                         Theme.of(context).textTheme.bodySmall,
@@ -175,17 +135,20 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
                             onTap: () => Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => ProjectDetails(
-                                  project: widget.projects.list[i],
+                                  project: snapshot.data![index],
                                 ),
                               ),
                             ),
                           ),
                         );
                       },
-                    )
-                  : const Center(
-                      child: Text('Zero products to show!'),
-                    ),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text('${snapshot.error}');
+                  }
+                  return const CircularProgressIndicator();
+                },
+              ),
             ),
           ],
         ),

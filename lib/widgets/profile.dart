@@ -3,7 +3,7 @@ import 'package:projeto_computacao_movel/popups/pop_up_edit_profile.dart';
 import 'package:projeto_computacao_movel/widgets/bottom_navigation_bar_widget.dart';
 import 'package:projeto_computacao_movel/widgets/project_details.dart';
 
-import '../modules/projects.dart';
+import '../data/projects.dart';
 import 'drawer_widget.dart';
 
 class Profile extends StatefulWidget {
@@ -32,7 +32,6 @@ class _ProfileState extends State<Profile> {
             icon: const Icon(
               Icons.menu,
               size: 36,
-              color: Colors.black,
             ),
             onPressed: () => scaffoldKey.currentState?.openDrawer(),
           ),
@@ -42,7 +41,6 @@ class _ProfileState extends State<Profile> {
           'Profile',
           style: Theme.of(context).textTheme.titleMedium,
         ),
-        backgroundColor: Colors.white,
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
@@ -203,7 +201,7 @@ class _ProfileState extends State<Profile> {
               ),
             ),
             // Projects
-            Expanded(
+            /*Expanded(
               child: widget.projects.count > 0
                   ? ListView.builder(
                       padding: EdgeInsets.only(top: 10),
@@ -265,7 +263,7 @@ class _ProfileState extends State<Profile> {
                   : const Center(
                       child: Text('Zero projects to show!'),
                     ),
-            ),
+            ),*/
           ],
         ),
       ),

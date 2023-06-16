@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:projeto_computacao_movel/modules/financer.dart';
-import 'package:projeto_computacao_movel/modules/financers.dart';
+import 'package:projeto_computacao_movel/data/financers.dart';
 import 'package:projeto_computacao_movel/modules/project.dart';
 import 'package:projeto_computacao_movel/popups/pop_up_payment.dart';
 
@@ -60,7 +60,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                           SizedBox.expand(
                             child: LinearProgressIndicator(
                               backgroundColor: Colors.black45,
-                              value: (widget.project!.financedValue /
+                              value: (widget.project!.totalFinanced /
                                   widget.project!.finalValue),
                               valueColor: const AlwaysStoppedAnimation(
                                   Color(0xFF867563)),
@@ -74,7 +74,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                 Padding(
                                   padding: const EdgeInsets.all(3),
                                   child: Text(
-                                    '${widget.project!.financedValue.toString()}€',
+                                    '${widget.project!.totalFinanced.toString()}€',
                                     style:
                                         Theme.of(context).textTheme.labelSmall,
                                   ),
@@ -82,7 +82,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                 Padding(
                                   padding: const EdgeInsets.all(3),
                                   child: Text(
-                                    '${(widget.project!.finalValue - widget.project!.financedValue).toString()}€',
+                                    '${(widget.project!.finalValue - widget.project!.totalFinanced).toString()}€',
                                     style:
                                         Theme.of(context).textTheme.labelSmall,
                                   ),
