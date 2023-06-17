@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/widgets/home_page_financer.dart';
 import 'package:projeto_computacao_movel/widgets/login_example.dart';
+import 'package:projeto_computacao_movel/widgets/partnerships_page.dart';
 import 'package:projeto_computacao_movel/widgets/profile.dart';
 import 'package:projeto_computacao_movel/widgets/proposal_page.dart';
 import 'package:projeto_computacao_movel/widgets/register_example.dart';
@@ -106,6 +107,7 @@ class _MyAppState extends State<MyApp> {
         '/profile': (context) => Profile(),
         '/proposal': (context) => ProposalPage(),
         '/login': (context) => LoginPage(),
+        '/partnerships': (context) => PartnershipsPage()
       },
     );
   }

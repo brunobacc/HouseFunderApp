@@ -92,19 +92,23 @@ class _PartnershipsPageState extends State<PartnershipsPage> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    partnership.name,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
+                                  Align(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      partnership.name,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge,
                                     ),
                                   ),
                                   SizedBox(height: 4),
-                                  Text(
-                                    'Validated Proposals: ${partnership.validatedProposals}',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.grey[600],
+                                  Align(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      'Validated Proposals: ${partnership.validatedProposals}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium,
                                     ),
                                   ),
                                 ],
