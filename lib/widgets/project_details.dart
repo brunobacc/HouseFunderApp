@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:projeto_computacao_movel/modules/financer.dart';
-import 'package:projeto_computacao_movel/data/financers.dart';
+import 'package:projeto_computacao_movel/modules/queries/financer_query.dart';
+import 'package:projeto_computacao_movel/data/queries/financers_query.dart';
 import 'package:projeto_computacao_movel/modules/project.dart';
-import 'package:projeto_computacao_movel/popups/pop_up_payment.dart';
 
 class ProjectDetails extends StatefulWidget {
-  late Project? project;
-  ProjectDetails({super.key, this.project});
+  final Project project;
+  const ProjectDetails({super.key, required this.project});
 
   @override
   State<ProjectDetails> createState() => _ProjectDetailsState();
 }
 
 class _ProjectDetailsState extends State<ProjectDetails> {
-  late Financers financers;
+  late Future<List<FinancerQuery>> _financers;
 
   @override
   void initState() {
     super.initState();
-    financers = Financers();
+    _financers = FinancersQuery.fetchNext(widget.project.projectId);
   }
 
   @override
@@ -29,7 +28,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
         iconTheme: Theme.of(context).iconTheme,
         centerTitle: true,
         title: Text(
-          widget.project!.title,
+          widget.project.title,
           style: Theme.of(context).textTheme.titleMedium,
         ),
         backgroundColor: Colors.white,
@@ -44,9 +43,10 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                 borderRadius: BorderRadius.circular(10),
                 child: Image(
                   image: AssetImage(
-                    'assets/images/${widget.project!.image}',
+                    'assets/images/${widget.project.image}',
                   ),
-                  fit: BoxFit.fill,
+                  width: MediaQuery.sizeOf(context).width,
+                  fit: BoxFit.cover,
                 ),
               ),
               Container(
@@ -60,8 +60,8 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                           SizedBox.expand(
                             child: LinearProgressIndicator(
                               backgroundColor: Colors.black45,
-                              value: (widget.project!.totalFinanced /
-                                  widget.project!.finalValue),
+                              value: (widget.project.totalFinanced /
+                                  widget.project.finalValue),
                               valueColor: const AlwaysStoppedAnimation(
                                   Color(0xFF867563)),
                             ),
@@ -74,7 +74,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                 Padding(
                                   padding: const EdgeInsets.all(3),
                                   child: Text(
-                                    '${widget.project!.totalFinanced.toString()}€',
+                                    '${widget.project.totalFinanced.toString()}€',
                                     style:
                                         Theme.of(context).textTheme.labelSmall,
                                   ),
@@ -82,7 +82,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                 Padding(
                                   padding: const EdgeInsets.all(3),
                                   child: Text(
-                                    '${(widget.project!.finalValue - widget.project!.totalFinanced).toString()}€',
+                                    '${(widget.project.finalValue - widget.project.totalFinanced).toString()}€',
                                     style:
                                         Theme.of(context).textTheme.labelSmall,
                                   ),
@@ -122,11 +122,11 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      widget.project!.location,
+                      widget.project.location,
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                     Text(
-                      '${widget.project!.finalValue.toString()}€',
+                      '${widget.project.finalValue.toString()}€',
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ],
@@ -135,7 +135,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
               Padding(
                 padding: const EdgeInsets.only(top: 10),
                 child: Text(
-                  widget.project!.description,
+                  widget.project.description,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ),
@@ -147,62 +147,74 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.width * 0.5,
-                child: financers.countFinancers > 0
-                    ? GridView.builder(
-                        itemCount: financers.countFinancers,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          crossAxisSpacing: 10.0,
-                          mainAxisSpacing: 10.0,
-                        ),
-                        itemBuilder: (BuildContext context, int index) {
-                          Financer financer = financers.list[index];
-                          return Card(
-                            elevation: 4,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Stack(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Image.asset(
-                                    financer.image,
-                                    fit: BoxFit.fill,
-                                  ),
+                  height: MediaQuery.of(context).size.width * 0.5,
+                  child: FutureBuilder(
+                    future: _financers,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return snapshot.data!.isNotEmpty
+                            ? GridView.builder(
+                                itemCount: snapshot.data!.length,
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3,
+                                  crossAxisSpacing: 10.0,
+                                  mainAxisSpacing: 10.0,
                                 ),
-                                Positioned(
-                                  bottom: 0,
-                                  left: 0,
-                                  right: 0,
-                                  child: Container(
-                                    decoration: const BoxDecoration(
-                                      color: Colors.black54,
-                                      borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(10),
-                                        bottomRight: Radius.circular(10),
-                                      ),
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Card(
+                                    elevation: 4,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
                                     ),
-                                    child: Text(
-                                      textAlign: TextAlign.center,
-                                      financer.name,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelSmall,
+                                    child: Stack(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: Image.asset(
+                                            snapshot.data![index].image,
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ),
+                                        Positioned(
+                                          bottom: 0,
+                                          left: 0,
+                                          right: 0,
+                                          child: Container(
+                                            decoration: const BoxDecoration(
+                                              color: Colors.black54,
+                                              borderRadius: BorderRadius.only(
+                                                bottomLeft: Radius.circular(10),
+                                                bottomRight:
+                                                    Radius.circular(10),
+                                              ),
+                                            ),
+                                            child: Text(
+                                              textAlign: TextAlign.center,
+                                              snapshot.data![index].username,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .labelSmall,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      )
-                    : const Center(
-                        child: Text('Zero financers to show!'),
-                      ),
-              ),
+                                  );
+                                },
+                              )
+                            : const Center(
+                                child: Text('Zero financers to show!'),
+                              );
+                      } else if (snapshot.hasError) {
+                        return Text('${snapshot.error}');
+                      }
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
+                  )),
             ],
           ),
         ),
