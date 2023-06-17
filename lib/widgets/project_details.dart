@@ -147,74 +147,73 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                 ),
               ),
               SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.5,
-                  child: FutureBuilder(
-                    future: _financers,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return snapshot.data!.isNotEmpty
-                            ? GridView.builder(
-                                itemCount: snapshot.data!.length,
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 3,
-                                  crossAxisSpacing: 10.0,
-                                  mainAxisSpacing: 10.0,
-                                ),
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Card(
-                                    elevation: 4,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Stack(
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          child: Image.asset(
-                                            snapshot.data![index].image,
-                                            fit: BoxFit.fill,
-                                          ),
+                height: MediaQuery.of(context).size.width * 0.5,
+                child: FutureBuilder(
+                  future: _financers,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return snapshot.data!.isNotEmpty
+                          ? GridView.builder(
+                              itemCount: snapshot.data!.length,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                crossAxisSpacing: 10.0,
+                                mainAxisSpacing: 10.0,
+                              ),
+                              itemBuilder: (BuildContext context, int index) {
+                                return Card(
+                                  elevation: 4,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Stack(
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: Image.asset(
+                                          snapshot.data![index].image,
+                                          fit: BoxFit.fill,
                                         ),
-                                        Positioned(
-                                          bottom: 0,
-                                          left: 0,
-                                          right: 0,
-                                          child: Container(
-                                            decoration: const BoxDecoration(
-                                              color: Colors.black54,
-                                              borderRadius: BorderRadius.only(
-                                                bottomLeft: Radius.circular(10),
-                                                bottomRight:
-                                                    Radius.circular(10),
-                                              ),
-                                            ),
-                                            child: Text(
-                                              textAlign: TextAlign.center,
-                                              snapshot.data![index].username,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .labelSmall,
+                                      ),
+                                      Positioned(
+                                        bottom: 0,
+                                        left: 0,
+                                        right: 0,
+                                        child: Container(
+                                          decoration: const BoxDecoration(
+                                            color: Colors.black54,
+                                            borderRadius: BorderRadius.only(
+                                              bottomLeft: Radius.circular(10),
+                                              bottomRight: Radius.circular(10),
                                             ),
                                           ),
+                                          child: Text(
+                                            textAlign: TextAlign.center,
+                                            snapshot.data![index].username,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .labelSmall,
+                                          ),
                                         ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                              )
-                            : const Center(
-                                child: Text('Zero financers to show!'),
-                              );
-                      } else if (snapshot.hasError) {
-                        return Text('${snapshot.error}');
-                      }
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    },
-                  )),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            )
+                          : const Center(
+                              child: Text('Zero financers to show!'),
+                            );
+                    } else if (snapshot.hasError) {
+                      return Text('${snapshot.error}');
+                    }
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+                ),
+              ),
             ],
           ),
         ),
