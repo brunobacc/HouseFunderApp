@@ -1,6 +1,8 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
+import 'package:projeto_computacao_movel/data/partnerships.dart';
+import 'package:projeto_computacao_movel/modules/home_page_arguments.dart';
+import 'package:projeto_computacao_movel/modules/partnership.dart';
+import 'package:projeto_computacao_movel/widgets/home_page_financer.dart';
 
 class PopUpFilter {
   BuildContext context;
@@ -71,12 +73,15 @@ class _FilterState extends State<Filter> {
       _likes = false;
   late double _maxPrice;
   late RangeValues neededPrice = RangeValues(0, _maxPrice);
-  String? region;
+  String? selectedRegion;
+  late Future<List<Partnership>> _partnerships;
+  String? selectedPartnership;
 
   @override
   void initState() {
     super.initState();
     _maxPrice = widget.maxPrice;
+    _partnerships = Partnerships.fetchPartnerships();
   }
 
   @override
@@ -208,7 +213,7 @@ class _FilterState extends State<Filter> {
                   'REGION',
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                value: region,
+                value: selectedRegion,
                 items: regions
                     .map((e) => DropdownMenuItem(
                           value: e,
@@ -219,45 +224,70 @@ class _FilterState extends State<Filter> {
                         ))
                     .toList(),
                 onChanged: (value) => setState(() {
-                  region = value;
+                  selectedRegion = value;
                 }),
               ),
             ),
           ),
-          Container(
-            margin: const EdgeInsets.only(top: 10),
-            decoration: const BoxDecoration(
-              border: Border(
-                top: BorderSide(),
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-              child: DropdownButton(
-                isExpanded: true,
-                hint: Text(
-                  'PARTNERSHIP',
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-                value: region,
-                items: regions
-                    .map((e) => DropdownMenuItem(
-                          value: e,
-                          child: Text(
-                            e,
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                        ))
-                    .toList(),
-                onChanged: (value) => setState(() {
-                  region = value;
-                }),
-              ),
-            ),
+          FutureBuilder<List<Partnership>>(
+            future: _partnerships,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Container(
+                  margin: const EdgeInsets.only(top: 10),
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      top: BorderSide(),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    child: DropdownButton(
+                      isExpanded: true,
+                      hint: Text(
+                        'PARTNERSHIP',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                      value: selectedPartnership,
+                      items: snapshot.data!
+                          .map((p) => DropdownMenuItem(
+                                value: p.name,
+                                child: Text(
+                                  p.name,
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                              ))
+                          .toList(),
+                      onChanged: (value) => setState(() {
+                        selectedPartnership = value;
+                      }),
+                    ),
+                  ),
+                );
+              } else if (snapshot.hasError) {
+                return Text('${snapshot.error}');
+              }
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
           ),
           Center(
             child: ElevatedButton(
-              onPressed: null,
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HomePageFinancer(
+                      newest: _newest,
+                      oldest: _oldest,
+                      lowHigh: _lowHigh,
+                      highLow: _highLow,
+                      likes: _likes,
+                      neededPrice: neededPrice,
+                      region: selectedRegion,
+                      partnership: selectedPartnership),
+                ),
+              ),
               child: Text(
                 'Show Results',
                 style: Theme.of(context).textTheme.bodyMedium,

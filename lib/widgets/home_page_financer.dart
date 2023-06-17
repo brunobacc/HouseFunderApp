@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:projeto_computacao_movel/data/queries/filter_projects.dart';
+import 'package:projeto_computacao_movel/modules/home_page_arguments.dart';
 import 'package:projeto_computacao_movel/modules/project.dart';
 import 'package:projeto_computacao_movel/popups/pop_up_filter.dart';
 import 'package:projeto_computacao_movel/widgets/bottom_navigation_bar_widget.dart';
@@ -11,7 +13,26 @@ import '../data/projects.dart';
 import '../modules/searchs/search_projects.dart';
 
 class HomePageFinancer extends StatefulWidget {
-  const HomePageFinancer({super.key});
+  final bool newest;
+  final bool oldest;
+  final bool lowHigh;
+  final bool highLow;
+  final bool likes;
+  final RangeValues? neededPrice;
+  final String? region;
+  final String? partnership;
+  const HomePageFinancer(
+      {required this.newest,
+      required this.oldest,
+      required this.lowHigh,
+      required this.highLow,
+      required this.likes,
+      required this.neededPrice,
+      required this.region,
+      required this.partnership,
+      super.key});
+
+  static const routeName = '/home';
 
   @override
   State<HomePageFinancer> createState() => _HomePageFinancerState();
@@ -26,7 +47,8 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
   @override
   void initState() {
     super.initState();
-    _projects = Projects.fetchNext();
+    _projects = FilterProjects.fetchNext(widget.neededPrice?.start,
+        widget.neededPrice?.end, widget.region, widget.partnership);
   }
 
   @override
@@ -51,8 +73,13 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
             onPressed: () async {
               showSearch(
                 context: context,
-                delegate:
-                    SearchProjects(allProjects: await Projects.fetchNext()),
+                delegate: SearchProjects(
+                    allProjects: await Projects.fetchNext(
+                        widget.newest,
+                        widget.oldest,
+                        widget.lowHigh,
+                        widget.highLow,
+                        widget.likes)),
               );
             },
             icon: const Icon(
