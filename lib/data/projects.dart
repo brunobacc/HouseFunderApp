@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:projeto_computacao_movel/modules/project.dart';
 
 class Projects {
-  static const String url = '10.0.2.2:5048';
+  static const String url = '127.0.0.1:5048';
 
   static Future<List<Project>> fetchNext() async {
     // variables
