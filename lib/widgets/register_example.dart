@@ -31,22 +31,28 @@ class RegisterPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    "Register",
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge!
-                        .copyWith(color: Colors.white),
+                  Center(
+                    child: Text(
+                      "Register",
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleLarge!
+                          .copyWith(color: Colors.white),
+                    ),
                   ),
                   SizedBox(
                     height: 10,
                   ),
-                  Text(
-                    "Enter your Details!",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(color: Colors.white),
+                  Center(
+                    child: Text(
+                      "Enter your Details!",
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(color: Colors.white),
+                    ),
                   ),
                 ],
               ),
@@ -174,7 +180,7 @@ class RegisterPage extends StatelessWidget {
                           child: Text(
                             "Login",
                             style: TextStyle(
-                                color: Color.fromARGB(255, 59, 59, 59),
+                                color: Colors.white,
                                 fontWeight: FontWeight.bold),
                           ),
                         ),

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class NewPasswordPage extends StatelessWidget {
+  const NewPasswordPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class LoginPage extends StatelessWidget {
                 children: <Widget>[
                   Center(
                     child: Text(
-                      "Login",
+                      "Reset Password",
                       style: Theme.of(context)
                           .textTheme
                           .titleLarge!
@@ -45,7 +45,7 @@ class LoginPage extends StatelessWidget {
                   ),
                   Center(
                     child: Text(
-                      "Enter your Details!",
+                      "Enter your new password.",
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!
@@ -97,7 +97,7 @@ class LoginPage extends StatelessWidget {
                             ),
                             child: TextField(
                               decoration: InputDecoration(
-                                hintText: "Email",
+                                hintText: "New Password",
                                 hintStyle: TextStyle(color: Colors.grey),
                                 border: InputBorder.none,
                               ),
@@ -112,7 +112,7 @@ class LoginPage extends StatelessWidget {
                             ),
                             child: TextField(
                               decoration: InputDecoration(
-                                hintText: "Password",
+                                hintText: "Repeat New Password",
                                 hintStyle: TextStyle(color: Colors.grey),
                                 border: InputBorder.none,
                               ),
@@ -123,13 +123,6 @@ class LoginPage extends StatelessWidget {
                       SizedBox(
                         height: 40,
                       ),
-                      Text(
-                        "Forgot Password?",
-                        style: TextStyle(color: Colors.grey),
-                      ),
-                      SizedBox(
-                        height: 40,
-                      ),
                       Container(
                         height: 50,
                         margin: EdgeInsets.symmetric(horizontal: 50),
@@ -139,38 +132,15 @@ class LoginPage extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text(
-                            "Login",
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 59, 59, 59),
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 40,
-                      ),
-                      Text(
-                        "--------------- Don't have an account? ---------------",
-                        style: TextStyle(color: Colors.grey),
-                      ),
-                      SizedBox(
-                        height: 40,
-                      ),
-                      Container(
-                        height: 50,
-                        margin: EdgeInsets.symmetric(horizontal: 50),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          color: Color(0xFFD9C5AD),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Create New Account!",
+                            "Reset Password",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
+                      ),
+                      SizedBox(
+                        height: 40,
                       ),
                     ],
                   ),
