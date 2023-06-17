@@ -3,6 +3,7 @@ import 'package:projeto_computacao_movel/widgets/home_page_financer.dart';
 import 'package:projeto_computacao_movel/widgets/login_example.dart';
 import 'package:projeto_computacao_movel/widgets/profile.dart';
 import 'package:projeto_computacao_movel/widgets/proposal_page.dart';
+import 'package:projeto_computacao_movel/widgets/register_example.dart';
 import 'package:projeto_computacao_movel/widgets/shop_page_widget.dart';
 
 void main() {
@@ -96,13 +97,14 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       themeMode: _themeMode,
-      initialRoute: '/login',
+      initialRoute: '/register',
       routes: {
         '/home': (context) => HomePageFinancer(),
         '/shop': (context) => ShopPageWidget(),
         '/profile': (context) => Profile(),
         '/proposal': (context) => ProposalPage(),
         '/login': (context) => LoginPage(),
+        '/register': (context) => RegisterPage(),
       },
     );
   }
