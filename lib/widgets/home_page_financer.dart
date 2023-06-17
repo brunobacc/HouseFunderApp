@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/modules/project.dart';
+import 'package:projeto_computacao_movel/popups/pop_up_filter.dart';
 import 'package:projeto_computacao_movel/widgets/bottom_navigation_bar_widget.dart';
 import 'package:projeto_computacao_movel/widgets/drawer_widget.dart';
 import 'package:projeto_computacao_movel/widgets/project_details.dart';
@@ -18,6 +21,7 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   late Future<List<Project>> _projects;
   late List<Project> projects;
+  double maxPrice = 0;
 
   @override
   void initState() {
@@ -55,6 +59,14 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
               Icons.search,
             ),
           ),
+          IconButton(
+            onPressed: () {
+              PopUpFilter.filter(context, maxPrice);
+            },
+            icon: const Icon(
+              Icons.tune_rounded,
+            ),
+          ),
         ],
       ),
       body: Padding(
@@ -73,6 +85,11 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
                               0), // change the default top padding of a ListView
                       itemCount: snapshot.data!.length,
                       itemBuilder: (BuildContext context, int index) {
+                        double neededValue = snapshot.data![index].finalValue -
+                            snapshot.data![index].totalFinanced;
+                        neededValue > maxPrice
+                            ? maxPrice = neededValue
+                            : maxPrice = maxPrice;
                         // Display the projects in Cards
                         return Card(
                           shape: const RoundedRectangleBorder(

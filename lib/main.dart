@@ -41,6 +41,7 @@ class _MyAppState extends State<MyApp> {
         cardColor: const Color(0xFFE5DFDF),
         brightness: Brightness.light,
         textTheme: const TextTheme(
+          titleLarge: TextStyle(fontSize: 34, color: Colors.black),
           titleMedium: TextStyle(fontSize: 28, color: Colors.black),
           titleSmall: TextStyle(
               fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
@@ -72,6 +73,7 @@ class _MyAppState extends State<MyApp> {
         cardColor: const Color(0xFF3C3C3C),
         brightness: Brightness.dark,
         textTheme: const TextTheme(
+          titleLarge: TextStyle(fontSize: 34, color: Colors.white),
           titleMedium: TextStyle(fontSize: 28, color: Colors.white),
           titleSmall: TextStyle(
               fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
@@ -94,7 +96,7 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       themeMode: _themeMode,
-      initialRoute: '/home',
+      initialRoute: '/login',
       routes: {
         '/home': (context) => HomePageFinancer(),
         '/shop': (context) => ShopPageWidget(),

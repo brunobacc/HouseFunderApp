@@ -33,18 +33,21 @@ class LoginPage extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     "Login",
-                    style: TextStyle(color: Colors.white, fontSize: 40),
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge!
+                        .copyWith(color: Colors.white),
                   ),
                   SizedBox(
                     height: 10,
                   ),
                   Text(
                     "Enter your Details!",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                    ),
-                  )
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: Colors.white),
+                  ),
                 ],
               ),
             ),
