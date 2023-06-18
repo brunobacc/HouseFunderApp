@@ -16,14 +16,19 @@ class HomePageArguments {
   // store the maxPrice for the rangeValue neededPrice
   final double maxPrice;
 
+  // store the token
+  final String? token;
+
   HomePageArguments(
-      this.newest,
-      this.oldest,
-      this.lowHigh,
-      this.highLow,
-      this.likes,
-      this.neededPrice,
-      this.region,
-      this.partnership,
-      this.maxPrice);
+    this.newest,
+    this.oldest,
+    this.lowHigh,
+    this.highLow,
+    this.likes,
+    this.neededPrice,
+    this.region,
+    this.partnership,
+    this.maxPrice,
+    this.token,
+  );
 }

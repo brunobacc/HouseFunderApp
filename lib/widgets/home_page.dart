@@ -1,14 +1,8 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/data/queries/filter_projects.dart';
-import 'package:projeto_computacao_movel/modules/arguments/home_page_arguments.dart';
 import 'package:projeto_computacao_movel/modules/project.dart';
-import 'package:projeto_computacao_movel/popups/pop_up_filter.dart';
 import 'package:projeto_computacao_movel/widgets/utils/bottom_navigation_bar_widget.dart';
 import 'package:projeto_computacao_movel/widgets/utils/drawer_widget.dart';
-import 'package:projeto_computacao_movel/widgets/project_details.dart';
-
 import '../data/projects.dart';
 import '../modules/searchs/search_projects.dart';
 
@@ -22,6 +16,7 @@ class HomePage extends StatefulWidget {
   final String? region;
   final String? partnership;
   final double maxPrice;
+  final String? token;
   const HomePage(
       {required this.newest,
       required this.oldest,
@@ -32,6 +27,7 @@ class HomePage extends StatefulWidget {
       required this.region,
       required this.partnership,
       required this.maxPrice,
+      required this.token,
       super.key});
 
   static const String routeName = '/';
@@ -52,21 +48,23 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _maxPrice = widget.maxPrice;
     _projects = FilterProjects.fetchNext(
-        widget.newest,
-        widget.oldest,
-        widget.lowHigh,
-        widget.highLow,
-        widget.neededPrice?.start,
-        widget.neededPrice?.end,
-        widget.region,
-        widget.partnership);
+      widget.newest,
+      widget.oldest,
+      widget.lowHigh,
+      widget.highLow,
+      widget.neededPrice?.start,
+      widget.neededPrice?.end,
+      widget.region,
+      widget.partnership,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    print('Token: ${widget.token}');
     return Scaffold(
       key: _scaffoldKey,
-      drawer: const DrawerWidget(),
+      drawer: DrawerWidget(token: widget.token),
       appBar: AppBar(
         leading: SizedBox(
           width: 10,
@@ -206,8 +204,9 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      bottomNavigationBar: const BottomNavigationBarWidget(
+      bottomNavigationBar: BottomNavigationBarWidget(
         selectedIndex: 1,
+        token: widget.token,
       ),
     );
   }

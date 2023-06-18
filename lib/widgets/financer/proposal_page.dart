@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/widgets/utils/bottom_navigation_bar_widget.dart';
 
 class ProposalPage extends StatefulWidget {
-  const ProposalPage({super.key});
+  final String? token;
+  const ProposalPage({required this.token, super.key});
 
   static const String routeName = '/proposal';
 
@@ -90,7 +91,10 @@ class _ProposalPageState extends State<ProposalPage> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBarWidget(selectedIndex: -1),
+      bottomNavigationBar: BottomNavigationBarWidget(
+        selectedIndex: -1,
+        token: widget.token,
+      ),
     );
   }
 }

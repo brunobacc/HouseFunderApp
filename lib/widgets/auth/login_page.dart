@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:projeto_computacao_movel/data/auth/login.dart';
+import 'package:projeto_computacao_movel/modules/arguments/home_page_arguments.dart';
+import '../utils/validations.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   static const String routeName = '/login';
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  bool _passwordVisible = true;
 
   @override
   Widget build(BuildContext context) {
@@ -90,47 +101,57 @@ class LoginPage extends StatelessWidget {
                             ),
                           ],
                         ),
-                        child: Column(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 5),
-                              decoration: const BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(color: Colors.grey),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5),
+                                decoration: const BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(color: Colors.grey),
+                                  ),
+                                ),
+                                child: TextFormField(
+                                  controller: emailController,
+                                  decoration: InputDecoration(
+                                    hintText: "Email",
+                                    hintStyle: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(color: Colors.grey),
+                                    border: InputBorder.none,
+                                  ),
+                                  validator: (value) {
+                                    if (value != null && !value.isValidEmail) {
+                                      return 'Email Not Valid!';
+                                    }
+                                  },
                                 ),
                               ),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  hintText: "Email",
-                                  hintStyle: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .copyWith(color: Colors.grey),
-                                  border: InputBorder.none,
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5),
+                                decoration: const BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(color: Colors.grey),
+                                  ),
+                                ),
+                                child: TextFormField(
+                                  controller: passwordController,
+                                  decoration: InputDecoration(
+                                    hintText: "Password",
+                                    hintStyle: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(color: Colors.grey),
+                                    border: InputBorder.none,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 5),
-                              decoration: const BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(color: Colors.grey),
-                                ),
-                              ),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  hintText: "Password",
-                                  hintStyle: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .copyWith(color: Colors.grey),
-                                  border: InputBorder.none,
-                                ),
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                       Padding(
@@ -157,7 +178,53 @@ class LoginPage extends StatelessWidget {
                             Color(0xFFD9C5AD),
                           ),
                         ),
-                        onPressed: () => null,
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            final tokenFuture = Login.validate(
+                              emailController.text,
+                              passwordController.text,
+                            );
+
+                            tokenFuture.then((token) {
+                              if (token != null) {
+                                Navigator.pushNamed(
+                                  context,
+                                  '/',
+                                  arguments: HomePageArguments(
+                                    false,
+                                    false,
+                                    false,
+                                    false,
+                                    false,
+                                    null,
+                                    null,
+                                    null,
+                                    0,
+                                    token,
+                                  ),
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Invalid Credentials!'),
+                                  ),
+                                );
+                              }
+                            }).catchError((error) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Failed to validate login'),
+                                ),
+                              );
+                            });
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Please fill input!'),
+                              ),
+                            );
+                          }
+                        },
                         child: Text(
                           "Login",
                           style: Theme.of(context)

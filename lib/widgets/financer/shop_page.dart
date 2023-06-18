@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/popups/pop_up_buy_product.dart';
 import 'package:projeto_computacao_movel/widgets/utils/bottom_navigation_bar_widget.dart';
-
 import '../../modules/product.dart';
 import '../../data/products.dart';
 import '../utils/drawer_widget.dart';
 
 class ShopPage extends StatefulWidget {
-  const ShopPage({super.key});
+  final String? token;
+  const ShopPage({required this.token, super.key});
 
   static const String routeName = '/shop';
 
@@ -29,7 +29,7 @@ class _ShopPageState extends State<ShopPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      drawer: const DrawerWidget(),
+      drawer: DrawerWidget(token: widget.token),
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
@@ -137,7 +137,10 @@ class _ShopPageState extends State<ShopPage> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBarWidget(selectedIndex: 0),
+      bottomNavigationBar: BottomNavigationBarWidget(
+        selectedIndex: 0,
+        token: widget.token,
+      ),
     );
   }
 }

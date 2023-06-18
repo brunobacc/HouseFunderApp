@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/popups/pop_up_edit_profile.dart';
 import 'package:projeto_computacao_movel/widgets/utils/bottom_navigation_bar_widget.dart';
-import 'package:projeto_computacao_movel/widgets/project_details.dart';
-
-import '../../data/projects.dart';
 import '../utils/drawer_widget.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({super.key});
+  final String? token;
+  const Profile({required this.token, super.key});
 
   static const String routeName = '/profile';
 
@@ -21,7 +19,7 @@ class _ProfileState extends State<Profile> {
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
       key: scaffoldKey,
-      drawer: const DrawerWidget(),
+      drawer: DrawerWidget(token: widget.token),
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
@@ -266,7 +264,10 @@ class _ProfileState extends State<Profile> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBarWidget(selectedIndex: 2),
+      bottomNavigationBar: BottomNavigationBarWidget(
+        selectedIndex: 2,
+        token: widget.token,
+      ),
     );
   }
 }
