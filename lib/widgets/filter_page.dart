@@ -26,8 +26,9 @@ List<String> regions = [
 ];
 
 class FilterPage extends StatefulWidget {
-  final maxPrice;
-  const FilterPage({required this.maxPrice, super.key});
+  final double maxPrice;
+  final String? token;
+  const FilterPage({required this.maxPrice, required this.token, super.key});
 
   static const String routeName = '/filter';
 
@@ -278,6 +279,7 @@ class _FilterPageState extends State<FilterPage> {
                       selectedRegion,
                       selectedPartnership,
                       _maxPrice,
+                      null,
                     ),
                   ),
                   child: Text(

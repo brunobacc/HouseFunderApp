@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_computacao_movel/modules/arguments/filter_page_arguments.dart';
 import 'package:projeto_computacao_movel/modules/arguments/home_page_arguments.dart';
 import 'package:projeto_computacao_movel/modules/project.dart';
 import 'package:projeto_computacao_movel/widgets/auth/reset_password.dart';
@@ -31,13 +32,15 @@ class AppRouter {
             region: args?.region,
             partnership: args?.partnership,
             maxPrice: args?.maxPrice ?? 0,
+            token: args?.token,
           ),
         );
       case FilterPage.routeName:
-        double args = settings.arguments as double;
+        FilterPageArguments? args = settings.arguments as FilterPageArguments?;
         return MaterialPageRoute(
           builder: (_) => FilterPage(
-            maxPrice: args,
+            maxPrice: args?.maxPrice ?? 0,
+            token: args?.token,
           ),
         );
       case ProjectDetails.routeName:
@@ -68,16 +71,25 @@ class AppRouter {
           builder: (_) => ResetPassword(),
         );
       case Profile.routeName:
+        String? args = settings.arguments as String?;
         return MaterialPageRoute(
-          builder: (_) => Profile(),
+          builder: (_) => Profile(
+            token: args,
+          ),
         );
       case ProposalPage.routeName:
+        String? args = settings.arguments as String?;
         return MaterialPageRoute(
-          builder: (_) => ProposalPage(),
+          builder: (_) => ProposalPage(
+            token: args,
+          ),
         );
       case ShopPage.routeName:
+        String? args = settings.arguments as String?;
         return MaterialPageRoute(
-          builder: (_) => ShopPage(),
+          builder: (_) => ShopPage(
+            token: args,
+          ),
         );
       default:
         return _errorRoute();
