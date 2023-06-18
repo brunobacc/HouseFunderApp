@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_computacao_movel/config/app_router.dart';
+import 'package:projeto_computacao_movel/widgets/filter_page.dart';
 import 'package:projeto_computacao_movel/widgets/home_page_financer.dart';
 import 'package:projeto_computacao_movel/widgets/login_example.dart';
 import 'package:projeto_computacao_movel/widgets/partnerships_page.dart';
@@ -100,23 +102,8 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       themeMode: _themeMode,
-      initialRoute: '/home',
-      routes: {
-        '/home': (context) => const HomePageFinancer(
-            newest: false,
-            oldest: false,
-            lowHigh: false,
-            highLow: false,
-            likes: false,
-            neededPrice: null,
-            region: null,
-            partnership: null),
-        '/shop': (context) => ShopPageWidget(),
-        '/profile': (context) => Profile(),
-        '/proposal': (context) => ProposalPage(),
-        '/login': (context) => LoginPage(),
-        '/partnerships': (context) => PartnershipsPage()
-      },
+      onGenerateRoute: AppRouter.onGenerateRoute,
+      initialRoute: HomePageFinancer.routeName,
     );
   }
 }

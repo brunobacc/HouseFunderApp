@@ -13,6 +13,17 @@ class HomePageArguments {
   final String? region;
   final String? partnership;
 
-  HomePageArguments(this.newest, this.oldest, this.lowHigh, this.highLow,
-      this.likes, this.neededPrice, this.region, this.partnership);
+  // store the maxPrice for the rangeValue neededPrice
+  final double maxPrice;
+
+  HomePageArguments(
+      this.newest,
+      this.oldest,
+      this.lowHigh,
+      this.highLow,
+      this.likes,
+      this.neededPrice,
+      this.region,
+      this.partnership,
+      this.maxPrice);
 }

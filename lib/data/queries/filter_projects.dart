@@ -6,20 +6,29 @@ import 'package:projeto_computacao_movel/modules/project.dart';
 class FilterProjects {
   static const String url = '10.0.2.2:5048';
 
-  static Future<List<Project>> fetchNext(double? minPrice, double? maxPrice,
-      String? region, String? partnership) async {
-    minPrice ?? 0.0;
-
+  static Future<List<Project>> fetchNext(
+      bool newest,
+      bool oldest,
+      bool lowHigh,
+      bool highLow,
+      double? minPrice,
+      double? maxPrice,
+      String? region,
+      String? partnership) async {
     // variables
     Iterable iterable;
     List<Project> filterProjects;
 
     // add the parameters
     final queryParameters = {
-      'min_price': '$minPrice',
-      'max_price': '$maxPrice',
-      'region': region,
-      'partnership': partnership
+      'newest': newest.toString(),
+      'oldest': oldest.toString(),
+      'low_high': lowHigh.toString(),
+      'high_low': highLow.toString(),
+      'min_value': minPrice?.toString() ?? '',
+      'max_value': maxPrice?.toString() ?? '',
+      'region': region ?? '',
+      'partnership': partnership ?? '',
     };
 
     // ask data to server

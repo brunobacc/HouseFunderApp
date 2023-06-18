@@ -21,6 +21,7 @@ class HomePageFinancer extends StatefulWidget {
   final RangeValues? neededPrice;
   final String? region;
   final String? partnership;
+  final double maxPrice;
   const HomePageFinancer(
       {required this.newest,
       required this.oldest,
@@ -30,9 +31,10 @@ class HomePageFinancer extends StatefulWidget {
       required this.neededPrice,
       required this.region,
       required this.partnership,
+      required this.maxPrice,
       super.key});
 
-  static const routeName = '/home';
+  static const String routeName = '/';
 
   @override
   State<HomePageFinancer> createState() => _HomePageFinancerState();
@@ -42,13 +44,22 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   late Future<List<Project>> _projects;
   late List<Project> projects;
-  double maxPrice = 0;
+
+  late double _maxPrice;
 
   @override
   void initState() {
     super.initState();
-    _projects = FilterProjects.fetchNext(widget.neededPrice?.start,
-        widget.neededPrice?.end, widget.region, widget.partnership);
+    _maxPrice = widget.maxPrice;
+    _projects = FilterProjects.fetchNext(
+        widget.newest,
+        widget.oldest,
+        widget.lowHigh,
+        widget.highLow,
+        widget.neededPrice?.start,
+        widget.neededPrice?.end,
+        widget.region,
+        widget.partnership);
   }
 
   @override
@@ -88,7 +99,7 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
           ),
           IconButton(
             onPressed: () {
-              PopUpFilter.filter(context, maxPrice);
+              Navigator.pushNamed(context, '/filter', arguments: _maxPrice);
             },
             icon: const Icon(
               Icons.tune_rounded,
@@ -114,9 +125,9 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
                       itemBuilder: (BuildContext context, int index) {
                         double neededValue = snapshot.data![index].finalValue -
                             snapshot.data![index].totalFinanced;
-                        neededValue > maxPrice
-                            ? maxPrice = neededValue
-                            : maxPrice = maxPrice;
+                        neededValue > _maxPrice
+                            ? _maxPrice = neededValue
+                            : _maxPrice = _maxPrice;
                         // Display the projects in Cards
                         return Card(
                           shape: const RoundedRectangleBorder(

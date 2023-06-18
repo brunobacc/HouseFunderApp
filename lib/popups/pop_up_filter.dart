@@ -4,7 +4,7 @@ import 'package:projeto_computacao_movel/modules/home_page_arguments.dart';
 import 'package:projeto_computacao_movel/modules/partnership.dart';
 import 'package:projeto_computacao_movel/widgets/home_page_financer.dart';
 
-class PopUpFilter {
+/*class PopUpFilter {
   BuildContext context;
   PopUpFilter(this.context);
 
@@ -299,3 +299,4 @@ class _FilterState extends State<Filter> {
     );
   }
 }
+*/
