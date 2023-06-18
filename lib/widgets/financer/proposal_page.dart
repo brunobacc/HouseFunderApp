@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_computacao_movel/widgets/bottom_navigation_bar_widget.dart';
+import 'package:projeto_computacao_movel/widgets/utils/bottom_navigation_bar_widget.dart';
 
 class ProposalPage extends StatefulWidget {
+  const ProposalPage({super.key});
+
+  static const String routeName = '/proposal';
+
   @override
   _ProposalPageState createState() => _ProposalPageState();
 }

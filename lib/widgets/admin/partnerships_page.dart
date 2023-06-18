@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_computacao_movel/widgets/drawer_widget.dart';
+import 'package:projeto_computacao_movel/widgets/utils/drawer_widget.dart';
 
-import '../data/partnerships.dart';
-import '../modules/partnership.dart';
+import '../../data/partnerships.dart';
+import '../../modules/partnership.dart';
 
 class PartnershipsPage extends StatefulWidget {
   const PartnershipsPage({Key? key}) : super(key: key);

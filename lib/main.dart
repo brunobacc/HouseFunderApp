@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/config/app_router.dart';
 import 'package:projeto_computacao_movel/widgets/filter_page.dart';
-import 'package:projeto_computacao_movel/widgets/home_page_financer.dart';
-import 'package:projeto_computacao_movel/widgets/login_example.dart';
-import 'package:projeto_computacao_movel/widgets/partnerships_page.dart';
-import 'package:projeto_computacao_movel/widgets/profile.dart';
-import 'package:projeto_computacao_movel/widgets/proposal_page.dart';
-import 'package:projeto_computacao_movel/widgets/register_example.dart';
-import 'package:projeto_computacao_movel/widgets/reset_password.dart';
-import 'package:projeto_computacao_movel/widgets/shop_page_widget.dart';
-import 'package:projeto_computacao_movel/widgets/verifycode.dart';
+import 'package:projeto_computacao_movel/widgets/home_page.dart';
+import 'package:projeto_computacao_movel/widgets/auth/login_page.dart';
+import 'package:projeto_computacao_movel/widgets/admin/partnerships_page.dart';
+import 'package:projeto_computacao_movel/widgets/financer/profile.dart';
+import 'package:projeto_computacao_movel/widgets/financer/proposal_page.dart';
+import 'package:projeto_computacao_movel/widgets/auth/register_page.dart';
+import 'package:projeto_computacao_movel/widgets/auth/email_verification.dart';
+import 'package:projeto_computacao_movel/widgets/financer/shop_page.dart';
+import 'package:projeto_computacao_movel/widgets/auth/verify_code.dart';
 
 void main() {
   runApp(const MyApp());
@@ -103,7 +103,7 @@ class _MyAppState extends State<MyApp> {
       ),
       themeMode: _themeMode,
       onGenerateRoute: AppRouter.onGenerateRoute,
-      initialRoute: HomePageFinancer.routeName,
+      initialRoute: HomePage.routeName,
     );
   }
 }

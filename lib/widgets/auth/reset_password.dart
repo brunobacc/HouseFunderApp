@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
-class NewPasswordPage extends StatelessWidget {
-  const NewPasswordPage({super.key});
+class ResetPassword extends StatelessWidget {
+  const ResetPassword({super.key});
+
+  static const String routeName = '/resetPassword';
 
   @override
   Widget build(BuildContext context) {

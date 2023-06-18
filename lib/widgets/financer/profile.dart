@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/popups/pop_up_edit_profile.dart';
-import 'package:projeto_computacao_movel/widgets/bottom_navigation_bar_widget.dart';
+import 'package:projeto_computacao_movel/widgets/utils/bottom_navigation_bar_widget.dart';
 import 'package:projeto_computacao_movel/widgets/project_details.dart';
 
-import '../data/projects.dart';
-import 'drawer_widget.dart';
+import '../../data/projects.dart';
+import '../utils/drawer_widget.dart';
 
 class Profile extends StatefulWidget {
-  late Projects projects;
-  Profile({super.key}) {
-    projects = Projects();
-  }
+  const Profile({super.key});
+
+  static const String routeName = '/profile';
 
   @override
   State<Profile> createState() => _ProfileState();

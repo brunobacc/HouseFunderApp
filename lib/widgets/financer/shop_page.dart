@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/popups/pop_up_buy_product.dart';
-import 'package:projeto_computacao_movel/widgets/bottom_navigation_bar_widget.dart';
+import 'package:projeto_computacao_movel/widgets/utils/bottom_navigation_bar_widget.dart';
 
-import '../modules/product.dart';
-import '../data/products.dart';
-import 'drawer_widget.dart';
+import '../../modules/product.dart';
+import '../../data/products.dart';
+import '../utils/drawer_widget.dart';
 
-class ShopPageWidget extends StatefulWidget {
+class ShopPage extends StatefulWidget {
+  const ShopPage({super.key});
+
+  static const String routeName = '/shop';
+
   @override
-  State<ShopPageWidget> createState() => _ShopPageWidgetState();
+  State<ShopPage> createState() => _ShopPageState();
 }
 
-class _ShopPageWidgetState extends State<ShopPageWidget> {
+class _ShopPageState extends State<ShopPage> {
   late Products products;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 

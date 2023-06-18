@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class BottomNavigationBarWidget extends StatelessWidget {
-  int selectedIndex = 0;
-  BottomNavigationBarWidget({super.key, required this.selectedIndex});
+  final int selectedIndex;
+  const BottomNavigationBarWidget({super.key, required this.selectedIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
               Navigator.pushNamed(context, '/shop');
             }
             if (index == 1) {
-              Navigator.pushNamed(context, '/home');
+              Navigator.pushNamed(context, '/');
             }
             if (index == 2) {
               Navigator.pushNamed(context, '/profile');

@@ -35,8 +35,12 @@ class FilterProjects {
     final response =
         await http.get(Uri.http(url, '/api/filterprojects', queryParameters));
 
-    // deserialize process for a list
-    iterable = json.decode(response.body);
+    if (response.body.isNotEmpty) {
+      // deserialize process for a list
+      iterable = json.decode(response.body);
+    } else {
+      throw Exception('No permission!');
+    }
 
     if (response.statusCode == 200) {
       // deserialize the body

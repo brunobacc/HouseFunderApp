@@ -2,17 +2,17 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/data/queries/filter_projects.dart';
-import 'package:projeto_computacao_movel/modules/home_page_arguments.dart';
+import 'package:projeto_computacao_movel/modules/arguments/home_page_arguments.dart';
 import 'package:projeto_computacao_movel/modules/project.dart';
 import 'package:projeto_computacao_movel/popups/pop_up_filter.dart';
-import 'package:projeto_computacao_movel/widgets/bottom_navigation_bar_widget.dart';
-import 'package:projeto_computacao_movel/widgets/drawer_widget.dart';
+import 'package:projeto_computacao_movel/widgets/utils/bottom_navigation_bar_widget.dart';
+import 'package:projeto_computacao_movel/widgets/utils/drawer_widget.dart';
 import 'package:projeto_computacao_movel/widgets/project_details.dart';
 
 import '../data/projects.dart';
 import '../modules/searchs/search_projects.dart';
 
-class HomePageFinancer extends StatefulWidget {
+class HomePage extends StatefulWidget {
   final bool newest;
   final bool oldest;
   final bool lowHigh;
@@ -22,7 +22,7 @@ class HomePageFinancer extends StatefulWidget {
   final String? region;
   final String? partnership;
   final double maxPrice;
-  const HomePageFinancer(
+  const HomePage(
       {required this.newest,
       required this.oldest,
       required this.lowHigh,
@@ -37,10 +37,10 @@ class HomePageFinancer extends StatefulWidget {
   static const String routeName = '/';
 
   @override
-  State<HomePageFinancer> createState() => _HomePageFinancerState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageFinancerState extends State<HomePageFinancer> {
+class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   late Future<List<Project>> _projects;
   late List<Project> projects;
@@ -187,13 +187,9 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
                                 )
                               ],
                             ),
-                            onTap: () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => ProjectDetails(
-                                  project: snapshot.data![index],
-                                ),
-                              ),
-                            ),
+                            onTap: () => Navigator.pushNamed(
+                                context, '/projectDetails',
+                                arguments: snapshot.data![index]),
                           ),
                         );
                       },
@@ -210,7 +206,7 @@ class _HomePageFinancerState extends State<HomePageFinancer> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBarWidget(
+      bottomNavigationBar: const BottomNavigationBarWidget(
         selectedIndex: 1,
       ),
     );

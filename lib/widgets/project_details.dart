@@ -8,6 +8,8 @@ class ProjectDetails extends StatefulWidget {
   final Project project;
   const ProjectDetails({super.key, required this.project});
 
+  static const String routeName = '/projectDetails';
+
   @override
   State<ProjectDetails> createState() => _ProjectDetailsState();
 }

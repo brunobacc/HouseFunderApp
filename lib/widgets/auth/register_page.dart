@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
-class ResetPage extends StatelessWidget {
-  const ResetPage({super.key});
+class RegisterPage extends StatelessWidget {
+  const RegisterPage({super.key});
+
+  static const String routeName = '/register';
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,8 @@ class ResetPage extends StatelessWidget {
                 children: <Widget>[
                   Center(
                     child: Text(
-                      "Reset Password",
+                      "Register",
+                      textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
                           .titleLarge!
@@ -45,7 +48,8 @@ class ResetPage extends StatelessWidget {
                   ),
                   Center(
                     child: Text(
-                      "Enter your email address and we will \nsend a code to verify if you are the owner.",
+                      "Enter your Details!",
+                      textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!
@@ -103,7 +107,40 @@ class ResetPage extends StatelessWidget {
                               ),
                             ),
                           ),
+                          Container(
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(color: Colors.grey),
+                              ),
+                            ),
+                            child: TextField(
+                              decoration: InputDecoration(
+                                hintText: "Username",
+                                hintStyle: TextStyle(color: Colors.grey),
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(color: Colors.grey),
+                              ),
+                            ),
+                            child: TextField(
+                              decoration: InputDecoration(
+                                hintText: "Password",
+                                hintStyle: TextStyle(color: Colors.grey),
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          ),
                         ]),
+                      ),
+                      SizedBox(
+                        height: 40,
                       ),
                       SizedBox(
                         height: 40,
@@ -117,15 +154,38 @@ class ResetPage extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text(
-                            "Send",
+                            "Register",
                             style: TextStyle(
-                                color: Colors.white,
+                                color: Color.fromARGB(255, 59, 59, 59),
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
                       SizedBox(
                         height: 40,
+                      ),
+                      Text(
+                        "--------------- Already have an account? ---------------",
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      Container(
+                        height: 50,
+                        margin: EdgeInsets.symmetric(horizontal: 50),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: Color(0xFFD9C5AD),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Login",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
                       ),
                     ],
                   ),

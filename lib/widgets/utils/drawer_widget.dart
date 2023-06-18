@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_computacao_movel/widgets/home_page.dart';
 
-import '../main.dart';
+import '../../main.dart';
 
 class DrawerWidget extends StatefulWidget {
-  const DrawerWidget({super.key});
+  final String? token;
+  const DrawerWidget({this.token, super.key});
 
   @override
   State<DrawerWidget> createState() => _DrawerWidgetState();
@@ -89,13 +91,29 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             ),
             leading: const Icon(Icons.info),
           ),
-          ListTile(
-            title: Text(
-              'Logout',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            leading: const Icon(Icons.logout),
-          ),
+          widget.token != null
+              ? ListTile(
+                  title: Text(
+                    'Logout',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                  leading: const Icon(Icons.logout),
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      '/',
+                      arguments: null,
+                    );
+                  },
+                )
+              : ListTile(
+                  title: Text(
+                    'LogIn',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                  leading: const Icon(Icons.login),
+                  onTap: () => Navigator.pushNamed(context, '/login'),
+                ),
         ],
       ),
     );
