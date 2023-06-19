@@ -16,11 +16,12 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  bool _passwordVisible = true;
+  //bool _passwordVisible = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         width: double.infinity,
         decoration: const BoxDecoration(
@@ -125,8 +126,9 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                   validator: (value) {
                                     if (value != null && !value.isValidEmail) {
-                                      return 'Email Not Valid!';
+                                      return 'Email not valid!';
                                     }
+                                    return null;
                                   },
                                 ),
                               ),
@@ -148,6 +150,13 @@ class _LoginPageState extends State<LoginPage> {
                                         .copyWith(color: Colors.grey),
                                     border: InputBorder.none,
                                   ),
+                                  validator: (value) {
+                                    if (value != null &&
+                                        !value.isValidPassword) {
+                                      return 'Password not valid!';
+                                    }
+                                    return null;
+                                  },
                                 ),
                               ),
                             ],
@@ -180,11 +189,13 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
+                            // Validating the login credentials and getting a future token
                             final tokenFuture = Login.validate(
                               emailController.text,
                               passwordController.text,
                             );
 
+                            // when tokenFuture receives a value, it will validate if the token isn't null
                             tokenFuture.then((token) {
                               if (token != null) {
                                 Navigator.pushNamed(

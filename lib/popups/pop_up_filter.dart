@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/data/partnerships.dart';
 import 'package:projeto_computacao_movel/modules/arguments/home_page_arguments.dart';
 import 'package:projeto_computacao_movel/modules/partnership.dart';
 import 'package:projeto_computacao_movel/widgets/home_page.dart';
 
-/*class PopUpFilter {
+class PopUpFilter {
   BuildContext context;
   PopUpFilter(this.context);
 

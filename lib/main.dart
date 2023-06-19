@@ -1,15 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/config/app_router.dart';
-import 'package:projeto_computacao_movel/widgets/filter_page.dart';
 import 'package:projeto_computacao_movel/widgets/home_page.dart';
-import 'package:projeto_computacao_movel/widgets/auth/login_page.dart';
-import 'package:projeto_computacao_movel/widgets/admin/partnerships_page.dart';
-import 'package:projeto_computacao_movel/widgets/financer/profile.dart';
-import 'package:projeto_computacao_movel/widgets/financer/proposal_page.dart';
-import 'package:projeto_computacao_movel/widgets/auth/register_page.dart';
-import 'package:projeto_computacao_movel/widgets/auth/email_verification.dart';
-import 'package:projeto_computacao_movel/widgets/financer/shop_page.dart';
-import 'package:projeto_computacao_movel/widgets/auth/verify_code.dart';
 
 void main() {
   runApp(const MyApp());

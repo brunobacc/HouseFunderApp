@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/popups/pop_up_edit_profile.dart';
 import 'package:projeto_computacao_movel/widgets/utils/bottom_navigation_bar_widget.dart';
-import '../utils/drawer_widget.dart';
+
+import '../../modules/user.dart';
 
 class Profile extends StatefulWidget {
   final String? token;
-  const Profile({required this.token, super.key});
+  final User? user;
+  const Profile({required this.token, required this.user, super.key});
 
   static const String routeName = '/profile';
 
@@ -19,7 +21,7 @@ class _ProfileState extends State<Profile> {
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
       key: scaffoldKey,
-      drawer: DrawerWidget(token: widget.token),
+      //drawer: DrawerWidget(token: widget.token),
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
@@ -73,14 +75,14 @@ class _ProfileState extends State<Profile> {
                         Padding(
                           padding: const EdgeInsets.only(left: 20),
                           child: Text(
-                            'BrunoBACC',
+                            widget.user!.username,
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 20),
                           child: Text(
-                            'a24603@alunos.ipca.pt',
+                            widget.user!.email,
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                         ),
@@ -92,7 +94,7 @@ class _ProfileState extends State<Profile> {
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                             onPressed: () async {
-                              double? val = await showDialog(
+                              await showDialog(
                                 barrierDismissible: false,
                                 context: context,
                                 builder: (context) =>
@@ -138,7 +140,7 @@ class _ProfileState extends State<Profile> {
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                             Text(
-                              '2',
+                              '${widget.user!.financingDone}',
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ],
@@ -157,7 +159,7 @@ class _ProfileState extends State<Profile> {
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                             Text(
-                              '250€',
+                              '${widget.user!.totalAmountFinanced}',
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ],
@@ -176,7 +178,7 @@ class _ProfileState extends State<Profile> {
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                             Text(
-                              '5',
+                              '${widget.user!.acceptedProjects}',
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ],
@@ -264,9 +266,11 @@ class _ProfileState extends State<Profile> {
           ],
         ),
       ),
+
       bottomNavigationBar: BottomNavigationBarWidget(
         selectedIndex: 2,
         token: widget.token,
+        user: widget.user,
       ),
     );
   }

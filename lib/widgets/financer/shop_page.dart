@@ -3,7 +3,6 @@ import 'package:projeto_computacao_movel/popups/pop_up_buy_product.dart';
 import 'package:projeto_computacao_movel/widgets/utils/bottom_navigation_bar_widget.dart';
 import '../../modules/product.dart';
 import '../../data/products.dart';
-import '../utils/drawer_widget.dart';
 
 class ShopPage extends StatefulWidget {
   final String? token;
@@ -29,7 +28,7 @@ class _ShopPageState extends State<ShopPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      drawer: DrawerWidget(token: widget.token),
+      //drawer: DrawerWidget(token: widget.token),
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
@@ -65,7 +64,7 @@ class _ShopPageState extends State<ShopPage> {
                       Product product = products.list[index];
                       return InkWell(
                         onTap: () async {
-                          double? val = await showDialog(
+                          await showDialog(
                             barrierDismissible: false,
                             context: context,
                             builder: (context) => PopUpBuyProduct(
@@ -140,6 +139,7 @@ class _ShopPageState extends State<ShopPage> {
       bottomNavigationBar: BottomNavigationBarWidget(
         selectedIndex: 0,
         token: widget.token,
+        user: null,
       ),
     );
   }

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_computacao_movel/widgets/utils/drawer_widget.dart';
-
 import '../../data/partnerships.dart';
 import '../../modules/partnership.dart';
 
@@ -25,7 +23,7 @@ class _PartnershipsPageState extends State<PartnershipsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      drawer: const DrawerWidget(),
+      //drawer: const DrawerWidget(),
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),

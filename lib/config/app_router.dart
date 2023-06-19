@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/modules/arguments/filter_page_arguments.dart';
 import 'package:projeto_computacao_movel/modules/arguments/home_page_arguments.dart';
+import 'package:projeto_computacao_movel/modules/arguments/user_arguments.dart';
 import 'package:projeto_computacao_movel/modules/project.dart';
+import 'package:projeto_computacao_movel/widgets/admin/financers_page.dart';
 import 'package:projeto_computacao_movel/widgets/auth/reset_password.dart';
 import 'package:projeto_computacao_movel/widgets/filter_page.dart';
 import 'package:projeto_computacao_movel/widgets/financer/profile.dart';
@@ -71,10 +73,11 @@ class AppRouter {
           builder: (_) => ResetPassword(),
         );
       case Profile.routeName:
-        String? args = settings.arguments as String?;
+        UserArguments? args = settings.arguments as UserArguments?;
         return MaterialPageRoute(
           builder: (_) => Profile(
-            token: args,
+            token: args?.token,
+            user: args?.user,
           ),
         );
       case ProposalPage.routeName:
@@ -90,6 +93,10 @@ class AppRouter {
           builder: (_) => ShopPage(
             token: args,
           ),
+        );
+      case FinancersAdminPage.routeName:
+        return MaterialPageRoute(
+          builder: (_) => FinancersAdminPage(),
         );
       default:
         return _errorRoute();

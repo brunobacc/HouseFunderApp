@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:http/http.dart' as http;
-import '../../modules/token.dart';
 
 class Login {
   static const String url = '10.0.2.2:5048';

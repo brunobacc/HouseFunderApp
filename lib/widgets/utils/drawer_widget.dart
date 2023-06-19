@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import '../../main.dart';
+import '../../modules/user.dart';
 
 class DrawerWidget extends StatefulWidget {
   final String? token;
-  const DrawerWidget({this.token, super.key});
+  final User? user;
+  const DrawerWidget({required this.token, required this.user, super.key});
 
   @override
   State<DrawerWidget> createState() => _DrawerWidgetState();
@@ -35,10 +37,10 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
-                          child: Text('BrunoBACC',
+                          child: Text(widget.user!.username,
                               style: Theme.of(context).textTheme.labelLarge),
                         ),
-                        Text('a24603@alunos.ipca.pt',
+                        Text(widget.user!.email,
                             style: Theme.of(context).textTheme.labelSmall),
                       ],
                     ),

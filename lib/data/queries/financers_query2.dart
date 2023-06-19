@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import '../../modules/queries/financers_query2.dart';
 
 class FinancersQuery2 {
-  static const String url = '127.0.0.1:5048';
+  static const String url = '10.0.2.2:5048';
 
   static Future<List<FinancerQuery2>> fetchFinancers() async {
     // variables

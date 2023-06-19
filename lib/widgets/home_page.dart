@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/data/queries/filter_projects.dart';
+import 'package:projeto_computacao_movel/data/users.dart';
 import 'package:projeto_computacao_movel/modules/project.dart';
 import 'package:projeto_computacao_movel/widgets/utils/bottom_navigation_bar_widget.dart';
 import 'package:projeto_computacao_movel/widgets/utils/drawer_widget.dart';
 import '../data/projects.dart';
 import '../modules/searchs/search_projects.dart';
+import '../modules/user.dart';
 
 class HomePage extends StatefulWidget {
   final bool newest;
@@ -40,8 +42,8 @@ class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   late Future<List<Project>> _projects;
   late List<Project> projects;
-
   late double _maxPrice;
+  late Future<User?> _user;
 
   @override
   void initState() {
@@ -57,6 +59,8 @@ class _HomePageState extends State<HomePage> {
       widget.region,
       widget.partnership,
     );
+
+    _user = Users.fetchNext(widget.token);
   }
 
   @override
@@ -64,7 +68,19 @@ class _HomePageState extends State<HomePage> {
     print('Token: ${widget.token}');
     return Scaffold(
       key: _scaffoldKey,
-      drawer: DrawerWidget(token: widget.token),
+      drawer: FutureBuilder(
+        future: _user,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasData) {
+              return DrawerWidget(token: widget.token, user: snapshot.data);
+            } else if (snapshot.hasData) {
+              return Text('${snapshot.hasError}');
+            }
+          }
+          return DrawerWidget(token: widget.token, user: null);
+        },
+      ),
       appBar: AppBar(
         leading: SizedBox(
           width: 10,
@@ -204,9 +220,26 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBarWidget(
-        selectedIndex: 1,
-        token: widget.token,
+      bottomNavigationBar: FutureBuilder(
+        future: _user,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasData) {
+              return BottomNavigationBarWidget(
+                selectedIndex: 1,
+                token: widget.token,
+                user: snapshot.data,
+              );
+            } else if (snapshot.hasData) {
+              return Text('${snapshot.hasError}');
+            }
+          }
+          return BottomNavigationBarWidget(
+            selectedIndex: 1,
+            token: widget.token,
+            user: null,
+          );
+        },
       ),
     );
   }

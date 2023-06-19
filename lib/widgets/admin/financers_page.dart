@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/modules/queries/financers_query2.dart';
-
 import '../../data/queries/financers_query2.dart';
-import '../utils/drawer_widget.dart';
 
 class FinancersAdminPage extends StatefulWidget {
   const FinancersAdminPage({Key? key}) : super(key: key);
+
+  static const String routeName = '/financers';
 
   @override
   State<FinancersAdminPage> createState() => _FinancersAdminPageState();
@@ -25,7 +25,7 @@ class _FinancersAdminPageState extends State<FinancersAdminPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      drawer: const DrawerWidget(),
+      //drawer: const DrawerWidget(),
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
@@ -78,8 +78,6 @@ class _FinancersAdminPageState extends State<FinancersAdminPage> {
                         child: Column(
                           children: [
                             Container(
-                              height: 400,
-                              width: 500,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: Image.asset(
@@ -99,7 +97,7 @@ class _FinancersAdminPageState extends State<FinancersAdminPage> {
                                       financer.username,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .titleLarge,
+                                          .bodyMedium,
                                     ),
                                   ),
                                   const SizedBox(height: 80),
@@ -111,13 +109,13 @@ class _FinancersAdminPageState extends State<FinancersAdminPage> {
                                         ' ${financer.financingDone}',
                                         style: Theme.of(context)
                                             .textTheme
-                                            .titleLarge,
+                                            .bodyMedium,
                                       ),
                                       Text(
                                         ' ${financer.totalAmountFinanced}',
                                         style: Theme.of(context)
                                             .textTheme
-                                            .titleLarge,
+                                            .bodyMedium,
                                       ),
                                     ],
                                   ),

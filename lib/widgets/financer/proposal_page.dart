@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_computacao_movel/widgets/utils/bottom_navigation_bar_widget.dart';
 
 class ProposalPage extends StatefulWidget {
   final String? token;
@@ -90,10 +89,6 @@ class _ProposalPageState extends State<ProposalPage> {
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBarWidget(
-        selectedIndex: -1,
-        token: widget.token,
       ),
     );
   }

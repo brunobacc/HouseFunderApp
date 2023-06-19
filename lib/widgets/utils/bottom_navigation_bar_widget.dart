@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:projeto_computacao_movel/modules/arguments/home_page_arguments.dart';
+import 'package:projeto_computacao_movel/modules/arguments/user_arguments.dart';
+
+import '../../modules/user.dart';
 
 class BottomNavigationBarWidget extends StatelessWidget {
   final int selectedIndex;
   final String? token;
+  final User? user;
   const BottomNavigationBarWidget(
-      {required this.selectedIndex, required this.token, super.key});
+      {required this.selectedIndex,
+      required this.token,
+      required this.user,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +45,8 @@ class BottomNavigationBarWidget extends StatelessWidget {
             }
             if (index == 2) {
               token != null
-                  ? Navigator.pushNamed(context, '/profile', arguments: token)
+                  ? Navigator.pushNamed(context, '/profile',
+                      arguments: UserArguments(token, user))
                   : Navigator.pushNamed(context, '/login');
             }
           },
