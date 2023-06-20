@@ -1,48 +1,32 @@
-import 'package:projeto_computacao_movel/modules/product.dart';
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
+
+import '../modules/product.dart';
 
 class Products {
-  List<Product> _products = [];
+  static const String url = '10.0.2.2:5048';
 
-  Products() {
-    _products = [
-      Product(
-          productId: 1,
-          image: 'assets/images/products/5euros.png',
-          title: 'Finance 5€',
-          description: 'Finance 5 euros to an active project of your choice.',
-          price: 30),
-      Product(
-          productId: 2,
-          image: 'assets/images/products/10euros.png',
-          title: 'Finance 10€',
-          description: 'Finance 10 euros to an active project of your choice.',
-          price: 50),
-      Product(
-          productId: 3,
-          image: 'assets/images/products/15euros.png',
-          title: 'Finance 15€',
-          description: 'Finance 15 euros to an active project of your choice.',
-          price: 70),
-      Product(
-          productId: 4,
-          image: 'assets/images/products/20euros.png',
-          title: 'Finance 20€',
-          description: 'Finance 20 euros to an active project of your choice.',
-          price: 90),
-      Product(
-          productId: 5,
-          image: 'assets/images/products/50euros.png',
-          title: 'Finance 50€',
-          description: 'Finance 50 euros to an active project of your choice.',
-          price: 220),
-      Product(
-          productId: 6,
-          image: 'assets/images/products/100euros.png',
-          title: 'Finance 100€',
-          description: 'Finance 100 euros to an active project of your choice.',
-          price: 420),
-    ];
+  static Future<List<Product>> fetchProducts() async {
+    // variables
+    Iterable iterable;
+    List<Product> products;
+
+    // ask data to server
+    final response = await http.get(Uri.http(url, '/api/products'));
+
+    // deserialize process for a list
+    iterable = json.decode(response.body);
+
+    if (response.statusCode == 200) {
+      // deserialize the body
+      products =
+          List<Product>.from(iterable.map((c) => Product.fromJson(c)));
+
+      // return deserialized list of objects
+      return products;
+    } else {
+      throw Exception('Failed to load Products');
+    }
   }
-  List<Product> get list => _products;
-  int get countProducts => _products.length;
 }

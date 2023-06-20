@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
 
 class Login {
-  static const String url = '10.0.2.2:5048';
+  static const String url = '127.0.0.1:5048';
 
   static Future<String?> validate(
     String email,
