@@ -89,7 +89,7 @@ class _ShopPageState extends State<ShopPage> {
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: Image.asset(
-                                  product.image,
+                                  'assets/images/products/${snapshot.data![index].image}',
                                   fit: BoxFit.cover,
                                 ),
                               ),
