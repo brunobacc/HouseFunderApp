@@ -3,6 +3,7 @@ import 'package:projeto_computacao_movel/modules/arguments/filter_page_arguments
 import 'package:projeto_computacao_movel/modules/arguments/home_page_arguments.dart';
 import 'package:projeto_computacao_movel/modules/arguments/user_arguments.dart';
 import 'package:projeto_computacao_movel/modules/project.dart';
+import 'package:projeto_computacao_movel/widgets/admin/admin_shop_page.dart';
 import 'package:projeto_computacao_movel/widgets/admin/financers_page.dart';
 import 'package:projeto_computacao_movel/widgets/auth/reset_password.dart';
 import 'package:projeto_computacao_movel/widgets/filter_page.dart';
@@ -97,6 +98,13 @@ class AppRouter {
       case FinancersAdminPage.routeName:
         return MaterialPageRoute(
           builder: (_) => FinancersAdminPage(),
+        );
+      case ShopPageAdmin.routeName:
+        String? args = settings.arguments as String?;
+        return MaterialPageRoute(
+          builder: (_) => ShopPageAdmin(
+            token: args,
+          ),
         );
       default:
         return _errorRoute();
