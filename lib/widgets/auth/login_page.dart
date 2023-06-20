@@ -16,7 +16,7 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  //bool _passwordVisible = true;
+  bool _passwordVisible = true;
 
   @override
   Widget build(BuildContext context) {
@@ -116,11 +116,12 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                                 child: TextFormField(
                                   controller: emailController,
+                                  style: Theme.of(context).textTheme.bodyMedium,
                                   decoration: InputDecoration(
                                     hintText: "Email",
                                     hintStyle: Theme.of(context)
                                         .textTheme
-                                        .bodyLarge!
+                                        .bodyMedium!
                                         .copyWith(color: Colors.grey),
                                     border: InputBorder.none,
                                   ),
@@ -142,13 +143,34 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                                 child: TextFormField(
                                   controller: passwordController,
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  obscureText: _passwordVisible,
                                   decoration: InputDecoration(
                                     hintText: "Password",
                                     hintStyle: Theme.of(context)
                                         .textTheme
-                                        .bodyLarge!
+                                        .bodyMedium!
                                         .copyWith(color: Colors.grey),
                                     border: InputBorder.none,
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        // based on passwordVisible state choose the icon
+                                        _passwordVisible
+                                            ? Icons.visibility_off
+                                            : Icons.visibility,
+                                        color:
+                                            Theme.of(context).primaryColorDark,
+                                      ),
+                                      onPressed: () {
+                                        // update the state
+                                        setState(
+                                          () {
+                                            _passwordVisible =
+                                                !_passwordVisible;
+                                          },
+                                        );
+                                      },
+                                    ),
                                   ),
                                   validator: (value) {
                                     if (value != null &&
