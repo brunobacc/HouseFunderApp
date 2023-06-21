@@ -20,13 +20,31 @@ class Products {
 
     if (response.statusCode == 200) {
       // deserialize the body
-      products =
-          List<Product>.from(iterable.map((c) => Product.fromJson(c)));
+      products = List<Product>.from(iterable.map((c) => Product.fromJson(c)));
 
       // return deserialized list of objects
       return products;
     } else {
       throw Exception('Failed to load Products');
+    }
+  }
+
+  static Future<void> addProduct(Product product) async {
+    final response = await http.post(
+      Uri.http(url, '/api/products'),
+      headers: {'Content-Type': 'application/json; charset=UTF-8'},
+      body: jsonEncode(<String, dynamic>{
+      'description': product.description,
+      'image': product.image,
+      'price': product.price,
+      'title': product.title
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      print('Product added successfully');
+    } else {
+      throw Exception('Failed to add product');
     }
   }
 }
