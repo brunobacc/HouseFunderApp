@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_computacao_movel/popups/add_product_popup.dart';
-import 'package:projeto_computacao_movel/popups/pop_up_buy_product.dart';
+import 'package:projeto_computacao_movel/widgets/popups/add_product_popup.dart';
+import 'package:projeto_computacao_movel/widgets/popups/pop_up_buy_product.dart';
 import 'package:projeto_computacao_movel/widgets/utils/bottom_navigation_bar_widget.dart';
 import '../../modules/product.dart';
 import '../../data/products.dart';

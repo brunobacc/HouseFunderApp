@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> {
           headlineSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           labelLarge: TextStyle(fontSize: 18, color: Colors.white),
           labelMedium: TextStyle(fontSize: 16, color: Colors.white),
-          labelSmall: TextStyle(fontSize: 13, color: Colors.white),
+          labelSmall: TextStyle(fontSize: 13, color: Colors.black),
         ),
         iconTheme: const IconThemeData(color: Colors.black),
         elevatedButtonTheme: ElevatedButtonThemeData(
@@ -81,7 +81,7 @@ class _MyAppState extends State<MyApp> {
           headlineSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           labelLarge: TextStyle(fontSize: 18, color: Colors.black),
           labelMedium: TextStyle(fontSize: 16, color: Colors.black),
-          labelSmall: TextStyle(fontSize: 13, color: Colors.black),
+          labelSmall: TextStyle(fontSize: 13, color: Colors.white),
         ),
         iconTheme: const IconThemeData(color: Colors.white),
         elevatedButtonTheme: ElevatedButtonThemeData(

@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage> {
               showSearch(
                 context: context,
                 delegate: SearchProjects(
-                    allProjects: await Projects.fetchNext(),
+                    allProjects: await _projects,
                     token: widget.token,
                     user: _user),
               );

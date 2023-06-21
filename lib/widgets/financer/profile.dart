@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/data/projects_financed.dart';
 import 'package:projeto_computacao_movel/modules/project_financed.dart';
-import 'package:projeto_computacao_movel/popups/edit_pop_up.dart';
+import 'package:projeto_computacao_movel/widgets/popups/pop_up_edit.dart';
 
 import 'package:projeto_computacao_movel/widgets/utils/bottom_navigation_bar_widget.dart';
 
@@ -104,7 +104,7 @@ class _ProfileState extends State<Profile> {
                                 'Edit Profile',
                                 style: Theme.of(context).textTheme.bodyMedium,
                               ),
-                              onPressed: () => EditPopUp.edit(
+                              onPressed: () => PopUpEdit.edit(
                                   context: context,
                                   user: widget.user,
                                   token: widget.token)),

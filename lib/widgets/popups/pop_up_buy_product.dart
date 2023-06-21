@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../modules/product.dart';
+import '../../modules/product.dart';
 
 class PopUpBuyProduct extends StatelessWidget {
   final Product product;

@@ -3,7 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:projeto_computacao_movel/modules/queries/financer_query.dart';
 import 'package:projeto_computacao_movel/data/queries/financers_query.dart';
 import 'package:projeto_computacao_movel/modules/project.dart';
-import 'package:projeto_computacao_movel/popups/pop_up_payment.dart';
+import 'package:projeto_computacao_movel/widgets/auth/login_page.dart';
+import 'package:projeto_computacao_movel/widgets/popups/pop_up_payment.dart';
 
 import '../modules/user.dart';
 
@@ -112,8 +113,10 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () => PopUpPayment.payment(
-                          context, widget.project, widget.token, widget.user),
+                      onPressed: () => widget.token != null
+                          ? PopUpPayment.payment(context, widget.project,
+                              widget.token, widget.user)
+                          : Navigator.pushNamed(context, '/login'),
                       child: Text(
                         'Finance',
                         style: Theme.of(context).textTheme.bodyMedium,
