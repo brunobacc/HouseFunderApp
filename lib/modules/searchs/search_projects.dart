@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/modules/project.dart';
 
 import '../../widgets/project_details.dart';
+import '../user.dart';
 
 /// search projects by title and description
 class SearchProjects extends SearchDelegate {
   final List<Project> allProjects;
   final String? token;
-  SearchProjects({required this.allProjects, required this.token});
+  final User? user;
+  SearchProjects(
+      {required this.allProjects, required this.token, required this.user});
 
   @override
   ThemeData appBarTheme(BuildContext context) {
@@ -127,6 +130,7 @@ class SearchProjects extends SearchDelegate {
                         builder: (context) => ProjectDetails(
                           project: filteredProjects[i],
                           token: token,
+                          user: user,
                         ),
                       ),
                     ),
@@ -211,6 +215,7 @@ class SearchProjects extends SearchDelegate {
                         builder: (context) => ProjectDetails(
                           project: filteredProjects[i],
                           token: token,
+                          user: user,
                         ),
                       ),
                     ),

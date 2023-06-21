@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_computacao_movel/data/projects_financed.dart';
+import 'package:projeto_computacao_movel/modules/project_financed.dart';
 import 'package:projeto_computacao_movel/popups/edit_pop_up.dart';
-import 'package:projeto_computacao_movel/popups/pop_up_edit_profile.dart';
+
 import 'package:projeto_computacao_movel/widgets/utils/bottom_navigation_bar_widget.dart';
 
 import '../../modules/user.dart';
@@ -17,6 +19,14 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  late Future<List<ProjectFinanced>> _projectsFinanced;
+
+  @override
+  void initState() {
+    super.initState();
+    _projectsFinanced = ProjectsFinanced.fetchNext(widget.user!.userId);
+  }
+
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -116,7 +126,7 @@ class _ProfileState extends State<Profile> {
                 children: [
                   TableRow(
                     decoration: BoxDecoration(
-                      color: Color(0xFFE5DFDF),
+                      color: const Color(0xFFE5DFDF),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     children: [
@@ -152,7 +162,8 @@ class _ProfileState extends State<Profile> {
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                             Text(
-                              '${widget.user!.totalAmountFinanced}',
+                              widget.user!.totalAmountFinanced
+                                  .toStringAsFixed(2),
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ],
@@ -193,11 +204,14 @@ class _ProfileState extends State<Profile> {
               ),
             ),
             // Projects
-            /*Expanded(
-              child: widget.projects.count > 0
-                  ? ListView.builder(
+            Expanded(
+              child: FutureBuilder(
+                future: _projectsFinanced,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
                       padding: EdgeInsets.only(top: 10),
-                      itemCount: widget.projects.count,
+                      itemCount: snapshot.data!.length,
                       itemBuilder: (BuildContext context, int i) {
                         return ListTile(
                           title: Stack(
@@ -206,7 +220,7 @@ class _ProfileState extends State<Profile> {
                                 borderRadius: BorderRadius.circular(10),
                                 child: Image(
                                   image: AssetImage(
-                                      'assets/images/${widget.projects.list[i].image}'),
+                                      'assets/images/${snapshot.data![i].image}'),
                                   width: double.infinity,
                                   height: 200,
                                   fit: BoxFit.fill,
@@ -220,7 +234,7 @@ class _ProfileState extends State<Profile> {
                                   width: 200,
                                   padding: const EdgeInsets.all(10),
                                   child: Text(
-                                    widget.projects.list[i].title,
+                                    snapshot.data![i].title,
                                     maxLines: 1,
                                     style:
                                         Theme.of(context).textTheme.labelMedium,
@@ -234,7 +248,8 @@ class _ProfileState extends State<Profile> {
                                   color: Colors.black54,
                                   padding: const EdgeInsets.all(10),
                                   child: Text(
-                                    '${widget.projects.list[i].financedValue}',
+                                    snapshot.data![i].totalFinanced
+                                        .toStringAsFixed(2),
                                     style:
                                         Theme.of(context).textTheme.labelMedium,
                                   ),
@@ -242,20 +257,19 @@ class _ProfileState extends State<Profile> {
                               )
                             ],
                           ),
-                          onTap: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => ProjectDetails(
-                                project: widget.projects.list[i],
-                              ),
-                            ),
-                          ),
+                          onTap: () => null,
                         );
                       },
-                    )
-                  : const Center(
-                      child: Text('Zero projects to show!'),
-                    ),
-            ),*/
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text('${snapshot.error}');
+                  }
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),

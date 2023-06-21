@@ -54,7 +54,7 @@ class _FinancersAdminPageState extends State<FinancersAdminPage> {
               future: financers,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Text('Error occurred: ${snapshot.error}');
                 } else if (snapshot.hasData) {

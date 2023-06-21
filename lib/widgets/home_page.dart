@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/data/queries/filter_projects.dart';
 import 'package:projeto_computacao_movel/data/users.dart';
+import 'package:projeto_computacao_movel/modules/arguments/filter_page_arguments.dart';
 import 'package:projeto_computacao_movel/modules/arguments/project_arguments.dart';
 import 'package:projeto_computacao_movel/modules/project.dart';
 import 'package:projeto_computacao_movel/widgets/utils/bottom_navigation_bar_widget.dart';
@@ -44,7 +45,7 @@ class _HomePageState extends State<HomePage> {
   late Future<List<Project>> _projects;
   late List<Project> projects;
   late double _maxPrice;
-  late Future<User?> _user;
+  User? _user;
 
   @override
   void initState() {
@@ -61,27 +62,23 @@ class _HomePageState extends State<HomePage> {
       widget.partnership,
     );
 
-    _user = Users.fetchNext(widget.token);
+    _fetchUser();
+  }
+
+  Future<void> _fetchUser() async {
+    final user = await Users.fetchNext(widget.token);
+    setState(() {
+      _user = user;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     print('Token: ${widget.token}');
+    print('User: ${_user?.email}');
     return Scaffold(
       key: _scaffoldKey,
-      drawer: FutureBuilder(
-        future: _user,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.hasData) {
-              return DrawerWidget(token: widget.token, user: snapshot.data);
-            } else if (snapshot.hasData) {
-              return Text('${snapshot.hasError}');
-            }
-          }
-          return DrawerWidget(token: widget.token, user: null);
-        },
-      ),
+      drawer: DrawerWidget(token: widget.token, user: _user),
       appBar: AppBar(
         leading: SizedBox(
           width: 10,
@@ -101,7 +98,8 @@ class _HomePageState extends State<HomePage> {
                 context: context,
                 delegate: SearchProjects(
                     allProjects: await Projects.fetchNext(),
-                    token: widget.token),
+                    token: widget.token,
+                    user: _user),
               );
             },
             icon: const Icon(
@@ -110,7 +108,9 @@ class _HomePageState extends State<HomePage> {
           ),
           IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/filter', arguments: _maxPrice);
+              Navigator.pushNamed(context, '/filter',
+                  arguments: FilterPageArguments(
+                      maxPrice: _maxPrice, token: widget.token));
             },
             icon: const Icon(
               Icons.tune_rounded,
@@ -200,8 +200,8 @@ class _HomePageState extends State<HomePage> {
                             ),
                             onTap: () => Navigator.pushNamed(
                                 context, '/projectDetails',
-                                arguments: ProjectArguments(
-                                    widget.token, snapshot.data![index])),
+                                arguments: ProjectArguments(widget.token,
+                                    snapshot.data![index], _user)),
                           ),
                         );
                       },
@@ -218,26 +218,10 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      bottomNavigationBar: FutureBuilder(
-        future: _user,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.hasData) {
-              return BottomNavigationBarWidget(
-                selectedIndex: 1,
-                token: widget.token,
-                user: snapshot.data,
-              );
-            } else if (snapshot.hasData) {
-              return Text('${snapshot.hasError}');
-            }
-          }
-          return BottomNavigationBarWidget(
-            selectedIndex: 1,
-            token: widget.token,
-            user: null,
-          );
-        },
+      bottomNavigationBar: BottomNavigationBarWidget(
+        selectedIndex: 1,
+        token: widget.token,
+        user: _user,
       ),
     );
   }

@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/data/finance_project.dart';
 import 'package:projeto_computacao_movel/modules/project.dart';
+import 'package:projeto_computacao_movel/popups/pop_up_info.dart';
+
+import '../modules/user.dart';
 
 class PopUpPayment {
   BuildContext context;
   PopUpPayment(this.context);
 
-  static void payment(BuildContext context, Project project, String? token) {
+  static void payment(
+      BuildContext context, Project project, String? token, User? user) {
     var popUp = AlertDialog(
-      content: Finance(project: project, token: token),
+      content: Finance(project: project, token: token, user: user),
       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       insetPadding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
@@ -26,7 +30,12 @@ class PopUpPayment {
 class Finance extends StatefulWidget {
   final Project project;
   final String? token;
-  const Finance({required this.project, required this.token, super.key});
+  final User? user;
+  const Finance(
+      {required this.project,
+      required this.token,
+      required this.user,
+      super.key});
 
   @override
   State<Finance> createState() => _FinanceState();
@@ -38,7 +47,7 @@ class _FinanceState extends State<Finance> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.sizeOf(context).width * 0.8,
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -63,7 +72,7 @@ class _FinanceState extends State<Finance> {
                 child: TextField(
                   controller: amountFinancedController,
                   style: Theme.of(context).textTheme.bodyMedium,
-                  decoration: InputDecoration(),
+                  decoration: const InputDecoration(),
                 ),
               ),
               const SizedBox(
@@ -115,8 +124,33 @@ class _FinanceState extends State<Finance> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               InkWell(
-                onTap: () => FinanceProject.financeProject(widget.project,
-                    double.parse(amountFinancedController.text), widget.token),
+                onTap: () {
+                  // create a new variable to store the bool received from the "DeletePlayer" function
+                  Future<bool> financeStatus = FinanceProject.financeProject(
+                    widget.project,
+                    double.parse(amountFinancedController.text),
+                    widget.token,
+                    widget.user,
+                  );
+                  // when playerDeleted receives a bool value, it will present an information popUp
+                  financeStatus.then(
+                    (value) {
+                      value
+                          ? PopUpInfo.info(
+                              context,
+                              'Sucess',
+                              'The project was financed!',
+                              widget.token,
+                            )
+                          : PopUpInfo.info(
+                              context,
+                              'Error',
+                              'Something happen when it was financing the project!',
+                              widget.token,
+                            );
+                    },
+                  );
+                },
                 child: Image.asset(
                   'assets/images/methods/multibanco.png',
                   height: 60,
