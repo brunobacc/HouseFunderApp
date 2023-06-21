@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
-import '../../data/partnerships.dart';
-import '../../modules/partnership.dart';
+import 'package:projeto_computacao_movel/popups/admin_popups.dart';
+import '../../data/administrators.dart';
+import '../../modules/admnistrator.dart';
 
-class PartnershipsPage extends StatefulWidget {
-  const PartnershipsPage({Key? key}) : super(key: key);
+class AdministratorsPage extends StatefulWidget {
+  const AdministratorsPage({Key? key}) : super(key: key);
 
   @override
-  _PartnershipsPageState createState() => _PartnershipsPageState();
+  _AdministratorsPageState createState() => _AdministratorsPageState();
 }
 
-class _PartnershipsPageState extends State<PartnershipsPage> {
+class _AdministratorsPageState extends State<AdministratorsPage> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  late final Future<List<Partnership>> partnerships;
+  late final Future<List<Administrator>> administrators;
 
   @override
   void initState() {
     super.initState();
-    partnerships = Partnerships.fetchPartnerships();
+    administrators = Administrators.fetchAdministrators();
   }
 
   @override
@@ -49,17 +50,17 @@ class _PartnershipsPageState extends State<PartnershipsPage> {
         children: [
           Expanded(
             child: FutureBuilder(
-              future: partnerships,
+              future: administrators,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Text('${snapshot.error ?? "Error occurred"}');
                 } else if (snapshot.hasData) {
-                  List<Partnership>? partnerships = snapshot.data!;
+                  List<Administrator>? administrators = snapshot.data!;
                   return GridView.builder(
                     padding: const EdgeInsets.all(16),
-                    itemCount: partnerships.length,
+                    itemCount: administrators.length + 1,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
@@ -67,7 +68,22 @@ class _PartnershipsPageState extends State<PartnershipsPage> {
                       mainAxisSpacing: 10.0,
                     ),
                     itemBuilder: (context, index) {
-                      final Partnership partnership = partnerships[index];
+                       if (index == 0) {
+                        return InkWell(
+                          child: const Card(
+                            child: Icon(
+                              Icons.add,
+                              size: 50,
+                            ),
+                          ),
+                          onTap: () {
+                            AdminPopUp.create(context);
+                            Administrators.fetchAdministrators();
+                          },
+                        );
+                      }
+                      index -= 1;
+                      final Administrator administrator = administrators[index];
                       return Card(
                         elevation: 4,
                         shape: RoundedRectangleBorder(
@@ -80,7 +96,7 @@ class _PartnershipsPageState extends State<PartnershipsPage> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: Image.asset(
-                                  'assets/images/partnerships/${snapshot.data![index].image}',
+                                  'assets/images/administrators/${snapshot.data![index].image}',
                                   fit: BoxFit.fill,
                                 ),
                               ),
@@ -93,7 +109,7 @@ class _PartnershipsPageState extends State<PartnershipsPage> {
                                   Align(
                                     alignment: Alignment.center,
                                     child: Text(
-                                      partnership.name,
+                                      administrator.name,
                                       style: Theme.of(context)
                                           .textTheme
                                           .titleSmall,
@@ -103,7 +119,7 @@ class _PartnershipsPageState extends State<PartnershipsPage> {
                                   Align(
                                     alignment: Alignment.center,
                                     child: Text(
-                                      'Validated Proposals: ${partnership.validatedProposals}',
+                                      'Validated Proposals: ${administrator.validatedProposals}',
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyMedium,
@@ -118,7 +134,7 @@ class _PartnershipsPageState extends State<PartnershipsPage> {
                     },
                   );
                 }
-                return Text('Zero partnerships to show');
+                return Text('Zero administrators to show');
               },
             ),
           ),

@@ -27,4 +27,5 @@ class Users {
       throw Exception('Failed to load User');
     }
   }
+
 }

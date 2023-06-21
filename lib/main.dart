@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/config/app_router.dart';
+import 'package:projeto_computacao_movel/widgets/admin/administrator_page.dart';
 import 'package:projeto_computacao_movel/widgets/home_page.dart';
 
 void main() {
@@ -94,7 +95,10 @@ class _MyAppState extends State<MyApp> {
       ),
       themeMode: _themeMode,
       onGenerateRoute: AppRouter.onGenerateRoute,
-      initialRoute: HomePage.routeName,
+      initialRoute: '/admin',
+      routes: {
+        '/admin': (context) => AdministratorsPage()
+      },
     );
   }
 }
