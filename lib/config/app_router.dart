@@ -3,7 +3,6 @@ import 'package:projeto_computacao_movel/modules/arguments/filter_page_arguments
 import 'package:projeto_computacao_movel/modules/arguments/home_page_arguments.dart';
 import 'package:projeto_computacao_movel/modules/arguments/project_arguments.dart';
 import 'package:projeto_computacao_movel/modules/arguments/user_arguments.dart';
-import 'package:projeto_computacao_movel/modules/project.dart';
 import 'package:projeto_computacao_movel/widgets/admin/financers_page.dart';
 import 'package:projeto_computacao_movel/widgets/auth/reset_password.dart';
 import 'package:projeto_computacao_movel/widgets/filter_page.dart';
@@ -52,27 +51,28 @@ class AppRouter {
           builder: (_) => ProjectDetails(
             project: args.project,
             token: args.token,
+            user: args.user,
           ),
         );
       case LoginPage.routeName:
         return MaterialPageRoute(
-          builder: (_) => LoginPage(),
+          builder: (_) => const LoginPage(),
         );
       case RegisterPage.routeName:
         return MaterialPageRoute(
-          builder: (_) => RegisterPage(),
+          builder: (_) => const RegisterPage(),
         );
       case EmailVerification.routeName:
         return MaterialPageRoute(
-          builder: (_) => EmailVerification(),
+          builder: (_) => const EmailVerification(),
         );
       case VerifyCode.routeName:
         return MaterialPageRoute(
-          builder: (_) => VerifyCode(),
+          builder: (_) => const VerifyCode(),
         );
       case ResetPassword.routeName:
         return MaterialPageRoute(
-          builder: (_) => ResetPassword(),
+          builder: (_) => const ResetPassword(),
         );
       case Profile.routeName:
         UserArguments? args = settings.arguments as UserArguments?;
@@ -98,7 +98,7 @@ class AppRouter {
         );
       case FinancersAdminPage.routeName:
         return MaterialPageRoute(
-          builder: (_) => FinancersAdminPage(),
+          builder: (_) => const FinancersAdminPage(),
         );
       default:
         return _errorRoute();
@@ -109,10 +109,10 @@ class AppRouter {
     return MaterialPageRoute(
       builder: (_) => Scaffold(
         appBar: AppBar(
-          title: Text('error'),
+          title: const Text('error'),
         ),
       ),
-      settings: RouteSettings(name: '/error'),
+      settings: const RouteSettings(name: '/error'),
     );
   }
 }

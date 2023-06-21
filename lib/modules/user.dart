@@ -43,7 +43,7 @@ class User {
       validatedProposals: json['validated_proposals'] ?? 0,
       activeProjects: json['active_projects'] ?? 0,
       finishedProjects: json['finished_projects'] ?? 0,
-      financingDone: json['financed_done'] ?? 0,
+      financingDone: json['financing_done'] ?? 0,
       totalAmountFinanced:
           double.parse(json['total_amount_financed'].toString()),
       acceptedProjects: json['accepted_projects'] ?? 0,

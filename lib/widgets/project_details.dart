@@ -5,10 +5,17 @@ import 'package:projeto_computacao_movel/data/queries/financers_query.dart';
 import 'package:projeto_computacao_movel/modules/project.dart';
 import 'package:projeto_computacao_movel/popups/pop_up_payment.dart';
 
+import '../modules/user.dart';
+
 class ProjectDetails extends StatefulWidget {
   final Project project;
   final String? token;
-  const ProjectDetails({required this.project, required this.token, super.key});
+  final User? user;
+  const ProjectDetails(
+      {required this.project,
+      required this.token,
+      required this.user,
+      super.key});
 
   static const String routeName = '/projectDetails';
 
@@ -27,6 +34,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
 
   @override
   Widget build(BuildContext context) {
+    print('User1: ${widget.user?.email}');
     return Scaffold(
       appBar: AppBar(
         iconTheme: Theme.of(context).iconTheme,
@@ -78,7 +86,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                 Padding(
                                   padding: const EdgeInsets.all(3),
                                   child: Text(
-                                    '${widget.project.totalFinanced.toString()}€',
+                                    '${widget.project.totalFinanced.toStringAsFixed(2)}€',
                                     style:
                                         Theme.of(context).textTheme.labelSmall,
                                   ),
@@ -86,7 +94,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                 Padding(
                                   padding: const EdgeInsets.all(3),
                                   child: Text(
-                                    '${(widget.project.finalValue - widget.project.totalFinanced).toString()}€',
+                                    '${(widget.project.finalValue - widget.project.totalFinanced).toStringAsFixed(2)}€',
                                     style:
                                         Theme.of(context).textTheme.labelSmall,
                                   ),
@@ -105,7 +113,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () => PopUpPayment.payment(
-                          context, widget.project, widget.token),
+                          context, widget.project, widget.token, widget.user),
                       child: Text(
                         'Finance',
                         style: Theme.of(context).textTheme.bodyMedium,
@@ -131,7 +139,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                     Text(
-                      '${widget.project.finalValue.toString()}€',
+                      '${widget.project.finalValue.toStringAsFixed(2)}€',
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ],
