@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/data/queries/filter_projects.dart';
 import 'package:projeto_computacao_movel/data/users.dart';
+import 'package:projeto_computacao_movel/modules/arguments/project_arguments.dart';
 import 'package:projeto_computacao_movel/modules/project.dart';
 import 'package:projeto_computacao_movel/widgets/utils/bottom_navigation_bar_widget.dart';
 import 'package:projeto_computacao_movel/widgets/utils/drawer_widget.dart';
@@ -99,12 +100,8 @@ class _HomePageState extends State<HomePage> {
               showSearch(
                 context: context,
                 delegate: SearchProjects(
-                    allProjects: await Projects.fetchNext(
-                        widget.newest,
-                        widget.oldest,
-                        widget.lowHigh,
-                        widget.highLow,
-                        widget.likes)),
+                    allProjects: await Projects.fetchNext(),
+                    token: widget.token),
               );
             },
             icon: const Icon(
@@ -203,7 +200,8 @@ class _HomePageState extends State<HomePage> {
                             ),
                             onTap: () => Navigator.pushNamed(
                                 context, '/projectDetails',
-                                arguments: snapshot.data![index]),
+                                arguments: ProjectArguments(
+                                    widget.token, snapshot.data![index])),
                           ),
                         );
                       },

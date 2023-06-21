@@ -10,6 +10,7 @@ class Project {
   double totalFinanced;
   double finalValue;
   int totalInvestor;
+  DateTime dateCreated;
 
   Project({
     required this.projectId,
@@ -23,6 +24,7 @@ class Project {
     required this.totalFinanced,
     required this.finalValue,
     required this.totalInvestor,
+    required this.dateCreated,
   });
 
   factory Project.fromJson(Map<String, dynamic> json) {
@@ -38,6 +40,7 @@ class Project {
       totalFinanced: double.parse(json['total_financed'].toString()),
       finalValue: double.parse(json['final_value'].toString()),
       totalInvestor: json['total_investor'],
+      dateCreated: DateTime.parse(json['date_created']),
     );
   }
 }

@@ -6,8 +6,7 @@ import 'package:projeto_computacao_movel/modules/project.dart';
 class Projects {
   static const String url = '10.0.2.2:5048';
 
-  static Future<List<Project>> fetchNext(
-      bool newest, bool oldest, bool lowHigh, bool highLow, bool likes) async {
+  static Future<List<Project>> fetchNext() async {
     // variables
     Iterable iterable;
     List<Project> projects;
