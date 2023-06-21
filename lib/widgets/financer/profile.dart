@@ -90,14 +90,14 @@ class _ProfileState extends State<Profile> {
                         Padding(
                           padding: const EdgeInsets.only(left: 20),
                           child: ElevatedButton(
-                              child: Text(
-                                'Edit Profile',
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              ),
-                              onPressed: () => EditPopUp.edit(
-                                  context: context,
-                                  user: widget.user,
-                                  token: widget.token)),
+                            child: Text(
+                              'Edit Profile',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                            onPressed: () => EditPopUp.edit(
+                              context: context,
+                            ),
+                          ),
                         ),
                       ],
                     ),
