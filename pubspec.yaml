@@ -61,6 +61,12 @@ flutter:
     - assets/images/products/
     - assets/icons/
     - assets/images/partnerships/
+    - assets/images/methods/
+
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

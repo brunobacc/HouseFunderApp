@@ -6,8 +6,8 @@ import '../../widgets/project_details.dart';
 /// search projects by title and description
 class SearchProjects extends SearchDelegate {
   final List<Project> allProjects;
-
-  SearchProjects({required this.allProjects});
+  final String? token;
+  SearchProjects({required this.allProjects, required this.token});
 
   @override
   ThemeData appBarTheme(BuildContext context) {
@@ -126,6 +126,7 @@ class SearchProjects extends SearchDelegate {
                       MaterialPageRoute(
                         builder: (context) => ProjectDetails(
                           project: filteredProjects[i],
+                          token: token,
                         ),
                       ),
                     ),
@@ -209,6 +210,7 @@ class SearchProjects extends SearchDelegate {
                       MaterialPageRoute(
                         builder: (context) => ProjectDetails(
                           project: filteredProjects[i],
+                          token: token,
                         ),
                       ),
                     ),

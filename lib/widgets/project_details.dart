@@ -3,10 +3,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:projeto_computacao_movel/modules/queries/financer_query.dart';
 import 'package:projeto_computacao_movel/data/queries/financers_query.dart';
 import 'package:projeto_computacao_movel/modules/project.dart';
+import 'package:projeto_computacao_movel/popups/pop_up_payment.dart';
 
 class ProjectDetails extends StatefulWidget {
   final Project project;
-  const ProjectDetails({super.key, required this.project});
+  final String? token;
+  const ProjectDetails({required this.project, required this.token, super.key});
 
   static const String routeName = '/projectDetails';
 
@@ -102,7 +104,8 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () => null,
+                      onPressed: () => PopUpPayment.payment(
+                          context, widget.project, widget.token),
                       child: Text(
                         'Finance',
                         style: Theme.of(context).textTheme.bodyMedium,

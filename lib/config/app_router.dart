@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/modules/arguments/filter_page_arguments.dart';
 import 'package:projeto_computacao_movel/modules/arguments/home_page_arguments.dart';
+import 'package:projeto_computacao_movel/modules/arguments/project_arguments.dart';
 import 'package:projeto_computacao_movel/modules/arguments/user_arguments.dart';
 import 'package:projeto_computacao_movel/modules/project.dart';
 import 'package:projeto_computacao_movel/widgets/admin/admin_shop_page.dart';
@@ -47,10 +48,11 @@ class AppRouter {
           ),
         );
       case ProjectDetails.routeName:
-        Project args = settings.arguments as Project;
+        ProjectArguments args = settings.arguments as ProjectArguments;
         return MaterialPageRoute(
           builder: (_) => ProjectDetails(
-            project: args,
+            project: args.project,
+            token: args.token,
           ),
         );
       case LoginPage.routeName:
