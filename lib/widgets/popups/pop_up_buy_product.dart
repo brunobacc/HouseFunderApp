@@ -49,8 +49,8 @@ class PopUpBuyProduct extends StatelessWidget {
                 Center(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: Image(
-                      image: AssetImage(product.image),
+                    child: Image.asset(
+                      'assets/images/products/${product.image}',
                       width: MediaQuery.of(context).size.width * 0.5,
                       fit: BoxFit.cover,
                     ),
@@ -82,9 +82,8 @@ class PopUpBuyProduct extends StatelessWidget {
                 onPressed: () {
                   // Perform buy action
                 },
-                child: Text(
+                child: const Text(
                   'Buy Now',
-                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ),
             ),

@@ -80,7 +80,6 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => Profile(
             token: args?.token,
-            user: args?.user,
           ),
         );
       case ProposalPage.routeName:

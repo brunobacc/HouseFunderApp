@@ -221,7 +221,6 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: BottomNavigationBarWidget(
         selectedIndex: 1,
         token: widget.token,
-        user: _user,
       ),
     );
   }
