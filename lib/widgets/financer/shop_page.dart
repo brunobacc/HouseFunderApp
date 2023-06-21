@@ -6,7 +6,7 @@ import '../../data/products.dart';
 
 class ShopPage extends StatefulWidget {
   final String? token;
-  const ShopPage({required this.token, super.key});
+  const ShopPage({required this.token, Key? key}) : super(key: key);
 
   static const String routeName = '/shop';
 
@@ -15,26 +15,25 @@ class ShopPage extends StatefulWidget {
 }
 
 class _ShopPageState extends State<ShopPage> {
-  late Products products;
+  late final Future<List<Product>> products;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    products = Products();
+    products = Products.fetchProducts();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      //drawer: DrawerWidget(token: widget.token),
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
           child: IconButton(
             padding: const EdgeInsets.all(
-                0), // used to make the icon with centered inside the button
+                0), // used to make the icon centered inside the button
             icon: const Icon(
               Icons.menu,
               size: 36,
@@ -45,15 +44,23 @@ class _ShopPageState extends State<ShopPage> {
         centerTitle: true,
         title: Text(
           'Shop',
-          style: Theme.of(context).textTheme.titleMedium,
+          style: Theme.of(context).textTheme.titleLarge,
         ),
       ),
       body: Column(
         children: [
           Expanded(
-            child: products.countProducts > 0
-                ? GridView.builder(
-                    itemCount: products.countProducts,
+            child: FutureBuilder<List<Product>>(
+              future: products,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Text('${snapshot.error ?? "Error occurred"}');
+                } else if (snapshot.hasData) {
+                  List<Product> products = snapshot.data!;
+                  return GridView.builder(
+                    itemCount: products.length,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
@@ -61,7 +68,7 @@ class _ShopPageState extends State<ShopPage> {
                       mainAxisSpacing: 10.0,
                     ),
                     itemBuilder: (BuildContext context, int index) {
-                      Product product = products.list[index];
+                      Product product = products[index];
                       return InkWell(
                         onTap: () async {
                           await showDialog(
@@ -82,7 +89,7 @@ class _ShopPageState extends State<ShopPage> {
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: Image.asset(
-                                  product.image,
+                                  'assets/images/products/${snapshot.data![index].image}',
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -92,7 +99,9 @@ class _ShopPageState extends State<ShopPage> {
                                 right: 0,
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
-                                      vertical: 8, horizontal: 12),
+                                    vertical: 8,
+                                    horizontal: 12,
+                                  ),
                                   decoration: const BoxDecoration(
                                     color: Colors.black54,
                                     borderRadius: BorderRadius.only(
@@ -106,16 +115,16 @@ class _ShopPageState extends State<ShopPage> {
                                     children: [
                                       Text(
                                         product.title,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           color: Colors.white,
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      SizedBox(height: 4),
+                                      const SizedBox(height: 4),
                                       Text(
                                         '${product.price} Points',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           color: Colors.white,
                                           fontSize: 14,
                                         ),
@@ -129,10 +138,14 @@ class _ShopPageState extends State<ShopPage> {
                         ),
                       );
                     },
-                  )
-                : const Center(
+                  );
+                } else {
+                  return const Center(
                     child: Text('Zero products to show!'),
-                  ),
+                  );
+                }
+              },
+            ),
           ),
         ],
       ),
