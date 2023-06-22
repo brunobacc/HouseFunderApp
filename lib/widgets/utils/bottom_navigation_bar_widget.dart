@@ -41,8 +41,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
             }
             if (index == 2) {
               token != null
-                  ? Navigator.pushNamed(context, '/profile',
-                      arguments: token)
+                  ? Navigator.pushNamed(context, '/profile', arguments: token)
                   : Navigator.pushNamed(context, '/login');
             }
           },

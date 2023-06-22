@@ -11,13 +11,14 @@ class AdministratorsPage extends StatefulWidget {
   const AdministratorsPage(
       {required this.token, required this.user, super.key});
 
+  static const String routeName = '/administrators';
+
   @override
   _AdministratorsPageState createState() => _AdministratorsPageState();
-
-  static const String routeName = '/viewadmins';
 }
 
 class _AdministratorsPageState extends State<AdministratorsPage> {
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   late final Future<List<Administrator>> administrators;
 
   @override
@@ -29,7 +30,8 @@ class _AdministratorsPageState extends State<AdministratorsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer:  DrawerWidget(token: widget.token, user: widget.user),
+      key: scaffoldKey,
+      //drawer: const DrawerWidget(),
       appBar: AppBar(
         centerTitle: true,
         title: const Text(

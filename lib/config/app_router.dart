@@ -128,6 +128,14 @@ class AppRouter {
             user: args?.user,
           ),
         );
+      case AdministratorsPage.routeName:
+        UserArguments? args = settings.arguments as UserArguments?;
+        return MaterialPageRoute(
+          builder: (_) => AdministratorsPage(
+            token: args?.token,
+            user: args?.user,
+          ),
+        );
       default:
         return _errorRoute();
     }

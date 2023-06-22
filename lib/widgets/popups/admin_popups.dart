@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_computacao_movel/modules/user.dart';
+
 import '../../data/register.dart';
 
 class AdminPopUp {
@@ -31,8 +33,8 @@ class _CreateState extends State<Create> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _imageController = TextEditingController();
-    final TextEditingController _emailController = TextEditingController();
-      final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   void dispose() {
@@ -63,7 +65,7 @@ class _CreateState extends State<Create> {
                   return 'Please enter a name';
                 },
               ),
-               TextFormField(
+              TextFormField(
                 controller: _emailController,
                 decoration: InputDecoration(labelText: 'email'),
                 validator: (value) {
@@ -73,7 +75,7 @@ class _CreateState extends State<Create> {
                   return 'Please enter a email';
                 },
               ),
-               TextFormField(
+              TextFormField(
                 controller: _passwordController,
                 decoration: InputDecoration(labelText: 'Password'),
                 validator: (value) {
@@ -107,10 +109,9 @@ class _CreateState extends State<Create> {
                     child: Text('Add'),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-
                         RegisterUser.register(
-                         _nameController.text, _emailController.text, _passwordController.text, 3
-                        ).then((_) {
+                                'Admin', 'Admin@gmail.com', 'adminadmin', 3)
+                            .then((_) {
                           Navigator.pop(context); // Close the popup
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
