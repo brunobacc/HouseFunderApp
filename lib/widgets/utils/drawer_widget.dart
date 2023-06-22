@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_computacao_movel/modules/arguments/user_arguments.dart';
 import '../../main.dart';
 import '../../modules/arguments/user_arguments.dart';
 import '../../modules/my_flutter_app_icons.dart';
@@ -68,20 +67,16 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                           style: Theme.of(context).textTheme.bodySmall),
                       leading: Icon(MyFlutterApp.blueprint),
                       onTap: () {
-                        Navigator.pushNamed(context, '/homepage',
-                            arguments:
-                                UserArguments(widget.token, widget.user));
+                        Navigator.pushNamed(context, '/homepage', arguments: UserArguments(widget.token, widget.user));
                       },
                     ),
                     ListTile(
                       title: Text('Administrators',
                           style: Theme.of(context).textTheme.bodySmall),
                       leading: const Icon(Icons.manage_accounts),
-                      onTap: () => Navigator.pushNamed(
-                        context,
-                        '/administrators',
-                        arguments: UserArguments(widget.token, widget.user),
-                      ),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/viewadmins', arguments: UserArguments(widget.token, widget.user));
+                      },
                     ),
                     ListTile(
                       title: Text('Partners',

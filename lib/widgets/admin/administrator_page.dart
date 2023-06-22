@@ -19,7 +19,7 @@ class AdministratorsPage extends StatefulWidget {
 
 class _AdministratorsPageState extends State<AdministratorsPage> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  late Future<List<Administrator>> administrators;
+  late final Future<List<Administrator>> administrators;
 
   @override
   void initState() {
@@ -31,7 +31,7 @@ class _AdministratorsPageState extends State<AdministratorsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      drawer: DrawerWidget(token: widget.token, user: widget.user),
+      //drawer: const DrawerWidget(),
       appBar: AppBar(
         centerTitle: true,
         title: const Text(

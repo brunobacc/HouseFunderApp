@@ -15,7 +15,6 @@ class PartnershipsPage extends StatefulWidget {
 }
 
 class _PartnershipsPageState extends State<PartnershipsPage> {
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   late final Future<List<Partnership>> partnerships;
 
   @override
@@ -27,8 +26,7 @@ class _PartnershipsPageState extends State<PartnershipsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
-      drawer: DrawerWidget(token: widget.token, user: widget.user),
+      drawer: DrawerWidget(user: widget.user, token: widget.token),
       appBar: AppBar(
         centerTitle: true,
         title: const Text(

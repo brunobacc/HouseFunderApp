@@ -18,7 +18,6 @@ class FinancersAdminPage extends StatefulWidget {
 
 class _FinancersAdminPageState extends State<FinancersAdminPage> {
   late Future<List<FinancerQuery2>> financers;
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
