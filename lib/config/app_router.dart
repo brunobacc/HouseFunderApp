@@ -4,6 +4,7 @@ import 'package:projeto_computacao_movel/modules/arguments/home_page_arguments.d
 import 'package:projeto_computacao_movel/modules/arguments/project_arguments.dart';
 import 'package:projeto_computacao_movel/modules/arguments/user_arguments.dart';
 import 'package:projeto_computacao_movel/widgets/admin/admin_shop_page.dart';
+import 'package:projeto_computacao_movel/widgets/admin/administrator_page.dart';
 import 'package:projeto_computacao_movel/widgets/admin/financers_page.dart';
 import 'package:projeto_computacao_movel/widgets/auth/reset_password.dart';
 import 'package:projeto_computacao_movel/widgets/filter_page.dart';
@@ -76,10 +77,10 @@ class AppRouter {
           builder: (_) => const ResetPassword(),
         );
       case Profile.routeName:
-        UserArguments? args = settings.arguments as UserArguments?;
+        String? args = settings.arguments as String?;
         return MaterialPageRoute(
           builder: (_) => Profile(
-            token: args?.token,
+            token: args,
           ),
         );
       case ProposalPage.routeName:
@@ -105,6 +106,14 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => ShopPageAdmin(
             token: args,
+          ),
+        );
+      case AdministratorsPage.routeName:
+        UserArguments? args = settings.arguments as UserArguments?;
+        return MaterialPageRoute(
+          builder: (_) => AdministratorsPage(
+            token: args?.token,
+            user: args?.user,
           ),
         );
       default:

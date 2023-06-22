@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_computacao_movel/modules/arguments/user_arguments.dart';
 import '../../main.dart';
 import '../../modules/my_flutter_app_icons.dart';
 import '../../modules/user.dart';
@@ -70,6 +71,11 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                       title: Text('Administrators',
                           style: Theme.of(context).textTheme.bodySmall),
                       leading: const Icon(Icons.manage_accounts),
+                      onTap: () => Navigator.pushNamed(
+                        context,
+                        '/administrators',
+                        arguments: UserArguments(widget.token, widget.user),
+                      ),
                     ),
                     ListTile(
                       title: Text('Partners',

@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import '../../data/administrators.dart';
 import '../../modules/admnistrator.dart';
+import '../../modules/user.dart';
 import '../popups/admin_popups.dart';
+import '../utils/drawer_widget.dart';
 
 class AdministratorsPage extends StatefulWidget {
-  const AdministratorsPage({Key? key}) : super(key: key);
+  final String? token;
+  final User? user;
+  const AdministratorsPage(
+      {required this.token, required this.user, super.key});
+
+  static const String routeName = '/administrators';
 
   @override
   _AdministratorsPageState createState() => _AdministratorsPageState();
@@ -12,7 +19,7 @@ class AdministratorsPage extends StatefulWidget {
 
 class _AdministratorsPageState extends State<AdministratorsPage> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  late final Future<List<Administrator>> administrators;
+  late Future<List<Administrator>> administrators;
 
   @override
   void initState() {
@@ -24,19 +31,8 @@ class _AdministratorsPageState extends State<AdministratorsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      //drawer: const DrawerWidget(),
+      drawer: DrawerWidget(token: widget.token, user: widget.user),
       appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-          child: IconButton(
-            padding: const EdgeInsets.all(0),
-            icon: const Icon(
-              Icons.menu,
-              size: 36,
-            ),
-            onPressed: () => scaffoldKey.currentState?.openDrawer(),
-          ),
-        ),
         centerTitle: true,
         title: const Text(
           'Shop',
