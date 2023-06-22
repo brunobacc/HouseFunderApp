@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/modules/arguments/user_arguments.dart';
 import '../../main.dart';
+import '../../modules/arguments/user_arguments.dart';
 import '../../modules/my_flutter_app_icons.dart';
 import '../../modules/user.dart';
 
@@ -66,6 +67,11 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                       title: Text('Projects',
                           style: Theme.of(context).textTheme.bodySmall),
                       leading: Icon(MyFlutterApp.blueprint),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/homepage',
+                            arguments:
+                                UserArguments(widget.token, widget.user));
+                      },
                     ),
                     ListTile(
                       title: Text('Administrators',
@@ -81,16 +87,31 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                       title: Text('Partners',
                           style: Theme.of(context).textTheme.bodySmall),
                       leading: const Icon(Icons.handshake),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/partnerships',
+                            arguments:
+                                UserArguments(widget.token, widget.user));
+                      },
                     ),
                     ListTile(
                       title: Text('Financers',
                           style: Theme.of(context).textTheme.bodySmall),
                       leading: Icon(MyFlutterApp.user),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/financers',
+                            arguments:
+                                UserArguments(widget.token, widget.user));
+                      },
                     ),
                     ListTile(
                       title: Text('Products',
                           style: Theme.of(context).textTheme.bodySmall),
                       leading: const Icon(Icons.shopping_cart),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/shopadmin',
+                            arguments:
+                                UserArguments(widget.token, widget.user));
+                      },
                     ),
                     ListTile(
                       title: Text('Proposals',

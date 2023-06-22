@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/widgets/utils/bottom_navigation_bar_widget.dart';
 import '../../modules/product.dart';
 import '../../data/products.dart';
+import '../../modules/user.dart';
 import '../popups/add_product_popup.dart';
 import '../popups/pop_up_buy_product.dart';
 
 class ShopPageAdmin extends StatefulWidget {
   final String? token;
-  const ShopPageAdmin({required this.token, Key? key}) : super(key: key);
+  final User? user;
+  const ShopPageAdmin({required this.token, required this.user, super.key});
 
   static const String routeName = '/shopadmin';
 

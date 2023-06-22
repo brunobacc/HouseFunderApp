@@ -6,6 +6,7 @@ import 'package:projeto_computacao_movel/modules/arguments/user_arguments.dart';
 import 'package:projeto_computacao_movel/widgets/admin/admin_shop_page.dart';
 import 'package:projeto_computacao_movel/widgets/admin/administrator_page.dart';
 import 'package:projeto_computacao_movel/widgets/admin/financers_page.dart';
+import 'package:projeto_computacao_movel/widgets/admin/partnerships_page.dart';
 import 'package:projeto_computacao_movel/widgets/auth/reset_password.dart';
 import 'package:projeto_computacao_movel/widgets/filter_page.dart';
 import 'package:projeto_computacao_movel/widgets/financer/profile.dart';
@@ -20,8 +21,6 @@ import 'package:projeto_computacao_movel/widgets/project_details.dart';
 
 class AppRouter {
   static Route onGenerateRoute(RouteSettings settings) {
-    print('The Route is: ${settings.name}');
-
     switch (settings.name) {
       case '/':
         HomePageArguments? args = settings.arguments as HomePageArguments?;
@@ -98,14 +97,35 @@ class AppRouter {
           ),
         );
       case FinancersAdminPage.routeName:
+        UserArguments? args = settings.arguments as UserArguments?;
         return MaterialPageRoute(
-          builder: (_) => const FinancersAdminPage(),
+          builder: (_) => FinancersAdminPage(
+            token: args?.token,
+            user: args?.user,
+          ),
         );
       case ShopPageAdmin.routeName:
-        String? args = settings.arguments as String?;
+        UserArguments? args = settings.arguments as UserArguments?;
         return MaterialPageRoute(
           builder: (_) => ShopPageAdmin(
-            token: args,
+            token: args?.token,
+            user: args?.user,
+          ),
+        );
+      case AdministratorsPage.routeName:
+        UserArguments? args = settings.arguments as UserArguments?;
+        return MaterialPageRoute(
+          builder: (_) => AdministratorsPage(
+            token: args?.token,
+            user: args?.user,
+          ),
+        );
+      case PartnershipsPage.routeName:
+        UserArguments? args = settings.arguments as UserArguments?;
+        return MaterialPageRoute(
+          builder: (_) => PartnershipsPage(
+            token: args?.token,
+            user: args?.user,
           ),
         );
       case AdministratorsPage.routeName:

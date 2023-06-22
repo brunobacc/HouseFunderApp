@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import '../../data/partnerships.dart';
 import '../../modules/partnership.dart';
+import '../../modules/user.dart';
 
 class PartnershipsPage extends StatefulWidget {
-  const PartnershipsPage({Key? key}) : super(key: key);
+  final String? token;
+  final User? user;
+  const PartnershipsPage({required this.token, required this.user, super.key});
 
   @override
   _PartnershipsPageState createState() => _PartnershipsPageState();
+  static const String routeName = '/partnerships';
 }
 
 class _PartnershipsPageState extends State<PartnershipsPage> {

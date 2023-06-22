@@ -24,7 +24,7 @@ class _AdministratorsPageState extends State<AdministratorsPage> {
   @override
   void initState() {
     super.initState();
-    administrators = Administrators.fetchAdministrators();
+    administrators = Administradores.fetchAdministrators();
   }
 
   @override
@@ -74,7 +74,7 @@ class _AdministratorsPageState extends State<AdministratorsPage> {
                           ),
                           onTap: () {
                             AdminPopUp.create(context);
-                            Administrators.fetchAdministrators();
+                            Administradores.fetchAdministrators();
                           },
                         );
                       }
@@ -92,7 +92,7 @@ class _AdministratorsPageState extends State<AdministratorsPage> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: Image.asset(
-                                  'assets/images/administrators/${snapshot.data![index].image}',
+                                  'assets/images/avatars/${snapshot.data![index].image}',
                                   fit: BoxFit.fill,
                                 ),
                               ),
