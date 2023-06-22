@@ -3,9 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:projeto_computacao_movel/modules/queries/financer_query.dart';
 import 'package:projeto_computacao_movel/data/queries/financers_query.dart';
 import 'package:projeto_computacao_movel/modules/project.dart';
-import 'package:projeto_computacao_movel/widgets/auth/login_page.dart';
 import 'package:projeto_computacao_movel/widgets/popups/pop_up_payment.dart';
-
 import '../modules/user.dart';
 
 class ProjectDetails extends StatefulWidget {
@@ -56,7 +54,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                 borderRadius: BorderRadius.circular(10),
                 child: Image(
                   image: AssetImage(
-                    'assets/images/${widget.project.image}',
+                    'assets/images/projects/${widget.project.image}',
                   ),
                   width: MediaQuery.sizeOf(context).width,
                   fit: BoxFit.cover,
@@ -89,7 +87,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                   child: Text(
                                     '${widget.project.totalFinanced.toStringAsFixed(2)}€',
                                     style:
-                                        Theme.of(context).textTheme.labelSmall,
+                                        Theme.of(context).textTheme.labelMedium,
                                   ),
                                 ),
                                 Padding(
@@ -97,7 +95,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                   child: Text(
                                     '${(widget.project.finalValue - widget.project.totalFinanced).toStringAsFixed(2)}€',
                                     style:
-                                        Theme.of(context).textTheme.labelSmall,
+                                        Theme.of(context).textTheme.labelMedium,
                                   ),
                                 ),
                               ],
@@ -188,7 +186,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                       ClipRRect(
                                         borderRadius: BorderRadius.circular(10),
                                         child: Image.asset(
-                                          snapshot.data![index].image,
+                                          'assets/images/avatars/${snapshot.data![index].image}',
                                           fit: BoxFit.fill,
                                         ),
                                       ),
@@ -209,7 +207,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                             snapshot.data![index].username,
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .labelSmall,
+                                                .labelMedium,
                                           ),
                                         ),
                                       ),

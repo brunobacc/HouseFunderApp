@@ -1,4 +1,3 @@
-import 'package:projeto_computacao_movel/modules/partnership.dart';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;

@@ -1,8 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:projeto_computacao_movel/data/finance_project.dart';
-import 'package:projeto_computacao_movel/modules/project.dart';
+
 import 'package:projeto_computacao_movel/modules/project_financed.dart';
 
 class ProjectsFinanced {

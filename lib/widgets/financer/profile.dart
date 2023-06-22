@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/data/projects_financed.dart';
 import 'package:projeto_computacao_movel/modules/project_financed.dart';
@@ -276,7 +274,7 @@ class _ProfileState extends State<Profile> {
                           borderRadius: BorderRadius.circular(10),
                           child: Image(
                             image: AssetImage(
-                                'assets/images/${_projectsFinanced![i].image}'),
+                                'assets/images/projects/${_projectsFinanced![i].image}'),
                             width: double.infinity,
                             height: 200,
                             fit: BoxFit.fill,
