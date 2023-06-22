@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/config/app_router.dart';
-import 'package:projeto_computacao_movel/widgets/admin/administrator_page.dart';
-import 'package:projeto_computacao_movel/widgets/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -50,7 +48,7 @@ class _MyAppState extends State<MyApp> {
           headlineSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           labelLarge: TextStyle(fontSize: 18, color: Colors.white),
           labelMedium: TextStyle(fontSize: 16, color: Colors.white),
-          labelSmall: TextStyle(fontSize: 13, color: Colors.white),
+          labelSmall: TextStyle(fontSize: 13, color: Colors.black),
         ),
         iconTheme: const IconThemeData(color: Colors.black),
         elevatedButtonTheme: ElevatedButtonThemeData(
@@ -82,7 +80,7 @@ class _MyAppState extends State<MyApp> {
           headlineSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           labelLarge: TextStyle(fontSize: 18, color: Colors.black),
           labelMedium: TextStyle(fontSize: 16, color: Colors.black),
-          labelSmall: TextStyle(fontSize: 13, color: Colors.black),
+          labelSmall: TextStyle(fontSize: 13, color: Colors.white),
         ),
         iconTheme: const IconThemeData(color: Colors.white),
         elevatedButtonTheme: ElevatedButtonThemeData(
@@ -95,10 +93,7 @@ class _MyAppState extends State<MyApp> {
       ),
       themeMode: _themeMode,
       onGenerateRoute: AppRouter.onGenerateRoute,
-      initialRoute: '/admin',
-      routes: {
-        '/admin': (context) => AdministratorsPage()
-      },
+      initialRoute: '/',
     );
   }
 }

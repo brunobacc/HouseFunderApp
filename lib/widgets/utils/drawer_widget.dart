@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../main.dart';
+import '../../modules/my_flutter_app_icons.dart';
 import '../../modules/user.dart';
 
 class DrawerWidget extends StatefulWidget {
@@ -41,7 +42,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                               style: Theme.of(context).textTheme.labelLarge),
                         ),
                         Text(widget.user!.email,
-                            style: Theme.of(context).textTheme.labelSmall),
+                            style: Theme.of(context).textTheme.labelMedium),
                       ],
                     ),
                   ),
@@ -49,22 +50,62 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               : const SizedBox(
                   height: 30,
                 ),
-          ListTile(
-              title: Text(
-                'Propose',
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-              leading: const Icon(Icons.edit_document),
-              onTap: () => widget.token != null
-                  ? Navigator.pushNamed(context, '/proposal')
-                  : Navigator.pushNamed(context, '/login')),
-          ListTile(
-            title: Text(
-              'Notifications',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            leading: const Icon(Icons.notifications),
-          ),
+          widget.user?.permissionLevel == 3
+              ? ExpansionTile(
+                  title: Text('Management',
+                      style: Theme.of(context).textTheme.headlineMedium),
+                  leading: Icon(MyFlutterApp.management),
+                  children: [
+                    ListTile(
+                      title: Text('Projects',
+                          style: Theme.of(context).textTheme.bodySmall),
+                      leading: Icon(MyFlutterApp.blueprint),
+                    ),
+                    ListTile(
+                      title: Text('Administrators',
+                          style: Theme.of(context).textTheme.bodySmall),
+                      leading: const Icon(Icons.manage_accounts),
+                    ),
+                    ListTile(
+                      title: Text('Partners',
+                          style: Theme.of(context).textTheme.bodySmall),
+                      leading: const Icon(Icons.handshake),
+                    ),
+                    ListTile(
+                      title: Text('Financers',
+                          style: Theme.of(context).textTheme.bodySmall),
+                      leading: Icon(MyFlutterApp.user),
+                    ),
+                    ListTile(
+                      title: Text('Products',
+                          style: Theme.of(context).textTheme.bodySmall),
+                      leading: const Icon(Icons.shopping_cart),
+                    ),
+                    ListTile(
+                      title: Text('Proposals',
+                          style: Theme.of(context).textTheme.bodySmall),
+                      leading: Icon(MyFlutterApp.document),
+                    ),
+                  ],
+                )
+              : ListTile(
+                  title: Text(
+                    'Propose',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                  leading: const Icon(Icons.edit_document),
+                  onTap: () => widget.token != null
+                      ? Navigator.pushNamed(context, '/proposal')
+                      : Navigator.pushNamed(context, '/login')),
+          widget.user?.permissionLevel != 3
+              ? ListTile(
+                  title: Text(
+                    'Notifications',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                  leading: const Icon(Icons.notifications),
+                )
+              : const SizedBox(),
           ExpansionTile(
             title: Text('Options',
                 style: Theme.of(context).textTheme.headlineMedium),
@@ -89,13 +130,15 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               ),
             ],
           ),
-          ListTile(
-            title: Text(
-              'About Us',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            leading: const Icon(Icons.info),
-          ),
+          widget.user?.permissionLevel == 1
+              ? ListTile(
+                  title: Text(
+                    'About Us',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                  leading: const Icon(Icons.info),
+                )
+              : const SizedBox(),
           widget.token != null
               ? ListTile(
                   title: Text(

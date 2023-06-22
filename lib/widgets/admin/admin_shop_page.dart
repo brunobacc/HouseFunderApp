@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_computacao_movel/popups/product_popups.dart';
-import 'package:projeto_computacao_movel/popups/pop_up_buy_product.dart';
 import 'package:projeto_computacao_movel/widgets/utils/bottom_navigation_bar_widget.dart';
 import '../../modules/product.dart';
 import '../../data/products.dart';
+import '../popups/add_product_popup.dart';
+import '../popups/pop_up_buy_product.dart';
 
 class ShopPageAdmin extends StatefulWidget {
   final String? token;
@@ -180,7 +180,6 @@ class _ShopPageAdminState extends State<ShopPageAdmin> {
       bottomNavigationBar: BottomNavigationBarWidget(
         selectedIndex: 0,
         token: widget.token,
-        user: null,
       ),
     );
   }

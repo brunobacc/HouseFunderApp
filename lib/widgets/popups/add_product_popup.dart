@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import '../modules/product.dart';
-import '../data/products.dart';
+import '../../modules/product.dart';
+import '../../data/products.dart';
 
 class ProductPopUp {
   BuildContext context;
 
   ProductPopUp(this.context);
-
 
   static void create(BuildContext context) {
     var popUp = AlertDialog(

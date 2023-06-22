@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_computacao_movel/popups/admin_popups.dart';
 import '../../data/administrators.dart';
 import '../../modules/admnistrator.dart';
+import '../popups/admin_popups.dart';
 
 class AdministratorsPage extends StatefulWidget {
   const AdministratorsPage({Key? key}) : super(key: key);
@@ -68,7 +68,7 @@ class _AdministratorsPageState extends State<AdministratorsPage> {
                       mainAxisSpacing: 10.0,
                     ),
                     itemBuilder: (context, index) {
-                       if (index == 0) {
+                      if (index == 0) {
                         return InkWell(
                           child: const Card(
                             child: Icon(

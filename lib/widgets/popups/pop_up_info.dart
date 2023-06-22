@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../modules/arguments/home_page_arguments.dart';
+import '../../modules/arguments/home_page_arguments.dart';
 
 class PopUpInfo {
   BuildContext context;

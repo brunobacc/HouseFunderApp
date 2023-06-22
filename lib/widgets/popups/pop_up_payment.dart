@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/data/finance_project.dart';
 import 'package:projeto_computacao_movel/modules/project.dart';
-import 'package:projeto_computacao_movel/popups/pop_up_info.dart';
+import 'package:projeto_computacao_movel/widgets/popups/pop_up_info.dart';
 
-import '../modules/user.dart';
+import '../../modules/user.dart';
 
 class PopUpPayment {
   BuildContext context;

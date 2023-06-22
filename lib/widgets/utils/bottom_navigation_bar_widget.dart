@@ -8,12 +8,8 @@ import '../../modules/user.dart';
 class BottomNavigationBarWidget extends StatelessWidget {
   final int selectedIndex;
   final String? token;
-  final User? user;
   const BottomNavigationBarWidget(
-      {required this.selectedIndex,
-      required this.token,
-      required this.user,
-      super.key});
+      {required this.selectedIndex, required this.token, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +42,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
             if (index == 2) {
               token != null
                   ? Navigator.pushNamed(context, '/profile',
-                      arguments: UserArguments(token, user))
+                      arguments: UserArguments(token))
                   : Navigator.pushNamed(context, '/login');
             }
           },

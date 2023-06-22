@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/data/queries/filter_projects.dart';
 import 'package:projeto_computacao_movel/data/users.dart';
@@ -6,7 +8,6 @@ import 'package:projeto_computacao_movel/modules/arguments/project_arguments.dar
 import 'package:projeto_computacao_movel/modules/project.dart';
 import 'package:projeto_computacao_movel/widgets/utils/bottom_navigation_bar_widget.dart';
 import 'package:projeto_computacao_movel/widgets/utils/drawer_widget.dart';
-import '../data/projects.dart';
 import '../modules/searchs/search_projects.dart';
 import '../modules/user.dart';
 
@@ -74,8 +75,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print('Token: ${widget.token}');
-    print('User: ${_user?.email}');
     return Scaffold(
       key: _scaffoldKey,
       drawer: DrawerWidget(token: widget.token, user: _user),
@@ -97,7 +96,7 @@ class _HomePageState extends State<HomePage> {
               showSearch(
                 context: context,
                 delegate: SearchProjects(
-                    allProjects: await Projects.fetchNext(),
+                    allProjects: await _projects,
                     token: widget.token,
                     user: _user),
               );
@@ -132,14 +131,38 @@ class _HomePageState extends State<HomePage> {
                       padding: const EdgeInsets.only(
                           top:
                               0), // change the default top padding of a ListView
-                      itemCount: snapshot.data!.length,
+                      itemCount: _user?.permissionLevel == 1
+                          ? snapshot.data!.length + 1
+                          : snapshot.data!.length,
                       itemBuilder: (BuildContext context, int index) {
+                        // Display the projects in Cards
+                        // If the user is an admin present the create project CARD
+                        if (_user?.permissionLevel == 3) {
+                          if (index == 0) {
+                            return SizedBox(
+                              height: MediaQuery.sizeOf(context).height * 0.3,
+                              child: InkWell(
+                                child: const Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                  ),
+                                  child: Icon(
+                                    Icons.add,
+                                    size: 50,
+                                  ),
+                                ),
+                                onTap: () {},
+                              ),
+                            );
+                          }
+                          index -= 1;
+                        }
                         double neededValue = snapshot.data![index].finalValue -
                             snapshot.data![index].totalFinanced;
                         neededValue > _maxPrice
                             ? _maxPrice = neededValue
                             : _maxPrice = _maxPrice;
-                        // Display the projects in Cards
                         return Card(
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -151,7 +174,7 @@ class _HomePageState extends State<HomePage> {
                                 borderRadius: BorderRadius.circular(10),
                                 child: Image(
                                   image: AssetImage(
-                                      'assets/images/${snapshot.data![index].image}'),
+                                      'assets/images/projects/${snapshot.data![index].image}'),
                                   height:
                                       MediaQuery.sizeOf(context).height * 0.2,
                                   fit: BoxFit.cover,
@@ -218,11 +241,12 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBarWidget(
-        selectedIndex: 1,
-        token: widget.token,
-        user: _user,
-      ),
+      bottomNavigationBar: _user?.permissionLevel != 3
+          ? BottomNavigationBarWidget(
+              selectedIndex: 1,
+              token: widget.token,
+            )
+          : null,
     );
   }
 }

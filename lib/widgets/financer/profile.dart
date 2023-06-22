@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/data/projects_financed.dart';
 import 'package:projeto_computacao_movel/modules/project_financed.dart';
-import 'package:projeto_computacao_movel/popups/edit_pop_up.dart';
+import 'package:projeto_computacao_movel/widgets/popups/pop_up_edit.dart';
 
 import 'package:projeto_computacao_movel/widgets/utils/bottom_navigation_bar_widget.dart';
 
+import '../../data/users.dart';
 import '../../modules/user.dart';
 
 class Profile extends StatefulWidget {
   final String? token;
-  final User? user;
-  const Profile({required this.token, required this.user, super.key});
+  const Profile({required this.token, super.key});
 
   static const String routeName = '/profile';
 
@@ -19,12 +19,25 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  late Future<List<ProjectFinanced>> _projectsFinanced;
+  List<ProjectFinanced>? _projectsFinanced;
+  late Future<User?> _user;
 
   @override
   void initState() {
     super.initState();
-    _projectsFinanced = ProjectsFinanced.fetchNext(widget.user!.userId);
+    _user = Users.fetchNext(widget.token);
+    _fetchProjects();
+  }
+
+  Future<void> _fetchProjects() async {
+    _user.then((user) async {
+      if (user != null) {
+        final projects = await ProjectsFinanced.fetchNext(user.userId);
+        setState(() {
+          _projectsFinanced = projects;
+        });
+      }
+    });
   }
 
   @override
@@ -56,142 +69,186 @@ class _ProfileState extends State<Profile> {
         padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
         child: Column(
           children: [
-            Padding(
-              // give space between the top bar(menu icon and title) and user information
-              padding: const EdgeInsets.only(top: 10),
-              child: Row(
-                children: [
-                  // User Image
-                  Container(
-                    height: 130,
-                    width: 130,
-                    decoration: BoxDecoration(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(100)),
-                      border: Border.all(
-                        width: 2,
-                        color: Colors.black,
-                      ),
-                    ),
-                    child: const Icon(Icons.accessibility_rounded),
-                  ),
-                  // Info about the user (Username and Email) and button to edit profile
-                  SizedBox(
-                    // used the size box, because the column is not taking up all the space on the main axis within the row
-                    height: 110,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20),
-                          child: Text(
-                            widget.user!.username,
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20),
-                          child: Text(
-                            widget.user!.email,
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20),
-                          child: ElevatedButton(
-                            child: Text(
-                              'Edit Profile',
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                            onPressed: () => EditPopUp.edit(
-                              context: context,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 30),
-              child: Table(
-                // present data in a table about what the user has done in the application
-                border: TableBorder.all(
-                  width: 1,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                children: [
-                  TableRow(
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFE5DFDF),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
+            FutureBuilder(
+              future: _user,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                        child: Column(
+                        // give space between the top bar(menu icon and title) and user information
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Row(
                           children: [
-                            Text(
-                              'Financing',
-                              style: Theme.of(context).textTheme.bodyMedium,
+                            // User Image
+                            Container(
+                              height: 130,
+                              width: 130,
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(100)),
+                                border: Border.all(
+                                  width: 2,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              child: const Icon(Icons.accessibility_rounded),
                             ),
-                            Text(
-                              'Done',
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                            Text(
-                              '${widget.user!.financingDone}',
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
+                            // Info about the user (Username and Email) and button to edit profile
+                            SizedBox(
+                              // used the size box, because the column is not taking up all the space on the main axis within the row
+                              height: 110,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 20),
+                                    child: Text(
+                                      snapshot.data!.username,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 20),
+                                    child: Text(
+                                      snapshot.data!.email,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 20),
+                                    child: ElevatedButton(
+                                        child: Text(
+                                          'Edit Profile',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium,
+                                        ),
+                                        onPressed: () => PopUpEdit.edit(
+                                            context: context,
+                                            user: snapshot.data,
+                                            token: widget.token)),
+                                  ),
+                                ],
+                              ),
+                            )
                           ],
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                        child: Column(
+                        padding: const EdgeInsets.only(top: 30),
+                        child: Table(
+                          // present data in a table about what the user has done in the application
+                          border: TableBorder.all(
+                            width: 1,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
                           children: [
-                            Text(
-                              'Total Amount',
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                            Text(
-                              'Financed',
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                            Text(
-                              widget.user!.totalAmountFinanced
-                                  .toStringAsFixed(2),
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                        child: Column(
-                          children: [
-                            Text(
-                              'Accepted',
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                            Text(
-                              'Projects',
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                            Text(
-                              '${widget.user!.acceptedProjects}',
-                              style: Theme.of(context).textTheme.bodyMedium,
+                            TableRow(
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFE5DFDF),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        'Financing',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium,
+                                      ),
+                                      Text(
+                                        'Done',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium,
+                                      ),
+                                      Text(
+                                        '${snapshot.data!.financingDone}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        'Total Amount',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium,
+                                      ),
+                                      Text(
+                                        'Financed',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium,
+                                      ),
+                                      Text(
+                                        snapshot.data!.totalAmountFinanced
+                                            .toStringAsFixed(2),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        'Accepted',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium,
+                                      ),
+                                      Text(
+                                        'Projects',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium,
+                                      ),
+                                      Text(
+                                        '${snapshot.data!.acceptedProjects}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
                       ),
                     ],
-                  ),
-                ],
-              ),
+                  );
+                } else if (snapshot.hasError) {
+                  return Text('${snapshot.error}');
+                }
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
             ),
             Align(
               alignment: Alignment.topLeft,
@@ -205,6 +262,60 @@ class _ProfileState extends State<Profile> {
             ),
             // Projects
             Expanded(
+              child: ListView.builder(
+                padding: const EdgeInsets.only(top: 10),
+                itemCount: _projectsFinanced?.length ??
+                    0, // need null-coalescing operators to don't present the error "Null check operator used on a null value"
+                itemBuilder: (BuildContext context, int i) {
+                  return ListTile(
+                    title: Stack(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image(
+                            image: AssetImage(
+                                'assets/images/projects/${_projectsFinanced![i].image}'),
+                            width: double.infinity,
+                            height: 200,
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 10,
+                          left: 10,
+                          child: Container(
+                            color: Colors.black54,
+                            width: 200,
+                            padding: const EdgeInsets.all(10),
+                            child: Text(
+                              _projectsFinanced![i].title,
+                              maxLines: 1,
+                              style: Theme.of(context).textTheme.labelMedium,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 10,
+                          right: 10,
+                          child: Container(
+                            color: Colors.black54,
+                            padding: const EdgeInsets.all(10),
+                            child: Text(
+                              _projectsFinanced![i]
+                                  .totalFinanced
+                                  .toStringAsFixed(2),
+                              style: Theme.of(context).textTheme.labelMedium,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    onTap: () => null,
+                  );
+                },
+              ),
+            ),
+            /*Expanded(
               child: FutureBuilder(
                 future: _projectsFinanced,
                 builder: (context, snapshot) {
@@ -269,7 +380,7 @@ class _ProfileState extends State<Profile> {
                   );
                 },
               ),
-            ),
+            ),*/
           ],
         ),
       ),
@@ -277,7 +388,6 @@ class _ProfileState extends State<Profile> {
       bottomNavigationBar: BottomNavigationBarWidget(
         selectedIndex: 2,
         token: widget.token,
-        user: widget.user,
       ),
     );
   }
