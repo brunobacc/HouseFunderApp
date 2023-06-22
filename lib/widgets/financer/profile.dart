@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/data/projects_financed.dart';
 import 'package:projeto_computacao_movel/modules/project_financed.dart';
 import 'package:projeto_computacao_movel/widgets/popups/pop_up_edit.dart';
-
 import 'package:projeto_computacao_movel/widgets/utils/bottom_navigation_bar_widget.dart';
-
 import '../../data/users.dart';
 import '../../modules/user.dart';
+import '../utils/drawer_widget.dart';
 
 class Profile extends StatefulWidget {
   final String? token;
@@ -45,7 +44,32 @@ class _ProfileState extends State<Profile> {
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
       key: scaffoldKey,
-      //drawer: DrawerWidget(token: widget.token),
+      drawer: FutureBuilder<User?>(
+        future: Users.fetchNext(widget.token),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return DrawerWidget(token: widget.token, user: snapshot.data);
+          }
+          return AlertDialog(
+            title: Text(
+              "Wait",
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            content: Text(
+              "Please, wait until we receive your data.",
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            actions: [
+              Center(
+                child: ElevatedButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Ok'),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
@@ -81,18 +105,13 @@ class _ProfileState extends State<Profile> {
                         child: Row(
                           children: [
                             // User Image
-                            Container(
-                              height: 130,
-                              width: 130,
-                              decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(100)),
-                                border: Border.all(
-                                  width: 2,
-                                  color: Colors.black,
-                                ),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: Image.asset(
+                                'assets/images/avatars/${snapshot.data!.image}',
+                                height: 130,
+                                width: 130,
                               ),
-                              child: const Icon(Icons.accessibility_rounded),
                             ),
                             // Info about the user (Username and Email) and button to edit profile
                             SizedBox(
@@ -290,6 +309,7 @@ class _ProfileState extends State<Profile> {
                             child: Text(
                               _projectsFinanced![i].title,
                               maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               style: Theme.of(context).textTheme.labelMedium,
                             ),
                           ),
@@ -315,76 +335,9 @@ class _ProfileState extends State<Profile> {
                 },
               ),
             ),
-            /*Expanded(
-              child: FutureBuilder(
-                future: _projectsFinanced,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView.builder(
-                      padding: EdgeInsets.only(top: 10),
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (BuildContext context, int i) {
-                        return ListTile(
-                          title: Stack(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image(
-                                  image: AssetImage(
-                                      'assets/images/${snapshot.data![i].image}'),
-                                  width: double.infinity,
-                                  height: 200,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                              Positioned(
-                                bottom: 10,
-                                left: 10,
-                                child: Container(
-                                  color: Colors.black54,
-                                  width: 200,
-                                  padding: const EdgeInsets.all(10),
-                                  child: Text(
-                                    snapshot.data![i].title,
-                                    maxLines: 1,
-                                    style:
-                                        Theme.of(context).textTheme.labelMedium,
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                bottom: 10,
-                                right: 10,
-                                child: Container(
-                                  color: Colors.black54,
-                                  padding: const EdgeInsets.all(10),
-                                  child: Text(
-                                    snapshot.data![i].totalFinanced
-                                        .toStringAsFixed(2),
-                                    style:
-                                        Theme.of(context).textTheme.labelMedium,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                          onTap: () => null,
-                        );
-                      },
-                    );
-                  } else if (snapshot.hasError) {
-                    return Text('${snapshot.error}');
-                  }
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                },
-              ),
-            ),*/
           ],
         ),
       ),
-
       bottomNavigationBar: BottomNavigationBarWidget(
         selectedIndex: 2,
         token: widget.token,

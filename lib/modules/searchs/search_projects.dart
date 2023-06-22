@@ -87,7 +87,7 @@ class SearchProjects extends SearchDelegate {
                         borderRadius: BorderRadius.circular(10),
                         child: Image(
                           image: AssetImage(
-                              'assets/images/${filteredProjects[i].image}'),
+                              'assets/images/projects/${filteredProjects[i].image}'),
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -171,7 +171,7 @@ class SearchProjects extends SearchDelegate {
                         borderRadius: BorderRadius.circular(10),
                         child: Image(
                           image: AssetImage(
-                              'assets/images/${filteredProjects[i].image}'),
+                              'assets/images/projects/${filteredProjects[i].image}'),
                           height: MediaQuery.sizeOf(context).height * 0.2,
                           fit: BoxFit.cover,
                         ),

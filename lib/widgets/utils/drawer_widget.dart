@@ -32,10 +32,15 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const CircleAvatar(
+                        CircleAvatar(
                           radius: 50,
                           backgroundColor: Colors.transparent,
-                          child: Icon(Icons.accessibility_rounded),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: Image.asset(
+                              'assets/images/avatars/${widget.user?.image}',
+                            ),
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
@@ -55,7 +60,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               ? ExpansionTile(
                   title: Text('Management',
                       style: Theme.of(context).textTheme.headlineMedium),
-                  leading: Icon(MyFlutterApp.management),
+                  leading: const Icon(MyFlutterApp.management),
                   children: [
                     ListTile(
                       title: Text('Projects',
