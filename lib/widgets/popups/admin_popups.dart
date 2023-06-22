@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_computacao_movel/modules/user.dart';
-import '../data/register.dart';
-import '../data/users.dart';
+import '../../data/register.dart';
 
 class AdminPopUp {
   BuildContext context;
@@ -111,7 +109,7 @@ class _CreateState extends State<Create> {
                       if (_formKey.currentState!.validate()) {
 
                         RegisterUser.register(
-                         'Admin', 'Admin@gmail.com', 'adminadmin', 3
+                         _nameController.text, _emailController.text, _passwordController.text, 3
                         ).then((_) {
                           Navigator.pop(context); // Close the popup
                           ScaffoldMessenger.of(context).showSnackBar(

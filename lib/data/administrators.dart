@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 import '../modules/admnistrator.dart';
 
-class Administrators {
+class Administradores {
   static const String url = '10.0.2.2:5048';
 
   static Future<List<Administrator>> fetchAdministrators() async {

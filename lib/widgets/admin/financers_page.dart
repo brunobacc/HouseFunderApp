@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/modules/queries/financers_query2.dart';
 import '../../data/queries/financers_query2.dart';
+import '../../modules/user.dart';
+import '../utils/drawer_widget.dart';
 
 class FinancersAdminPage extends StatefulWidget {
-  const FinancersAdminPage({Key? key}) : super(key: key);
+  final String? token;
+  final User? user;
+  const FinancersAdminPage(
+      {required this.token, required this.user, super.key});
 
   static const String routeName = '/financers';
 
@@ -24,20 +29,8 @@ class _FinancersAdminPageState extends State<FinancersAdminPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
-      //drawer: const DrawerWidget(),
+      drawer: DrawerWidget(token: widget.token, user: widget.user),
       appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-          child: IconButton(
-            padding: const EdgeInsets.all(0),
-            icon: const Icon(
-              Icons.menu,
-              size: 36,
-            ),
-            onPressed: () => scaffoldKey.currentState?.openDrawer(),
-          ),
-        ),
         centerTitle: true,
         title: const Text(
           'Financers',
