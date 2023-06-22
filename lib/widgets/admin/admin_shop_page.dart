@@ -5,6 +5,7 @@ import '../../data/products.dart';
 import '../../modules/user.dart';
 import '../popups/add_product_popup.dart';
 import '../popups/pop_up_buy_product.dart';
+import '../utils/drawer_widget.dart';
 
 class ShopPageAdmin extends StatefulWidget {
   final String? token;
@@ -19,7 +20,6 @@ class ShopPageAdmin extends StatefulWidget {
 
 class _ShopPageAdminState extends State<ShopPageAdmin> {
   late final Future<List<Product>> products;
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -30,25 +30,16 @@ class _ShopPageAdminState extends State<ShopPageAdmin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
       appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-          child: IconButton(
-            padding: const EdgeInsets.all(
-                0), // used to make the icon centered inside the button
-            icon: const Icon(
-              Icons.menu,
-              size: 36,
-            ),
-            onPressed: () => scaffoldKey.currentState?.openDrawer(),
-          ),
-        ),
         centerTitle: true,
         title: Text(
           'Shop',
           style: Theme.of(context).textTheme.titleLarge,
         ),
+      ),
+      drawer: DrawerWidget(
+        user: widget.user,
+        token: widget.token,
       ),
       body: Column(
         children: [

@@ -3,6 +3,7 @@ import '../../data/administrators.dart';
 import '../../modules/admnistrator.dart';
 import '../../modules/user.dart';
 import '../popups/admin_popups.dart';
+import '../utils/drawer_widget.dart';
 
 class AdministratorsPage extends StatefulWidget {
   final String? token;
@@ -17,7 +18,6 @@ class AdministratorsPage extends StatefulWidget {
 }
 
 class _AdministratorsPageState extends State<AdministratorsPage> {
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   late final Future<List<Administrator>> administrators;
 
   @override
@@ -29,20 +29,8 @@ class _AdministratorsPageState extends State<AdministratorsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
-      //drawer: const DrawerWidget(),
+      drawer:  DrawerWidget(token: widget.token, user: widget.user),
       appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-          child: IconButton(
-            padding: const EdgeInsets.all(0),
-            icon: const Icon(
-              Icons.menu,
-              size: 36,
-            ),
-            onPressed: () => scaffoldKey.currentState?.openDrawer(),
-          ),
-        ),
         centerTitle: true,
         title: const Text(
           'Shop',

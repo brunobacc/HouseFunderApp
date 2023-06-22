@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../data/partnerships.dart';
 import '../../modules/partnership.dart';
 import '../../modules/user.dart';
+import '../utils/drawer_widget.dart';
 
 class PartnershipsPage extends StatefulWidget {
   final String? token;
@@ -14,7 +15,6 @@ class PartnershipsPage extends StatefulWidget {
 }
 
 class _PartnershipsPageState extends State<PartnershipsPage> {
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   late final Future<List<Partnership>> partnerships;
 
   @override
@@ -26,20 +26,8 @@ class _PartnershipsPageState extends State<PartnershipsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
-      //drawer: const DrawerWidget(),
+      drawer: DrawerWidget(user: widget.user, token: widget.token),
       appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-          child: IconButton(
-            padding: const EdgeInsets.all(0),
-            icon: const Icon(
-              Icons.menu,
-              size: 36,
-            ),
-            onPressed: () => scaffoldKey.currentState?.openDrawer(),
-          ),
-        ),
         centerTitle: true,
         title: const Text(
           'Shop',
