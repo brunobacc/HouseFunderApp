@@ -85,6 +85,11 @@ class _MyAppState extends State<MyApp> {
         iconTheme: const IconThemeData(color: Colors.white),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
+            shape: MaterialStatePropertyAll(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25),
+              ),
+            ),
             backgroundColor: MaterialStateProperty.all(
               const Color(0xFFD9C5AD),
             ),

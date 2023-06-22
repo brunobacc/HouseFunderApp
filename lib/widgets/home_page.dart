@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/data/queries/filter_projects.dart';
 import 'package:projeto_computacao_movel/data/users.dart';
@@ -131,7 +129,7 @@ class _HomePageState extends State<HomePage> {
                       padding: const EdgeInsets.only(
                           top:
                               0), // change the default top padding of a ListView
-                      itemCount: _user?.permissionLevel == 1
+                      itemCount: _user?.permissionLevel == 3
                           ? snapshot.data!.length + 1
                           : snapshot.data!.length,
                       itemBuilder: (BuildContext context, int index) {
