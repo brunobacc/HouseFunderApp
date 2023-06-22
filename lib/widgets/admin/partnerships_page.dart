@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../data/partnerships.dart';
 import '../../modules/partnership.dart';
 import '../../modules/user.dart';
+import '../utils/drawer_widget.dart';
 
 class PartnershipsPage extends StatefulWidget {
   final String? token;
@@ -27,19 +28,8 @@ class _PartnershipsPageState extends State<PartnershipsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      //drawer: const DrawerWidget(),
+      drawer: DrawerWidget(token: widget.token, user: widget.user),
       appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-          child: IconButton(
-            padding: const EdgeInsets.all(0),
-            icon: const Icon(
-              Icons.menu,
-              size: 36,
-            ),
-            onPressed: () => scaffoldKey.currentState?.openDrawer(),
-          ),
-        ),
         centerTitle: true,
         title: const Text(
           'Shop',
@@ -101,13 +91,14 @@ class _PartnershipsPageState extends State<PartnershipsPage> {
                                       style: Theme.of(context)
                                           .textTheme
                                           .titleSmall,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
                                   SizedBox(height: 4),
                                   Align(
                                     alignment: Alignment.center,
                                     child: Text(
-                                      'Validated Proposals: ${partnership.validatedProposals}',
+                                      '${partnership.validatedProposals}',
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyMedium,

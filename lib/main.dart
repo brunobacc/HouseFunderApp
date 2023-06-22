@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> {
           titleLarge: TextStyle(fontSize: 34, color: Colors.black),
           titleMedium: TextStyle(fontSize: 28, color: Colors.black),
           titleSmall: TextStyle(
-              fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
+              fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
           bodyLarge: TextStyle(fontSize: 24, color: Colors.black),
           bodyMedium: TextStyle(fontSize: 19, color: Colors.black),
           bodySmall: TextStyle(fontSize: 17, color: Colors.black),
@@ -72,7 +72,7 @@ class _MyAppState extends State<MyApp> {
           titleLarge: TextStyle(fontSize: 34, color: Colors.white),
           titleMedium: TextStyle(fontSize: 28, color: Colors.white),
           titleSmall: TextStyle(
-              fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+              fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
           bodyLarge: TextStyle(fontSize: 24, color: Colors.white),
           bodyMedium: TextStyle(fontSize: 19, color: Colors.white),
           bodySmall: TextStyle(fontSize: 17, color: Colors.white),
