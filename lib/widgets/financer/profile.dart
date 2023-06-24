@@ -109,8 +109,8 @@ class _ProfileState extends State<Profile> {
                               children: [
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(100),
-                                  child: Image.asset(
-                                    'assets/images/avatars/${snapshot.data!.image}',
+                                  child: Image.network(
+                                    'https://housefunderstorage.blob.core.windows.net/images/${snapshot.data!.image}',
                                     height: 130,
                                     width: 130,
                                   ),
@@ -290,8 +290,6 @@ class _ProfileState extends State<Profile> {
             ),
             /*Image.network(
                 'https://housefunderstorage.blob.core.windows.net/images/Captura de ecrã 2023-04-20 233936.png'),*/
-            Image.network(
-                'https://housefunderstorage.blob.core.windows.net/images/6769264_60111.jpg'),
 
             Align(
               alignment: Alignment.topLeft,

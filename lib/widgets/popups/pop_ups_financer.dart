@@ -351,15 +351,15 @@ class _EditImageState extends State<EditImage> {
             onPressed: () {
               if (image != null) {
                 Future<bool> editProfileStatus =
-                    Images.uploadImage(File(image!.path));
+                    Images.uploadImage(File(image!.path), widget.user!.userId);
                 // when playerDeleted receives a bool value, it will present an information popUp
                 editProfileStatus.then(
                   (value) {
                     value
                         ? PopUpInfo.info(
                             context,
-                            'Sucess',
-                            'The project was financed!',
+                            'Success',
+                            'The image was updated!',
                             widget.token,
                           )
                         : PopUpInfo.info(
