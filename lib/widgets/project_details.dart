@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:projeto_computacao_movel/modules/queries/financer_query.dart';
 import 'package:projeto_computacao_movel/data/queries/financers_query.dart';
 import 'package:projeto_computacao_movel/modules/project.dart';
-import 'package:projeto_computacao_movel/widgets/popups/pop_up_payment.dart';
+import 'package:projeto_computacao_movel/widgets/popups/pop_ups_financer.dart';
 import '../modules/user.dart';
 
 class ProjectDetails extends StatefulWidget {
@@ -112,7 +112,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () => widget.token != null
-                          ? PopUpPayment.payment(context, widget.project,
+                          ? PopUpsFinancer.finance(context, widget.project,
                               widget.token, widget.user)
                           : Navigator.pushNamed(context, '/login'),
                       child: Text(
@@ -208,6 +208,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .labelMedium,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
                                         ),
                                       ),

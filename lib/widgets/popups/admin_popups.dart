@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_computacao_movel/modules/user.dart';
-
 import '../../data/register.dart';
 
 class AdminPopUp {

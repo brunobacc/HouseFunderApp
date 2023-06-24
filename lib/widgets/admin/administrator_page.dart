@@ -3,7 +3,6 @@ import '../../data/administrators.dart';
 import '../../modules/admnistrator.dart';
 import '../../modules/user.dart';
 import '../popups/admin_popups.dart';
-import '../utils/drawer_widget.dart';
 
 class AdministratorsPage extends StatefulWidget {
   final String? token;
@@ -49,7 +48,7 @@ class _AdministratorsPageState extends State<AdministratorsPage> {
               future: administrators,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Text('${snapshot.error ?? "Error occurred"}');
                 } else if (snapshot.hasData) {
@@ -111,7 +110,7 @@ class _AdministratorsPageState extends State<AdministratorsPage> {
                                           .titleSmall,
                                     ),
                                   ),
-                                  SizedBox(height: 4),
+                                  const SizedBox(height: 4),
                                   Align(
                                     alignment: Alignment.center,
                                     child: Text(
@@ -130,7 +129,7 @@ class _AdministratorsPageState extends State<AdministratorsPage> {
                     },
                   );
                 }
-                return Text('Zero administrators to show');
+                return const Text('Zero administrators to show');
               },
             ),
           ),

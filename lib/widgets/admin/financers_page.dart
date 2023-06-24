@@ -73,7 +73,8 @@ class _FinancersAdminPageState extends State<FinancersAdminPage> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: Image.asset(
-                                  'assets/images/financers/${financer.image}',
+                                  'assets/images/avatars/${financer.image}',
+                                  height: 100,
                                   fit: BoxFit.fill,
                                 ),
                               ),
@@ -92,7 +93,9 @@ class _FinancersAdminPageState extends State<FinancersAdminPage> {
                                           .bodyMedium,
                                     ),
                                   ),
-                                  const SizedBox(height: 80),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,

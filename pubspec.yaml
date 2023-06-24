@@ -36,7 +36,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_nav_bar: ^5.0.6
   flutter_svg: ^2.0.5
+  image_picker: ^0.8.9
   http: ^1.0.0
+  dio: ^5.2.1+1
 
 
 dev_dependencies:

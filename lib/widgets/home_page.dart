@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/data/queries/filter_projects.dart';
 import 'package:projeto_computacao_movel/data/users.dart';
-import 'package:projeto_computacao_movel/modules/arguments/filter_page_arguments.dart';
 import 'package:projeto_computacao_movel/modules/arguments/project_arguments.dart';
 import 'package:projeto_computacao_movel/modules/project.dart';
+import 'package:projeto_computacao_movel/widgets/popups/pop_up_filter.dart';
 import 'package:projeto_computacao_movel/widgets/utils/bottom_navigation_bar_widget.dart';
 import 'package:projeto_computacao_movel/widgets/utils/drawer_widget.dart';
 import '../modules/searchs/search_projects.dart';
@@ -105,9 +105,7 @@ class _HomePageState extends State<HomePage> {
           ),
           IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/filter',
-                  arguments: FilterPageArguments(
-                      maxPrice: _maxPrice, token: widget.token));
+              PopUpFilter.filter(context, _maxPrice, widget.token);
             },
             icon: const Icon(
               Icons.tune_rounded,

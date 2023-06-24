@@ -5,6 +5,7 @@ import '../../data/users.dart';
 import '../../modules/product.dart';
 import '../../data/products.dart';
 import '../../modules/user.dart';
+import '../utils/drawer_widget.dart';
 
 class ShopPage extends StatefulWidget {
   final String? token;
@@ -38,20 +39,24 @@ class _ShopPageState extends State<ShopPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
+      drawer: FutureBuilder<User?>(
+          future: Users.fetchNext(widget.token),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return DrawerWidget(token: widget.token, user: snapshot.data);
+            }
+            return AlertDialog(
+              title: Text(
+                "Wait",
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              content: Text(
+                "Please, wait until we receive your data.",
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            );
+          }),
       appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-          child: IconButton(
-            padding: const EdgeInsets.all(
-                0), // used to make the icon centered inside the button
-            icon: const Icon(
-              Icons.menu,
-              size: 36,
-            ),
-            onPressed: () => scaffoldKey.currentState?.openDrawer(),
-          ),
-        ),
         centerTitle: true,
         title: Text(
           'Shop',
