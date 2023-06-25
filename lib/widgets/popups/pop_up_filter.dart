@@ -61,11 +61,11 @@ class Filter extends StatefulWidget {
 }
 
 class _FilterState extends State<Filter> {
-  bool _newest = false,
-      _oldest = false,
-      _lowHigh = false,
-      _highLow = false,
-      _likes = false;
+  bool _newest = false;
+  bool _oldest = false;
+  bool _lowHigh = false;
+  bool _highLow = false;
+  bool _likes = false;
   late double _maxPrice;
   late RangeValues neededPrice = RangeValues(0, _maxPrice);
   String? selectedRegion;
@@ -298,7 +298,7 @@ class _FilterState extends State<Filter> {
                       selectedRegion,
                       selectedPartnership,
                       _maxPrice,
-                      null,
+                      widget.token,
                     ),
                   ),
                   child: Text(

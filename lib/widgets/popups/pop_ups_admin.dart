@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import '../../modules/product.dart';
 import '../../data/products.dart';
+import '../../data/register.dart';
+import '../../modules/product.dart';
 
-class ProductPopUp {
+class PopUpsAdmin {
   BuildContext context;
 
-  ProductPopUp(this.context);
+  PopUpsAdmin(this.context);
 
-  static void create(BuildContext context) {
+  static void createAdmin(BuildContext context) {
     var popUp = AlertDialog(
-      content: const Create(),
+      content: const CreateAdmin(),
       contentPadding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
@@ -22,10 +23,9 @@ class ProductPopUp {
     );
   }
 
-  /*static void update(
-      BuildContext context, List<Team> teams, String? email, Player player) {
+  static void createProduct(BuildContext context) {
     var popUp = AlertDialog(
-      content: Update(teams: teams, email: email, player: player),
+      content: const CreateProduct(),
       contentPadding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
@@ -37,59 +37,138 @@ class ProductPopUp {
       builder: (BuildContext context) => popUp,
     );
   }
-
-  static void delete(BuildContext context, Player player, String? email) {
-    Navigator.of(context).pop();
-    var popUp = AlertDialog(
-      content: Delete(
-        player: player,
-        email: email,
-      ),
-      contentPadding: EdgeInsets.zero,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      elevation: 3,
-    );
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) => popUp,
-    );
-  }
-
-  static void info(
-      BuildContext context, String title, String message, String? email) {
-    Navigator.of(context).pop();
-    var popUp = AlertDialog(
-      content: Info(title: title, message: message, email: email),
-      contentPadding: EdgeInsets.zero,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      elevation: 3,
-    );
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) => popUp,
-    );
-  }*/
 }
 
-class Create extends StatefulWidget {
-  const Create({super.key});
+class CreateAdmin extends StatefulWidget {
+  const CreateAdmin({super.key});
 
   @override
-  State<Create> createState() => _CreateState();
+  State<CreateAdmin> createState() => _CreateAdminState();
 }
 
-class _CreateState extends State<Create> {
+class _CreateAdminState extends State<CreateAdmin> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _imageController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _imageController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: Container(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextFormField(
+                controller: _nameController,
+                decoration: const InputDecoration(labelText: 'Name'),
+                validator: (value) {
+                  if (value != null) {
+                    return null;
+                  }
+                  return 'Please enter a name';
+                },
+              ),
+              TextFormField(
+                controller: _emailController,
+                decoration: const InputDecoration(labelText: 'email'),
+                validator: (value) {
+                  if (value != null) {
+                    return null;
+                  }
+                  return 'Please enter a email';
+                },
+              ),
+              TextFormField(
+                controller: _passwordController,
+                decoration: const InputDecoration(labelText: 'Password'),
+                validator: (value) {
+                  if (value != null) {
+                    return null;
+                  }
+                  return 'Please enter a password';
+                },
+              ),
+              TextFormField(
+                controller: _imageController,
+                decoration: const InputDecoration(labelText: 'Image'),
+                validator: (value) {
+                  if (value != null) {
+                    return null;
+                  }
+                  return 'Please enter an image';
+                },
+              ),
+              const SizedBox(height: 16.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    child: const Text('Cancel'),
+                    onPressed: () {
+                      Navigator.pop(context); // Close the popup
+                    },
+                  ),
+                  ElevatedButton(
+                    child: const Text('Add'),
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        RegisterUser.register(
+                                'Admin', 'Admin@gmail.com', 'adminadmin', 3)
+                            .then((_) {
+                          Navigator.pop(context); // Close the popup
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Administrator added successfully'),
+                            ),
+                          );
+                        }).catchError((error) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Failed to add admin'),
+                            ),
+                          );
+                        });
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CreateProduct extends StatefulWidget {
+  const CreateProduct({super.key});
+
+  @override
+  State<CreateProduct> createState() => _CreateProductState();
+}
+
+class _CreateProductState extends State<CreateProduct> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _imageController = TextEditingController();
+  final TextEditingController _valueController = TextEditingController();
 
   @override
   void dispose() {
@@ -174,6 +253,7 @@ class _CreateState extends State<Create> {
                           description: _descriptionController.text,
                           price: int.parse(_priceController.text),
                           image: _imageController.text,
+                          value: double.parse(_valueController.text),
                         );
 
                         Products.addProduct(newProduct).then((_) {

@@ -27,10 +27,10 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => HomePage(
             newest: args?.newest ?? false,
-            oldest: args?.newest ?? false,
-            lowHigh: args?.newest ?? false,
-            highLow: args?.newest ?? false,
-            likes: args?.newest ?? false,
+            oldest: args?.oldest ?? false,
+            lowHigh: args?.lowHigh ?? false,
+            highLow: args?.highLow ?? false,
+            likes: args?.likes ?? false,
             neededPrice: args?.neededPrice,
             region: args?.region,
             partnership: args?.partnership,

@@ -41,9 +41,7 @@ class Products {
       }),
     );
 
-    if (response.statusCode == 200) {
-      //print('Product added successfully');
-    } else {
+    if (response.statusCode != 200) {
       throw Exception('Failed to add product');
     }
   }

@@ -1,8 +1,9 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:projeto_computacao_movel/data/edit_profile_request.dart';
+import 'package:projeto_computacao_movel/data/queries/filter_projects.dart';
+import 'package:projeto_computacao_movel/modules/product.dart';
 import 'package:projeto_computacao_movel/modules/user.dart';
 import 'package:projeto_computacao_movel/widgets/popups/pop_up_info.dart';
 import '../../data/finance_project.dart';
@@ -97,6 +98,42 @@ class PopUpsFinancer {
       elevation: 3,
     );
     showDialog(
+      context: context,
+      builder: (BuildContext context) => popUp,
+    );
+  }
+
+  static void productBuy(
+      BuildContext context, Product product, String? token, User? user) {
+    var popUp = AlertDialog(
+      content: BuyProduct(product: product, token: token, user: user),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      insetPadding: EdgeInsets.zero,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      elevation: 3,
+    );
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) => popUp,
+    );
+  }
+
+  static void productBought(
+      BuildContext context, Product product, String? token, User? user) {
+    var popUp = AlertDialog(
+      content: ProductBought(product: product, token: token, user: user),
+      contentPadding: EdgeInsets.zero,
+      insetPadding: EdgeInsets.zero,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      elevation: 3,
+    );
+    showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) => popUp,
     );
@@ -713,7 +750,7 @@ class _FinanceState extends State<Finance> {
                   );
                 },
                 child: Image.asset(
-                  'assets/images/methods/multibanco.png',
+                  'assets/images/multibanco.png',
                   height: 60,
                   width: 60,
                 ),
@@ -721,7 +758,7 @@ class _FinanceState extends State<Finance> {
               InkWell(
                 onTap: () {},
                 child: Image.asset(
-                  'assets/images/methods/mbWay.png',
+                  'assets/images/mbWay.png',
                   height: 60,
                   width: 60,
                 ),
@@ -729,7 +766,7 @@ class _FinanceState extends State<Finance> {
               InkWell(
                 onTap: () {},
                 child: Image.asset(
-                  'assets/images/methods/PayPal.png',
+                  'assets/images/PayPal.png',
                   height: 60,
                   width: 60,
                 ),
@@ -737,6 +774,279 @@ class _FinanceState extends State<Finance> {
             ],
           )
         ],
+      ),
+    );
+  }
+}
+
+class BuyProduct extends StatelessWidget {
+  final String? token;
+  final User? user;
+  final Product product;
+
+  const BuyProduct({
+    super.key,
+    required this.token,
+    required this.product,
+    required this.user,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: MediaQuery.sizeOf(context).height * 0.45,
+      width: MediaQuery.sizeOf(context).width * 0.8,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Text(
+                  product.title,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+              ),
+              TextButton(
+                onPressed: Navigator.of(context).pop,
+                child: const Icon(
+                  Icons.close,
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          ),
+          Stack(
+            children: [
+              Center(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.network(
+                    'https://housefunderstorage.blob.core.windows.net/products/${product.image}',
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: 10,
+                right: MediaQuery.of(context).size.width * 0.18,
+                child: Container(
+                  color: Colors.black54,
+                  padding: const EdgeInsets.all(10),
+                  child: Text(
+                    '${product.price} Points',
+                    style: Theme.of(context).textTheme.labelMedium,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+            child: Text(
+              product.description,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ),
+          Center(
+            child: ElevatedButton(
+              onPressed: () {
+                if (user!.points < product.price) {
+                  PopUpInfo.info(
+                    context,
+                    'Error',
+                    'You can\'t buy this product.',
+                    token,
+                  );
+                } else {
+                  showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text(
+                          "Are you sure?",
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        content: Text(
+                          "That you want to buy this product.",
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        actions: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () {
+                                  PopUpsFinancer.productBought(
+                                      context, product, token, user);
+                                },
+                                child: const Text("Continue"),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text("Cancel"),
+                              ),
+                            ],
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+              },
+              child: const Text(
+                'Buy Now',
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ProductBought extends StatefulWidget {
+  final String? token;
+  final Product product;
+  final User? user;
+  const ProductBought(
+      {required this.token,
+      required this.product,
+      required this.user,
+      super.key});
+
+  @override
+  State<ProductBought> createState() => _ProductBought();
+}
+
+class _ProductBought extends State<ProductBought> {
+  late Future<List<Project>> _projects;
+
+  @override
+  void initState() {
+    super.initState();
+    _projects = FilterProjects.fetchNext(
+        false, false, false, false, null, null, null, null);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: MediaQuery.sizeOf(context).width,
+      height: MediaQuery.sizeOf(context).height,
+      child: FutureBuilder(
+        future: _projects,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return ListView.builder(
+              padding: const EdgeInsets.only(
+                  top: 0), // change the default top padding of a ListView
+              itemCount: snapshot.data!.length,
+              itemBuilder: (BuildContext context, int index) {
+                // Display the projects in Cards
+                // If the user is an admin present the create project CARD
+                return InkWell(
+                  child: Card(
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    child: ListTile(
+                      title: Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.network(
+                            'https://housefunderstorage.blob.core.windows.net/projects/${snapshot.data![index].image}',
+                            height: MediaQuery.sizeOf(context).height * 0.2,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      subtitle: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 10),
+                                child: Text(
+                                  snapshot.data![index].location,
+                                  maxLines: 2,
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 10),
+                                child: Text(
+                                  '${snapshot.data![index].finalValue.toString()}€',
+                                  maxLines: 2,
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                              )
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                            child: Text(
+                              snapshot.data![index].description,
+                              maxLines: 2,
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                          )
+                        ],
+                      ),
+                      onTap: () {
+                        // create a new variable to store the bool received from the "DeletePlayer" function
+                        Future<bool> financeStatus =
+                            FinanceProject.financeProject(
+                          snapshot.data![index],
+                          widget.product.value ?? 0,
+                          widget.token,
+                          widget.user,
+                        );
+                        // when playerDeleted receives a bool value, it will present an information popUp
+                        financeStatus.then(
+                          (value) {
+                            if (value) {
+                              EditProfileRequest.updatePoints(
+                                  widget.product.price,
+                                  widget.token,
+                                  widget.user!.userId);
+                              PopUpInfo.info(
+                                context,
+                                'Sucess',
+                                'The project was financed!',
+                                widget.token,
+                              );
+                            } else {
+                              PopUpInfo.info(
+                                context,
+                                'Error',
+                                'Something happen when it was financing the project!',
+                                widget.token,
+                              );
+                            }
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                );
+              },
+            );
+          } else if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+          }
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
       ),
     );
   }
