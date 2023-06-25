@@ -126,6 +126,11 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                       title: Text('Proposals',
                           style: Theme.of(context).textTheme.bodySmall),
                       leading: const Icon(MyFlutterApp.document),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/validateProposal',
+                            arguments:
+                                UserArguments(widget.token, widget.user));
+                      },
                     ),
                   ],
                 )

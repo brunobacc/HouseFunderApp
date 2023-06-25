@@ -4,6 +4,7 @@ import 'package:projeto_computacao_movel/modules/arguments/home_page_arguments.d
 import 'package:projeto_computacao_movel/modules/arguments/project_arguments.dart';
 import 'package:projeto_computacao_movel/modules/arguments/user_arguments.dart';
 import 'package:projeto_computacao_movel/widgets/admin/admin_shop_page.dart';
+import 'package:projeto_computacao_movel/widgets/admin/admin_validate_page.dart';
 import 'package:projeto_computacao_movel/widgets/admin/administrator_page.dart';
 import 'package:projeto_computacao_movel/widgets/admin/financers_page.dart';
 import 'package:projeto_computacao_movel/widgets/admin/partnerships_page.dart';
@@ -18,6 +19,8 @@ import 'package:projeto_computacao_movel/widgets/auth/email_verification.dart';
 import 'package:projeto_computacao_movel/widgets/financer/shop_page.dart';
 import 'package:projeto_computacao_movel/widgets/auth/verify_code.dart';
 import 'package:projeto_computacao_movel/widgets/project_details.dart';
+
+import '../widgets/utils/validate_project.dart';
 
 class AppRouter {
   static Route onGenerateRoute(RouteSettings settings) {
@@ -50,6 +53,15 @@ class AppRouter {
         ProjectArguments args = settings.arguments as ProjectArguments;
         return MaterialPageRoute(
           builder: (_) => ProjectDetails(
+            project: args.project,
+            token: args.token,
+            user: args.user,
+          ),
+        );
+              case ProjectDetailsValidate.routeName:
+        ProjectArguments args = settings.arguments as ProjectArguments;
+        return MaterialPageRoute(
+          builder: (_) => ProjectDetailsValidate(
             project: args.project,
             token: args.token,
             user: args.user,
@@ -124,6 +136,14 @@ class AppRouter {
         UserArguments? args = settings.arguments as UserArguments?;
         return MaterialPageRoute(
           builder: (_) => PartnershipsPage(
+            token: args?.token,
+            user: args?.user,
+          ),
+        );
+              case AdminValidatePage.routeName:
+        UserArguments? args = settings.arguments as UserArguments?;
+        return MaterialPageRoute(
+          builder: (_) => AdminValidatePage(
             token: args?.token,
             user: args?.user,
           ),
