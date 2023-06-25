@@ -39,4 +39,30 @@ class EditProfileRequest {
     }
     return false;
   }
+
+  static Future<void> updatePoints(
+      int points, String? token, int userId) async {
+    try {
+      final response = await http.put(
+        Uri.http(url, '/api/users/points/$userId'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Token': token!,
+        },
+        body: jsonEncode(
+          points,
+        ),
+      );
+
+      //print('Response Body: ${response.body}');
+      //print('Status Code: ${response.statusCode}');
+
+      if (response.statusCode != 200) {
+        throw Exception('Something happen when updating the points!');
+      }
+    } catch (e) {
+      //print('Error: $e');
+      throw Exception('Error: $e');
+    }
+  }
 }

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_computacao_movel/widgets/popups/pop_ups_admin.dart';
 import 'package:projeto_computacao_movel/widgets/utils/bottom_navigation_bar_widget.dart';
 import '../../modules/product.dart';
 import '../../data/products.dart';
 import '../../modules/user.dart';
-import '../popups/add_product_popup.dart';
-import '../popups/pop_up_buy_product.dart';
+import '../popups/pop_ups_financer.dart';
 import '../utils/drawer_widget.dart';
 
 class ShopPageAdmin extends StatefulWidget {
@@ -69,16 +69,12 @@ class _ShopPageAdminState extends State<ShopPageAdmin> {
                             child: const Card(
                               child: Icon(Icons.add),
                             ),
-                            onTap: () async {
-                              await showDialog(
-                                barrierDismissible: false,
-                                context: context,
-                                builder: (context) => const Create(),
-                              );
+                            onTap: () {
+                              PopUpsAdmin.createProduct(context);
                             },
                           );
                         }
-                        if (index == 0) {
+                        /*if (index == 0) {
                           return InkWell(
                             child: const Card(
                               child: Icon(
@@ -91,17 +87,16 @@ class _ShopPageAdminState extends State<ShopPageAdmin> {
                               Products.fetchProducts();
                             },
                           );
-                        }
+                        }*/
                         index -= 1;
                         Product product = products[index];
                         return InkWell(
-                          onTap: () async {
-                            await showDialog(
-                              barrierDismissible: false,
-                              context: context,
-                              builder: (context) => PopUpBuyProduct(
-                                product: product,
-                              ),
+                          onTap: () {
+                            PopUpsFinancer.productBuy(
+                              context,
+                              product,
+                              widget.token,
+                              widget.user,
                             );
                           },
                           child: Card(

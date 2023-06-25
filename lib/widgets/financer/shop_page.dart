@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_computacao_movel/widgets/popups/pop_up_buy_product.dart';
+import 'package:projeto_computacao_movel/widgets/popups/pop_ups_financer.dart';
 import 'package:projeto_computacao_movel/widgets/utils/bottom_navigation_bar_widget.dart';
 import '../../data/users.dart';
 import '../../modules/product.dart';
@@ -89,13 +89,12 @@ class _ShopPageState extends State<ShopPage> {
                         itemBuilder: (BuildContext context, int index) {
                           Product product = products[index];
                           return InkWell(
-                            onTap: () async {
-                              await showDialog(
-                                barrierDismissible: false,
-                                context: context,
-                                builder: (context) => PopUpBuyProduct(
-                                  product: product,
-                                ),
+                            onTap: () {
+                              PopUpsFinancer.productBuy(
+                                context,
+                                product,
+                                widget.token,
+                                _user,
                               );
                             },
                             child: Card(

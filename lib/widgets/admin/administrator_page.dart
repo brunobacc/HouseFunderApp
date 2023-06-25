@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../data/administrators.dart';
 import '../../modules/admnistrator.dart';
 import '../../modules/user.dart';
-import '../popups/admin_popups.dart';
+import '../popups/pop_ups_admin.dart';
 
 class AdministratorsPage extends StatefulWidget {
   final String? token;
@@ -72,7 +72,7 @@ class _AdministratorsPageState extends State<AdministratorsPage> {
                             ),
                           ),
                           onTap: () {
-                            AdminPopUp.create(context);
+                            PopUpsAdmin.createAdmin(context);
                             Administradores.fetchAdministrators();
                           },
                         );
