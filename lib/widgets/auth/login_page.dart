@@ -292,7 +292,7 @@ class _LoginPageState extends State<LoginPage> {
                             Color(0xFFD9C5AD),
                           ),
                         ),
-                        onPressed: () => null,
+                        onPressed: () {},
                         child: Text(
                           "Create New Account!",
                           style: Theme.of(context)

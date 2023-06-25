@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:projeto_computacao_movel/modules/queries/financer_query.dart';
 import 'package:projeto_computacao_movel/data/queries/financers_query.dart';
 import 'package:projeto_computacao_movel/modules/project.dart';
-import 'package:projeto_computacao_movel/widgets/popups/pop_up_payment.dart';
+import 'package:projeto_computacao_movel/widgets/popups/pop_ups_financer.dart';
 import '../modules/user.dart';
 
 class ProjectDetails extends StatefulWidget {
@@ -33,7 +33,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
 
   @override
   Widget build(BuildContext context) {
-    print('User1: ${widget.user?.email}');
+    //print('User1: ${widget.user?.email}');
     return Scaffold(
       appBar: AppBar(
         iconTheme: Theme.of(context).iconTheme,
@@ -52,10 +52,8 @@ class _ProjectDetailsState extends State<ProjectDetails> {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image(
-                  image: AssetImage(
-                    'assets/images/projects/${widget.project.image}',
-                  ),
+                child: Image.network(
+                  'https://housefunderstorage.blob.core.windows.net/projects/${widget.project.image}',
                   width: MediaQuery.sizeOf(context).width,
                   fit: BoxFit.cover,
                 ),
@@ -112,7 +110,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () => widget.token != null
-                          ? PopUpPayment.payment(context, widget.project,
+                          ? PopUpsFinancer.finance(context, widget.project,
                               widget.token, widget.user)
                           : Navigator.pushNamed(context, '/login'),
                       child: Text(
@@ -126,7 +124,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                         0), // used to make the icon with centered inside the button
                     icon:
                         SvgPicture.asset('assets/icons/heart.svg', height: 30),
-                    onPressed: () => null,
+                    onPressed: () {},
                   ),
                 ],
               ),
@@ -185,8 +183,8 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                     children: [
                                       ClipRRect(
                                         borderRadius: BorderRadius.circular(10),
-                                        child: Image.asset(
-                                          'assets/images/avatars/${snapshot.data![index].image}',
+                                        child: Image.network(
+                                          'https://housefunderstorage.blob.core.windows.net/images/${snapshot.data![index].image}',
                                           fit: BoxFit.fill,
                                         ),
                                       ),
@@ -208,6 +206,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .labelMedium,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
                                         ),
                                       ),

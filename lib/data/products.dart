@@ -34,15 +34,15 @@ class Products {
       Uri.http(url, '/api/products'),
       headers: {'Content-Type': 'application/json; charset=UTF-8'},
       body: jsonEncode(<String, dynamic>{
-      'description': product.description,
-      'image': product.image,
-      'price': product.price,
-      'title': product.title
+        'description': product.description,
+        'image': product.image,
+        'price': product.price,
+        'title': product.title
       }),
     );
 
     if (response.statusCode == 200) {
-      print('Product added successfully');
+      //print('Product added successfully');
     } else {
       throw Exception('Failed to add product');
     }

@@ -5,12 +5,9 @@ class EditProfileRequest {
   static const String url = '10.0.2.2:5048';
 
   static Future<bool> editProfile(String username, String email,
-      String? password, String? image, String? token, int userId) async {
+      String? password, String? token, int userId) async {
     if (password == '') {
       password = null;
-    }
-    if (image == '') {
-      image = null;
     }
 
     if (token != null) {
@@ -25,7 +22,6 @@ class EditProfileRequest {
             "username": username,
             "email": email,
             "password": password,
-            "image": image,
           }),
         );
 

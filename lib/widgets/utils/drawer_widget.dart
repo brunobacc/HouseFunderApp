@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_computacao_movel/modules/arguments/home_page_arguments.dart';
 import '../../main.dart';
 import '../../modules/arguments/user_arguments.dart';
 import '../../modules/my_flutter_app_icons.dart';
@@ -37,8 +38,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                           backgroundColor: Colors.transparent,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(100),
-                            child: Image.asset(
-                              'assets/images/avatars/${widget.user?.image}',
+                            child: Image.network(
+                              'https://housefunderstorage.blob.core.windows.net/images/${widget.user?.image}',
                             ),
                           ),
                         ),
@@ -65,9 +66,20 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     ListTile(
                       title: Text('Projects',
                           style: Theme.of(context).textTheme.bodySmall),
-                      leading: Icon(MyFlutterApp.blueprint),
+                      leading: const Icon(MyFlutterApp.blueprint),
                       onTap: () {
-                        Navigator.pushNamed(context, '/homepage', arguments: UserArguments(widget.token, widget.user));
+                        Navigator.pushNamed(context, '/',
+                            arguments: HomePageArguments(
+                                false,
+                                false,
+                                false,
+                                false,
+                                false,
+                                null,
+                                null,
+                                null,
+                                0,
+                                widget.token));
                       },
                     ),
                     ListTile(
@@ -75,7 +87,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                           style: Theme.of(context).textTheme.bodySmall),
                       leading: const Icon(Icons.manage_accounts),
                       onTap: () {
-                        Navigator.pushNamed(context, '/viewadmins', arguments: UserArguments(widget.token, widget.user));
+                        Navigator.pushNamed(context, '/administrators',
+                            arguments:
+                                UserArguments(widget.token, widget.user));
                       },
                     ),
                     ListTile(
@@ -91,7 +105,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     ListTile(
                       title: Text('Financers',
                           style: Theme.of(context).textTheme.bodySmall),
-                      leading: Icon(MyFlutterApp.user),
+                      leading: const Icon(MyFlutterApp.user),
                       onTap: () {
                         Navigator.pushNamed(context, '/financers',
                             arguments:
@@ -111,7 +125,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     ListTile(
                       title: Text('Proposals',
                           style: Theme.of(context).textTheme.bodySmall),
-                      leading: Icon(MyFlutterApp.document),
+                      leading: const Icon(MyFlutterApp.document),
                     ),
                   ],
                 )

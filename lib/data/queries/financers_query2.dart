@@ -16,7 +16,7 @@ class FinancersQuery2 {
 
     // deserialize process for a list
     iterable = json.decode(response.body);
-    print(response.body);
+    //print(response.body);
 
     if (response.statusCode == 200) {
       // deserialize the body

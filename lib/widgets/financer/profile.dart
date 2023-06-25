@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/data/projects_financed.dart';
 import 'package:projeto_computacao_movel/modules/project_financed.dart';
-import 'package:projeto_computacao_movel/widgets/popups/pop_up_edit.dart';
+import 'package:projeto_computacao_movel/widgets/popups/pop_ups_financer.dart';
 import 'package:projeto_computacao_movel/widgets/utils/bottom_navigation_bar_widget.dart';
 import '../../data/users.dart';
 import '../../modules/user.dart';
@@ -105,13 +105,32 @@ class _ProfileState extends State<Profile> {
                         child: Row(
                           children: [
                             // User Image
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(100),
-                              child: Image.asset(
-                                'assets/images/avatars/${snapshot.data!.image}',
-                                height: 130,
-                                width: 130,
-                              ),
+                            Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: Image.network(
+                                    'https://housefunderstorage.blob.core.windows.net/images/${snapshot.data!.image}',
+                                    height: 130,
+                                    width: 130,
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: 10,
+                                  right: 10,
+                                  child: IconButton(
+                                    onPressed: () => PopUpsFinancer.ediImage(
+                                        context: context,
+                                        user: snapshot.data,
+                                        token: widget.token),
+                                    icon: const Icon(
+                                      Icons.camera_alt,
+                                      color: Colors.blue,
+                                      size: 30,
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
                             // Info about the user (Username and Email) and button to edit profile
                             SizedBox(
@@ -149,7 +168,7 @@ class _ProfileState extends State<Profile> {
                                               .textTheme
                                               .bodyMedium,
                                         ),
-                                        onPressed: () => PopUpEdit.edit(
+                                        onPressed: () => PopUpsFinancer.edit(
                                             context: context,
                                             user: snapshot.data,
                                             token: widget.token)),
@@ -287,51 +306,52 @@ class _ProfileState extends State<Profile> {
                     0, // need null-coalescing operators to don't present the error "Null check operator used on a null value"
                 itemBuilder: (BuildContext context, int i) {
                   return ListTile(
-                    title: Stack(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image(
-                            image: AssetImage(
-                                'assets/images/projects/${_projectsFinanced![i].image}'),
-                            width: double.infinity,
-                            height: 200,
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 10,
-                          left: 10,
-                          child: Container(
-                            color: Colors.black54,
-                            width: 200,
-                            padding: const EdgeInsets.all(10),
-                            child: Text(
-                              _projectsFinanced![i].title,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context).textTheme.labelMedium,
+                      title: Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.network(
+                              'https://housefunderstorage.blob.core.windows.net/projects/${_projectsFinanced![i].image}',
+                              width: double.infinity,
+                              height: 200,
+                              fit: BoxFit.fill,
                             ),
                           ),
-                        ),
-                        Positioned(
-                          bottom: 10,
-                          right: 10,
-                          child: Container(
-                            color: Colors.black54,
-                            padding: const EdgeInsets.all(10),
-                            child: Text(
-                              _projectsFinanced![i]
-                                  .totalFinanced
-                                  .toStringAsFixed(2),
-                              style: Theme.of(context).textTheme.labelMedium,
+                          Positioned(
+                            bottom: 10,
+                            left: 10,
+                            child: Container(
+                              color: Colors.black54,
+                              width: 200,
+                              padding: const EdgeInsets.all(10),
+                              child: Text(
+                                _projectsFinanced![i].title,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context).textTheme.labelMedium,
+                              ),
                             ),
                           ),
-                        )
-                      ],
-                    ),
-                    onTap: () => null,
-                  );
+                          Positioned(
+                            bottom: 10,
+                            right: 10,
+                            child: Container(
+                              color: Colors.black54,
+                              padding: const EdgeInsets.all(10),
+                              child: Text(
+                                _projectsFinanced![i]
+                                    .totalFinancedUser
+                                    .toStringAsFixed(2),
+                                style: Theme.of(context).textTheme.labelMedium,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      onTap: () => PopUpsFinancer.financedProjects(
+                          context: context,
+                          token: widget.token,
+                          project: _projectsFinanced![i]));
                 },
               ),
             ),

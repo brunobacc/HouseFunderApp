@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_computacao_movel/modules/user.dart';
-
 import '../../data/register.dart';
 
 class AdminPopUp {
@@ -10,7 +8,7 @@ class AdminPopUp {
 
   static void create(BuildContext context) {
     var popUp = AlertDialog(
-      content: Create(),
+      content: const Create(),
       contentPadding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
@@ -25,8 +23,10 @@ class AdminPopUp {
 }
 
 class Create extends StatefulWidget {
+  const Create({super.key});
+
   @override
-  _CreateState createState() => _CreateState();
+  State<Create> createState() => _CreateState();
 }
 
 class _CreateState extends State<Create> {
@@ -57,7 +57,7 @@ class _CreateState extends State<Create> {
             children: [
               TextFormField(
                 controller: _nameController,
-                decoration: InputDecoration(labelText: 'Name'),
+                decoration: const InputDecoration(labelText: 'Name'),
                 validator: (value) {
                   if (value != null) {
                     return null;
@@ -67,7 +67,7 @@ class _CreateState extends State<Create> {
               ),
               TextFormField(
                 controller: _emailController,
-                decoration: InputDecoration(labelText: 'email'),
+                decoration: const InputDecoration(labelText: 'email'),
                 validator: (value) {
                   if (value != null) {
                     return null;
@@ -77,7 +77,7 @@ class _CreateState extends State<Create> {
               ),
               TextFormField(
                 controller: _passwordController,
-                decoration: InputDecoration(labelText: 'Password'),
+                decoration: const InputDecoration(labelText: 'Password'),
                 validator: (value) {
                   if (value != null) {
                     return null;
@@ -87,7 +87,7 @@ class _CreateState extends State<Create> {
               ),
               TextFormField(
                 controller: _imageController,
-                decoration: InputDecoration(labelText: 'Image'),
+                decoration: const InputDecoration(labelText: 'Image'),
                 validator: (value) {
                   if (value != null) {
                     return null;
@@ -95,18 +95,18 @@ class _CreateState extends State<Create> {
                   return 'Please enter an image';
                 },
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton(
-                    child: Text('Cancel'),
+                    child: const Text('Cancel'),
                     onPressed: () {
                       Navigator.pop(context); // Close the popup
                     },
                   ),
                   ElevatedButton(
-                    child: Text('Add'),
+                    child: const Text('Add'),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         RegisterUser.register(
@@ -114,13 +114,13 @@ class _CreateState extends State<Create> {
                             .then((_) {
                           Navigator.pop(context); // Close the popup
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
+                            const SnackBar(
                               content: Text('Administrator added successfully'),
                             ),
                           );
                         }).catchError((error) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
+                            const SnackBar(
                               content: Text('Failed to add admin'),
                             ),
                           );

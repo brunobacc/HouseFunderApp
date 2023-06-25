@@ -1,18 +1,18 @@
-/*import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/data/partnerships.dart';
 import 'package:projeto_computacao_movel/modules/arguments/home_page_arguments.dart';
 import 'package:projeto_computacao_movel/modules/partnership.dart';
-import 'package:projeto_computacao_movel/widgets/home_page.dart';
 
 class PopUpFilter {
   BuildContext context;
   PopUpFilter(this.context);
 
-  static void filter(BuildContext context, double maxPrice) {
-    var width = MediaQuery.sizeOf(context).width;
-    var height = MediaQuery.sizeOf(context).height * 0.75;
+  static void filter(BuildContext context, double maxPrice, String? token) {
     var popUp = AlertDialog(
-      content: Filter(maxPrice: maxPrice, width: width, height: height),
+      content: Filter(
+        maxPrice: maxPrice,
+        token: token,
+      ),
       insetPadding: EdgeInsets
           .zero, // used to remove the space between the container and the edges of the screen
       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -53,13 +53,8 @@ List<String> regions = [
 
 class Filter extends StatefulWidget {
   final double maxPrice;
-  final double width;
-  final double height;
-  const Filter(
-      {required this.maxPrice,
-      required this.width,
-      required this.height,
-      super.key});
+  final String? token;
+  const Filter({required this.maxPrice, required this.token, super.key});
 
   @override
   State<Filter> createState() => _FilterState();
@@ -87,216 +82,235 @@ class _FilterState extends State<Filter> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: widget.width,
-      height: widget.height,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'SORT BY',
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          CheckboxListTile(
-            shape: const Border(
-              top: BorderSide(),
-            ),
-            value: _newest,
-            onChanged: (_) => setState(() {
-              _newest = !_newest;
-            }),
-            title: Text(
-              'NEWEST',
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ),
-          CheckboxListTile(
-            shape: const Border(
-              top: BorderSide(),
-            ),
-            value: _oldest,
-            onChanged: (_) => setState(() {
-              _oldest = !_oldest;
-            }),
-            title: Text(
-              'OLDEST',
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ),
-          CheckboxListTile(
-            shape: const Border(
-              top: BorderSide(),
-            ),
-            value: _lowHigh,
-            onChanged: (_) => setState(() {
-              _lowHigh = !_lowHigh;
-            }),
-            title: Text(
-              'LOW € - HIGH €',
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ),
-          CheckboxListTile(
-            shape: const Border(
-              top: BorderSide(),
-            ),
-            value: _highLow,
-            onChanged: (_) => setState(() {
-              _highLow = !_highLow;
-            }),
-            title: Text(
-              'HIGH € - LOW €',
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ),
-          CheckboxListTile(
-            shape: const Border(
-              top: BorderSide(),
-              bottom: BorderSide(),
-            ),
-            selected: _likes,
-            value: _likes,
-            onChanged: (_) => setState(() {
-              _likes = !_likes;
-            }),
-            title: Text(
-              'LIKES',
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Text(
-            'FILTER BY',
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Container(
-            decoration: const BoxDecoration(border: Border(top: BorderSide())),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'PRICE NEEDED',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  RangeSlider(
-                    values: neededPrice,
-                    min: 0,
-                    max: widget.maxPrice,
-                    divisions: 100,
-                    labels: RangeLabels(
-                        '${neededPrice.start}€', '${neededPrice.end}€'),
-                    onChanged: (value) => setState(() {
-                      neededPrice = value;
-                    }),
-                  ),
-                ],
+      width: MediaQuery.sizeOf(context).width,
+      height: MediaQuery.sizeOf(context).height * 0.8,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Sort By',
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      color: Colors.brown,
+                    ),
               ),
-            ),
-          ),
-          Container(
-            decoration: const BoxDecoration(
-              border: Border(
-                top: BorderSide(),
+              const SizedBox(
+                height: 10,
               ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-              child: DropdownButton(
-                isExpanded: true,
-                hint: Text(
-                  'REGION',
+              CheckboxListTile(
+                shape: const Border(
+                  top: BorderSide(),
+                ),
+                value: _newest,
+                onChanged: (_) => setState(() {
+                  _newest = !_newest;
+                }),
+                title: Text(
+                  'NEWEST',
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                value: selectedRegion,
-                items: regions
-                    .map((e) => DropdownMenuItem(
-                          value: e,
-                          child: Text(
-                            e,
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                        ))
-                    .toList(),
-                onChanged: (value) => setState(() {
-                  selectedRegion = value;
-                }),
               ),
-            ),
-          ),
-          FutureBuilder<List<Partnership>>(
-            future: _partnerships,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Container(
-                  margin: const EdgeInsets.only(top: 10),
-                  decoration: const BoxDecoration(
-                    border: Border(
-                      top: BorderSide(),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                    child: DropdownButton(
-                      isExpanded: true,
-                      hint: Text(
-                        'PARTNERSHIP',
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                      value: selectedPartnership,
-                      items: snapshot.data!
-                          .map((p) => DropdownMenuItem(
-                                value: p.name,
-                                child: Text(
-                                  p.name,
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                ),
-                              ))
-                          .toList(),
-                      onChanged: (value) => setState(() {
-                        selectedPartnership = value;
-                      }),
-                    ),
-                  ),
-                );
-              } else if (snapshot.hasError) {
-                return Text('${snapshot.error}');
-              }
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            },
-          ),
-          Center(
-            child: ElevatedButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HomePageFinancer(
-                      newest: _newest,
-                      oldest: _oldest,
-                      lowHigh: _lowHigh,
-                      highLow: _highLow,
-                      likes: _likes,
-                      neededPrice: neededPrice,
-                      region: selectedRegion,
-                      partnership: selectedPartnership),
+              CheckboxListTile(
+                shape: const Border(
+                  top: BorderSide(),
+                ),
+                value: _oldest,
+                onChanged: (_) => setState(() {
+                  _oldest = !_oldest;
+                }),
+                title: Text(
+                  'OLDEST',
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ),
-              child: Text(
-                'Show Results',
-                style: Theme.of(context).textTheme.bodyMedium,
+              CheckboxListTile(
+                shape: const Border(
+                  top: BorderSide(),
+                ),
+                value: _lowHigh,
+                onChanged: (_) => setState(() {
+                  _lowHigh = !_lowHigh;
+                }),
+                title: Text(
+                  'LOW € - HIGH €',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
               ),
-            ),
+              CheckboxListTile(
+                shape: const Border(
+                  top: BorderSide(),
+                ),
+                value: _highLow,
+                onChanged: (_) => setState(() {
+                  _highLow = !_highLow;
+                }),
+                title: Text(
+                  'HIGH € - LOW €',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ),
+              CheckboxListTile(
+                shape: const Border(
+                  top: BorderSide(),
+                  bottom: BorderSide(),
+                ),
+                selected: _likes,
+                value: _likes,
+                onChanged: (_) => setState(() {
+                  _likes = !_likes;
+                }),
+                title: Text(
+                  'LIKES',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                'Filter By',
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      color: Colors.brown,
+                    ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                decoration:
+                    const BoxDecoration(border: Border(top: BorderSide())),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'PRICE NEEDED',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                      RangeSlider(
+                        values: neededPrice,
+                        min: 0,
+                        max: widget.maxPrice,
+                        divisions: 100,
+                        labels: RangeLabels(
+                            '${neededPrice.start}€', '${neededPrice.end}€'),
+                        onChanged: (value) => setState(() {
+                          neededPrice = value;
+                        }),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                decoration: const BoxDecoration(
+                  border: Border(
+                    top: BorderSide(),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                  child: DropdownButton(
+                    isExpanded: true,
+                    hint: Text(
+                      'REGION',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    value: selectedRegion,
+                    items: regions
+                        .map((e) => DropdownMenuItem(
+                              value: e,
+                              child: Text(
+                                e,
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                            ))
+                        .toList(),
+                    onChanged: (value) => setState(() {
+                      selectedRegion = value;
+                    }),
+                  ),
+                ),
+              ),
+              FutureBuilder<List<Partnership>>(
+                future: _partnerships,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Container(
+                      margin: const EdgeInsets.only(top: 10),
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          top: BorderSide(),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                        child: DropdownButton(
+                          isExpanded: true,
+                          hint: Text(
+                            'PARTNERSHIP',
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                          value: selectedPartnership,
+                          items: snapshot.data!
+                              .map((p) => DropdownMenuItem(
+                                    value: p.name,
+                                    child: Text(
+                                      p.name,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium,
+                                    ),
+                                  ))
+                              .toList(),
+                          onChanged: (value) => setState(() {
+                            selectedPartnership = value;
+                          }),
+                        ),
+                      ),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text('${snapshot.error}');
+                  }
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () => Navigator.pushNamed(
+                    context,
+                    '/',
+                    arguments: HomePageArguments(
+                      _newest,
+                      _oldest,
+                      _lowHigh,
+                      _highLow,
+                      _likes,
+                      neededPrice,
+                      selectedRegion,
+                      selectedPartnership,
+                      _maxPrice,
+                      null,
+                    ),
+                  ),
+                  child: Text(
+                    'Show Results',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
 }
-*/
