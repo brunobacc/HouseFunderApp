@@ -288,9 +288,6 @@ class _ProfileState extends State<Profile> {
                 );
               },
             ),
-            /*Image.network(
-                'https://housefunderstorage.blob.core.windows.net/images/Captura de ecrã 2023-04-20 233936.png'),*/
-
             Align(
               alignment: Alignment.topLeft,
               child: Padding(
@@ -313,9 +310,8 @@ class _ProfileState extends State<Profile> {
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(10),
-                            child: Image(
-                              image: AssetImage(
-                                  'assets/images/projects/${_projectsFinanced![i].image}'),
+                            child: Image.network(
+                              'https://housefunderstorage.blob.core.windows.net/projects/${_projectsFinanced![i].image}',
                               width: double.infinity,
                               height: 200,
                               fit: BoxFit.fill,

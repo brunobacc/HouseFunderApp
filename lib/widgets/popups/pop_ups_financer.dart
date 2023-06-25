@@ -106,7 +106,7 @@ class PopUpsFinancer {
 class Edit extends StatefulWidget {
   final User? user;
   final String? token;
-  Edit({required this.user, required this.token, super.key});
+  const Edit({required this.user, required this.token, super.key});
 
   @override
   State<Edit> createState() => _EditState();
@@ -311,7 +311,7 @@ class _EditImageState extends State<EditImage> {
             onPressed: () {
               getImage(ImageSource.gallery);
             },
-            child: Row(
+            child: const Row(
               children: [
                 Icon(Icons.image),
                 Text('From Gallery'),
@@ -323,7 +323,7 @@ class _EditImageState extends State<EditImage> {
             onPressed: () {
               getImage(ImageSource.camera);
             },
-            child: Row(
+            child: const Row(
               children: [
                 Icon(Icons.camera),
                 Text('From Camera'),
@@ -343,7 +343,7 @@ class _EditImageState extends State<EditImage> {
                     ),
                   ),
                 )
-              : Text(
+              : const Text(
                   "Select an Image!",
                   style: TextStyle(fontSize: 20),
                 ),
@@ -418,7 +418,7 @@ class _FinancedProjectsState extends State<FinancedProjects> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: MediaQuery.sizeOf(context).height * 0.8,
       width: MediaQuery.sizeOf(context).width * 0.8,
       child: SingleChildScrollView(
@@ -719,7 +719,7 @@ class _FinanceState extends State<Finance> {
                 ),
               ),
               InkWell(
-                onTap: () => null,
+                onTap: () {},
                 child: Image.asset(
                   'assets/images/methods/mbWay.png',
                   height: 60,
@@ -727,7 +727,7 @@ class _FinanceState extends State<Finance> {
                 ),
               ),
               InkWell(
-                onTap: () => null,
+                onTap: () {},
                 child: Image.asset(
                   'assets/images/methods/PayPal.png',
                   height: 60,

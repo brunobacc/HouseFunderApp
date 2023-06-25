@@ -7,7 +7,7 @@ class ProposalPage extends StatefulWidget {
   static const String routeName = '/proposal';
 
   @override
-  _ProposalPageState createState() => _ProposalPageState();
+  State<ProposalPage> createState() => _ProposalPageState();
 }
 
 class _ProposalPageState extends State<ProposalPage> {
@@ -22,57 +22,58 @@ class _ProposalPageState extends State<ProposalPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TextField(
-              decoration: InputDecoration(labelText: 'Partnership'),
+              decoration: const InputDecoration(labelText: 'Partnership'),
               onChanged: (value) {
                 setState(() {
                   partnership = value;
                 });
               },
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextField(
-              decoration: InputDecoration(labelText: 'Title'),
+              decoration: const InputDecoration(labelText: 'Title'),
               onChanged: (value) {
                 setState(() {
                   title = value;
                 });
               },
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextField(
-              decoration: InputDecoration(labelText: 'Description'),
+              decoration: const InputDecoration(labelText: 'Description'),
               onChanged: (value) {
                 setState(() {
                   description = value;
                 });
               },
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextField(
-              decoration: InputDecoration(labelText: 'Location'),
+              decoration: const InputDecoration(labelText: 'Location'),
               onChanged: (value) {
                 setState(() {
                   location = value;
                 });
               },
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextField(
-              decoration: InputDecoration(labelText: 'Category'),
+              decoration: const InputDecoration(labelText: 'Category'),
               onChanged: (value) {
                 setState(() {
                   category = value;
                 });
               },
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextField(
-              decoration: InputDecoration(labelText: 'Total Amount Needed'),
+              decoration:
+                  const InputDecoration(labelText: 'Total Amount Needed'),
               keyboardType: TextInputType.number,
               onChanged: (value) {
                 setState(() {
@@ -80,12 +81,12 @@ class _ProposalPageState extends State<ProposalPage> {
                 });
               },
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             ElevatedButton(
               onPressed: () {
                 null;
               },
-              child: Text('Submit Proposal'),
+              child: const Text('Submit Proposal'),
             ),
           ],
         ),

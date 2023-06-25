@@ -6,7 +6,7 @@ class PopUpBuyProduct extends StatelessWidget {
   final Product product;
 
   const PopUpBuyProduct({
-    Key? key,
+    super.key,
     required this.product,
   });
 

@@ -9,7 +9,7 @@ class ProductPopUp {
 
   static void create(BuildContext context) {
     var popUp = AlertDialog(
-      content: Create(),
+      content: const Create(),
       contentPadding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
@@ -78,8 +78,10 @@ class ProductPopUp {
 }
 
 class Create extends StatefulWidget {
+  const Create({super.key});
+
   @override
-  _CreateState createState() => _CreateState();
+  State<Create> createState() => _CreateState();
 }
 
 class _CreateState extends State<Create> {
@@ -110,7 +112,7 @@ class _CreateState extends State<Create> {
             children: [
               TextFormField(
                 controller: _titleController,
-                decoration: InputDecoration(labelText: 'Title'),
+                decoration: const InputDecoration(labelText: 'Title'),
                 validator: (value) {
                   if (value != null) {
                     return null;
@@ -120,7 +122,7 @@ class _CreateState extends State<Create> {
               ),
               TextFormField(
                 controller: _descriptionController,
-                decoration: InputDecoration(labelText: 'Description'),
+                decoration: const InputDecoration(labelText: 'Description'),
                 validator: (value) {
                   if (value != null) {
                     return null;
@@ -130,7 +132,7 @@ class _CreateState extends State<Create> {
               ),
               TextFormField(
                 controller: _priceController,
-                decoration: InputDecoration(labelText: 'Price'),
+                decoration: const InputDecoration(labelText: 'Price'),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value != null) {
@@ -144,7 +146,7 @@ class _CreateState extends State<Create> {
               ),
               TextFormField(
                 controller: _imageController,
-                decoration: InputDecoration(labelText: 'Image'),
+                decoration: const InputDecoration(labelText: 'Image'),
                 validator: (value) {
                   if (value != null) {
                     return null;
@@ -152,18 +154,18 @@ class _CreateState extends State<Create> {
                   return 'Please enter an image';
                 },
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton(
-                    child: Text('Cancel'),
+                    child: const Text('Cancel'),
                     onPressed: () {
                       Navigator.pop(context); // Close the popup
                     },
                   ),
                   ElevatedButton(
-                    child: Text('Add'),
+                    child: const Text('Add'),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         Product newProduct = Product(
@@ -177,13 +179,13 @@ class _CreateState extends State<Create> {
                         Products.addProduct(newProduct).then((_) {
                           Navigator.pop(context); // Close the popup
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
+                            const SnackBar(
                               content: Text('Product added successfully'),
                             ),
                           );
                         }).catchError((error) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
+                            const SnackBar(
                               content: Text('Failed to add product'),
                             ),
                           );

@@ -13,7 +13,7 @@ class AdministratorsPage extends StatefulWidget {
   static const String routeName = '/administrators';
 
   @override
-  _AdministratorsPageState createState() => _AdministratorsPageState();
+  State<AdministratorsPage> createState() => _AdministratorsPageState();
 }
 
 class _AdministratorsPageState extends State<AdministratorsPage> {

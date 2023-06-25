@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:projeto_computacao_movel/modules/arguments/home_page_arguments.dart';
-import 'package:projeto_computacao_movel/modules/arguments/user_arguments.dart';
 
-import '../../modules/user.dart';
 
 class BottomNavigationBarWidget extends StatelessWidget {
   final int selectedIndex;

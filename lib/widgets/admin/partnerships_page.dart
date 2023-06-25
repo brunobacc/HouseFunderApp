@@ -9,9 +9,10 @@ class PartnershipsPage extends StatefulWidget {
   final User? user;
   const PartnershipsPage({required this.token, required this.user, super.key});
 
-  @override
-  _PartnershipsPageState createState() => _PartnershipsPageState();
   static const String routeName = '/partnerships';
+
+  @override
+  State<PartnershipsPage> createState() => _PartnershipsPageState();
 }
 
 class _PartnershipsPageState extends State<PartnershipsPage> {
@@ -44,7 +45,7 @@ class _PartnershipsPageState extends State<PartnershipsPage> {
               future: partnerships,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Text('${snapshot.error ?? "Error occurred"}');
                 } else if (snapshot.hasData) {
@@ -92,7 +93,7 @@ class _PartnershipsPageState extends State<PartnershipsPage> {
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
-                                  SizedBox(height: 4),
+                                  const SizedBox(height: 4),
                                   Align(
                                     alignment: Alignment.center,
                                     child: Text(
@@ -111,7 +112,7 @@ class _PartnershipsPageState extends State<PartnershipsPage> {
                     },
                   );
                 }
-                return Text('Zero partnerships to show');
+                return const Text('Zero partnerships to show');
               },
             ),
           ),

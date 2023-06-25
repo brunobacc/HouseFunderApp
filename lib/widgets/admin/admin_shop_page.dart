@@ -66,14 +66,14 @@ class _ShopPageAdminState extends State<ShopPageAdmin> {
                       itemBuilder: (BuildContext context, int index) {
                         if (index == 0) {
                           return InkWell(
-                            child: Card(
+                            child: const Card(
                               child: Icon(Icons.add),
                             ),
                             onTap: () async {
                               await showDialog(
                                 barrierDismissible: false,
                                 context: context,
-                                builder: (context) => Create(),
+                                builder: (context) => const Create(),
                               );
                             },
                           );

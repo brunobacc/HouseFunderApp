@@ -38,8 +38,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                           backgroundColor: Colors.transparent,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(100),
-                            child: Image.asset(
-                              'assets/images/avatars/${widget.user?.image}',
+                            child: Image.network(
+                              'https://housefunderstorage.blob.core.windows.net/images/${widget.user?.image}',
                             ),
                           ),
                         ),
@@ -125,7 +125,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     ListTile(
                       title: Text('Proposals',
                           style: Theme.of(context).textTheme.bodySmall),
-                      leading: Icon(MyFlutterApp.document),
+                      leading: const Icon(MyFlutterApp.document),
                     ),
                   ],
                 )

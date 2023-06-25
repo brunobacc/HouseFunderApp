@@ -16,7 +16,7 @@ class Images {
 
     try {
       var response = await request.send();
-      print(response.statusCode);
+      //print(response.statusCode);
       if (response.statusCode == 200) {
         // Image uploaded successfully
         return true;

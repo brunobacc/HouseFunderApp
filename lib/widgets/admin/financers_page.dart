@@ -93,7 +93,7 @@ class _FinancersAdminPageState extends State<FinancersAdminPage> {
                                           .bodyMedium,
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 10,
                                   ),
                                   Row(
