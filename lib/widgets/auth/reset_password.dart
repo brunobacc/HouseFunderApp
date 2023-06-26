@@ -1,13 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_computacao_movel/data/auth/login.dart';
+import 'package:projeto_computacao_movel/modules/arguments/home_page_arguments.dart';
+import '../utils/validations.dart';
 
-class ResetPassword extends StatelessWidget {
+class ResetPassword extends StatefulWidget {
   const ResetPassword({super.key});
 
-  static const String routeName = '/resetPassword';
+  static const String routeName = '/Reset';
+
+  @override
+  State<ResetPassword> createState() => _ResetPasswordState();
+}
+
+class _ResetPasswordState extends State<ResetPassword> {
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  bool _passwordVisible = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         width: double.infinity,
         decoration: const BoxDecoration(
@@ -22,63 +36,64 @@ class ResetPassword extends StatelessWidget {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            const SizedBox(
-              height: 80,
-            ),
+          children: [
             Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Center(
-                    child: Text(
-                      "Reset Password",
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(color: Colors.white),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Center(
-                    child: Text(
-                      "Enter your new password.",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(color: Colors.white),
-                    ),
-                  ),
-                ],
+              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 25),
+              child: IconButton(
+                icon: const Icon(
+                  Icons.arrow_back,
+                  size: 50,
+                  color: Colors.white,
+                ),
+                onPressed: () =>
+                    Navigator.pushNamed(context, '/', arguments: null),
               ),
             ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Row(),
+                Text(
+                  "Reset Password",
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(color: Colors.white),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "Enter your new password.",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(color: Colors.white),
+                ),
+              ],
+            ),
             const SizedBox(
-              height: 40,
+              height: 60,
             ),
             Expanded(
               child: Container(
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(60),
-                    topRight: Radius.circular(60),
+                    topLeft: Radius.circular(40),
+                    topRight: Radius.circular(40),
                   ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(20),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
                   child: Column(
-                    children: <Widget>[
-                      const SizedBox(
-                        height: 80,
-                      ),
+                    children: [
                       Container(
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(20),
                           boxShadow: const [
                             BoxShadow(
                               color: Color.fromRGBO(225, 95, 27, .3),
@@ -87,60 +102,146 @@ class ResetPassword extends StatelessWidget {
                             ),
                           ],
                         ),
-                        child: Column(children: <Widget>[
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: const BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(color: Colors.grey),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5),
+                                decoration: const BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(color: Colors.grey),
+                                  ),
+                                ),
+                                child: TextFormField(
+                                  controller: emailController,
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  decoration: InputDecoration(
+                                    hintText: "Password",
+                                    hintStyle: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(color: Colors.grey),
+                                    border: InputBorder.none,
+                                  ),
+                                  validator: (value) {
+                                    if (value != null && !value.isValidEmail) {
+                                      return 'Password not valid!';
+                                    }
+                                    return null;
+                                  },
+                                ),
                               ),
-                            ),
-                            child: const TextField(
-                              decoration: InputDecoration(
-                                hintText: "New Password",
-                                hintStyle: TextStyle(color: Colors.grey),
-                                border: InputBorder.none,
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5),
+                                decoration: const BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(color: Colors.grey),
+                                  ),
+                                ),
+                                child: TextFormField(
+                                  controller: emailController,
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  decoration: InputDecoration(
+                                    hintText: "Repeat Password",
+                                    hintStyle: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(color: Colors.grey),
+                                    border: InputBorder.none,
+                                  ),
+                                  validator: (value) {
+                                    if (value != null && !value.isValidEmail) {
+                                      return 'Password not valid!';
+                                    }
+                                    return null;
+                                  },
+                                ),
                               ),
-                            ),
+                            ],
                           ),
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: const BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(color: Colors.grey),
-                              ),
-                            ),
-                            child: const TextField(
-                              decoration: InputDecoration(
-                                hintText: "Repeat New Password",
-                                hintStyle: TextStyle(color: Colors.grey),
-                                border: InputBorder.none,
-                              ),
-                            ),
-                          ),
-                        ]),
-                      ),
-                      const SizedBox(
-                        height: 40,
-                      ),
-                      Container(
-                        height: 50,
-                        margin: const EdgeInsets.symmetric(horizontal: 50),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          color: const Color(0xFFD9C5AD),
                         ),
-                        child: const Center(
-                          child: Text(
-                            "Reset Password",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 40),
+                      ),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          shape: MaterialStatePropertyAll(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                          ),
+                          padding: const MaterialStatePropertyAll(
+                            EdgeInsets.symmetric(horizontal: 110, vertical: 10),
+                          ),
+                          backgroundColor: const MaterialStatePropertyAll(
+                            Color(0xFFD9C5AD),
                           ),
                         ),
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            // Validating the Register credentials and getting a future token
+                            final tokenFuture = Login.validate(
+                              emailController.text,
+                              passwordController.text,
+                            );
+
+                            // when tokenFuture receives a value, it will validate if the token isn't null
+                            tokenFuture.then((token) {
+                              if (token != null) {
+                                Navigator.pushNamed(
+                                  context,
+                                  '/',
+                                  arguments: HomePageArguments(
+                                    false,
+                                    false,
+                                    false,
+                                    false,
+                                    false,
+                                    null,
+                                    null,
+                                    null,
+                                    0,
+                                    token,
+                                  ),
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Invalid Credentials!'),
+                                  ),
+                                );
+                              }
+                            }).catchError((error) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Failed to validate Register'),
+                                ),
+                              );
+                            });
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Please fill input!'),
+                              ),
+                            );
+                          }
+                        },
+                        child: Text(
+                          "Send",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                        ),
                       ),
-                      const SizedBox(
-                        height: 40,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 40),
                       ),
                     ],
                   ),
