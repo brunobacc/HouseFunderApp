@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../data/administrators.dart';
+import 'package:projeto_computacao_movel/data/users.dart';
 import '../../modules/admnistrator.dart';
 import '../../modules/user.dart';
 import '../popups/pop_ups_admin.dart';
@@ -23,7 +23,7 @@ class _AdministratorsPageState extends State<AdministratorsPage> {
   @override
   void initState() {
     super.initState();
-    administrators = Administradores.fetchAdministrators();
+    administrators = Users.fetchAdministrators();
   }
 
   @override
@@ -73,7 +73,7 @@ class _AdministratorsPageState extends State<AdministratorsPage> {
                           ),
                           onTap: () {
                             PopUpsAdmin.createAdmin(context);
-                            Administradores.fetchAdministrators();
+                            Users.fetchAdministrators();
                           },
                         );
                       }

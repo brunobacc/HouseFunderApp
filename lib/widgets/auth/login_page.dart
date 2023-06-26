@@ -1,7 +1,5 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:projeto_computacao_movel/data/auth/login.dart';
+import 'package:projeto_computacao_movel/data/users.dart';
 import 'package:projeto_computacao_movel/modules/arguments/home_page_arguments.dart';
 import '../utils/validations.dart';
 
@@ -52,23 +50,20 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.fromLTRB(20, 15, 20, 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Row(),
                   Text(
-                    "Login",
+                    "Welcome!",
                     style: Theme.of(context)
                         .textTheme
                         .titleLarge!
                         .copyWith(color: Colors.white),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
                   Text(
-                    "Enter your Details!",
+                    "Please enter your detail!",
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium!
@@ -78,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             const SizedBox(
-              height: 60,
+              height: 40,
             ),
             Expanded(
               child: Container(
@@ -172,93 +167,100 @@ class _LoginPageState extends State<LoginPage> {
                                   return null;
                                 },
                               ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 40),
+                                child: SelectableText(
+                                  "Forgot Password?",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(color: Colors.grey),
+                                  onTap: () => Navigator.pushNamed(
+                                      context, '/emailVerification'),
+                                ),
+                              ),
+                              ElevatedButton(
+                                style: ButtonStyle(
+                                  shape: MaterialStatePropertyAll(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(50),
+                                    ),
+                                  ),
+                                  padding: const MaterialStatePropertyAll(
+                                    EdgeInsets.symmetric(
+                                        horizontal: 110, vertical: 10),
+                                  ),
+                                  backgroundColor:
+                                      const MaterialStatePropertyAll(
+                                    Color(0xFFD9C5AD),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    // Validating the login credentials and getting a future token
+                                    final tokenFuture = Users.login(
+                                      emailController.text,
+                                      passwordController.text,
+                                    );
+
+                                    // when tokenFuture receives a value, it will validate if the token isn't null
+                                    tokenFuture.then((token) {
+                                      if (token != null) {
+                                        Navigator.pushNamed(
+                                          context,
+                                          '/',
+                                          arguments: HomePageArguments(
+                                            false,
+                                            false,
+                                            false,
+                                            false,
+                                            false,
+                                            null,
+                                            null,
+                                            null,
+                                            0,
+                                            token,
+                                          ),
+                                        );
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content:
+                                                Text('Invalid Credentials!'),
+                                          ),
+                                        );
+                                      }
+                                    }).catchError((error) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content:
+                                              Text('Failed to validate login'),
+                                        ),
+                                      );
+                                    });
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text('Please fill input!'),
+                                      ),
+                                    );
+                                  }
+                                },
+                                child: Text(
+                                  "Login",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                ),
+                              ),
                             ],
                           ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 40),
-                        child: SelectableText(
-                          "Forgot Password?",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(color: Colors.grey),
-                          onTap: () => Navigator.pushNamed(
-                              context, '/emailVerification'),
-                        ),
-                      ),
-                      ElevatedButton(
-                        style: ButtonStyle(
-                          shape: MaterialStatePropertyAll(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                          ),
-                          padding: const MaterialStatePropertyAll(
-                            EdgeInsets.symmetric(horizontal: 110, vertical: 10),
-                          ),
-                          backgroundColor: const MaterialStatePropertyAll(
-                            Color(0xFFD9C5AD),
-                          ),
-                        ),
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            // Validating the login credentials and getting a future token
-                            final tokenFuture = Login.validate(
-                              emailController.text,
-                              passwordController.text,
-                            );
-
-                            // when tokenFuture receives a value, it will validate if the token isn't null
-                            tokenFuture.then((token) {
-                              if (token != null) {
-                                Navigator.pushNamed(
-                                  context,
-                                  '/',
-                                  arguments: HomePageArguments(
-                                    false,
-                                    false,
-                                    false,
-                                    false,
-                                    false,
-                                    null,
-                                    null,
-                                    null,
-                                    0,
-                                    token,
-                                  ),
-                                );
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Invalid Credentials!'),
-                                  ),
-                                );
-                              }
-                            }).catchError((error) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Failed to validate login'),
-                                ),
-                              );
-                            });
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Please fill input!'),
-                              ),
-                            );
-                          }
-                        },
-                        child: Text(
-                          "Login",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
                         ),
                       ),
                       Padding(
@@ -285,7 +287,9 @@ class _LoginPageState extends State<LoginPage> {
                             Color(0xFFD9C5AD),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/register');
+                        },
                         child: Text(
                           "Create New Account!",
                           style: Theme.of(context)

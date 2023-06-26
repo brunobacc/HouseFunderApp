@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../data/partnerships.dart';
+import 'package:projeto_computacao_movel/data/users.dart';
 import '../../modules/partnership.dart';
 import '../../modules/user.dart';
 import '../utils/drawer_widget.dart';
@@ -21,7 +21,7 @@ class _PartnershipsPageState extends State<PartnershipsPage> {
   @override
   void initState() {
     super.initState();
-    partnerships = Partnerships.fetchPartnerships();
+    partnerships = Users.fetchPartnerships();
   }
 
   @override

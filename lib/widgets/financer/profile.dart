@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_computacao_movel/data/projects_financed.dart';
+import 'package:projeto_computacao_movel/data/projects.dart';
 import 'package:projeto_computacao_movel/modules/project_financed.dart';
 import 'package:projeto_computacao_movel/widgets/popups/pop_ups_financer.dart';
 import 'package:projeto_computacao_movel/widgets/utils/bottom_navigation_bar_widget.dart';
@@ -24,14 +24,14 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     super.initState();
-    _user = Users.fetchNext(widget.token);
+    _user = Users.fetchUser(widget.token);
     _fetchProjects();
   }
 
   Future<void> _fetchProjects() async {
     _user.then((user) async {
       if (user != null) {
-        final projects = await ProjectsFinanced.fetchNext(user.userId);
+        final projects = await Projects.fetchFinancedP(user.userId);
         setState(() {
           _projectsFinanced = projects;
         });
@@ -45,7 +45,7 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
       key: scaffoldKey,
       drawer: FutureBuilder<User?>(
-        future: Users.fetchNext(widget.token),
+        future: Users.fetchUser(widget.token),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return DrawerWidget(token: widget.token, user: snapshot.data);

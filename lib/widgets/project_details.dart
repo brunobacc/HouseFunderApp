@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:projeto_computacao_movel/modules/queries/financer_query.dart';
-import 'package:projeto_computacao_movel/data/queries/financers_query.dart';
+import 'package:projeto_computacao_movel/data/projects.dart';
+import 'package:projeto_computacao_movel/modules/project_financer.dart';
 import 'package:projeto_computacao_movel/modules/project.dart';
 import 'package:projeto_computacao_movel/widgets/popups/pop_ups_financer.dart';
 import '../modules/user.dart';
@@ -23,12 +22,12 @@ class ProjectDetails extends StatefulWidget {
 }
 
 class _ProjectDetailsState extends State<ProjectDetails> {
-  late Future<List<FinancerQuery>> _financers;
+  late Future<List<ProjectFinancer>> _financers;
 
   @override
   void initState() {
     super.initState();
-    _financers = FinancersQuery.fetchNext(widget.project.projectId);
+    _financers = Projects.fetchProjectFinancers(widget.project.projectId);
   }
 
   @override
@@ -105,28 +104,19 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                   ],
                 ),
               ),
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () => widget.token != null
-                          ? PopUpsFinancer.finance(context, widget.project,
-                              widget.token, widget.user)
-                          : Navigator.pushNamed(context, '/login'),
-                      child: Text(
-                        'Finance',
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    padding: const EdgeInsets.all(
-                        0), // used to make the icon with centered inside the button
-                    icon:
-                        SvgPicture.asset('assets/icons/heart.svg', height: 30),
-                    onPressed: () {},
-                  ),
-                ],
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize:
+                      const Size.fromHeight(35), // make the button expanded
+                ),
+                onPressed: () => widget.token != null
+                    ? PopUpsFinancer.finance(
+                        context, widget.project, widget.token, widget.user)
+                    : Navigator.pushNamed(context, '/login'),
+                child: Text(
+                  'Finance',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 5),

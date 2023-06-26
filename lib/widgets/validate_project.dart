@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_computacao_movel/data/projects.dart';
 import 'package:projeto_computacao_movel/modules/project.dart';
-import '../../data/validate_projects.dart';
-import '../../modules/user.dart';
+import '../modules/user.dart';
 
 class ProjectDetailsValidate extends StatefulWidget {
   final Project project;
@@ -108,12 +108,12 @@ class _ProjectDetailsValidateState extends State<ProjectDetailsValidate> {
                     child: ElevatedButton(
                       onPressed: () {
                         if (widget.user?.permissionLevel == 3) {
-                          ValidateProjects.validateProject(
+                          Projects.validateProject(
                               widget.token, 5, widget.project.projectId);
                           print(widget.project.statusId);
                           Navigator.pop(context);
                         } else {
-                          ValidateProjects.validateProject(
+                          Projects.validateProject(
                               widget.token, 2, widget.project.projectId);
                           Navigator.pop(context);
                         }

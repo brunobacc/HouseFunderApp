@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_computacao_movel/modules/queries/financers_query2.dart';
-import '../../data/queries/financers_query2.dart';
+import 'package:projeto_computacao_movel/data/users.dart';
+import '../../modules/financer.dart';
 import '../../modules/user.dart';
 import '../utils/drawer_widget.dart';
 
@@ -17,12 +17,12 @@ class FinancersAdminPage extends StatefulWidget {
 }
 
 class _FinancersAdminPageState extends State<FinancersAdminPage> {
-  late Future<List<FinancerQuery2>> financers;
+  late Future<List<Financer>> financers;
 
   @override
   void initState() {
     super.initState();
-    financers = FinancersQuery2.fetchFinancers();
+    financers = Users.fetchFinancers();
   }
 
   @override
@@ -42,7 +42,7 @@ class _FinancersAdminPageState extends State<FinancersAdminPage> {
       body: Column(
         children: [
           Expanded(
-            child: FutureBuilder<List<FinancerQuery2>>(
+            child: FutureBuilder<List<Financer>>(
               future: financers,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -50,7 +50,7 @@ class _FinancersAdminPageState extends State<FinancersAdminPage> {
                 } else if (snapshot.hasError) {
                   return Text('Error occurred: ${snapshot.error}');
                 } else if (snapshot.hasData) {
-                  List<FinancerQuery2>? financers = snapshot.data;
+                  List<Financer>? financers = snapshot.data;
                   return GridView.builder(
                     padding: const EdgeInsets.all(16),
                     itemCount: financers?.length,
@@ -61,7 +61,7 @@ class _FinancersAdminPageState extends State<FinancersAdminPage> {
                       mainAxisSpacing: 10.0,
                     ),
                     itemBuilder: (context, index) {
-                      final FinancerQuery2 financer = financers![index];
+                      final Financer financer = financers![index];
                       return Card(
                         elevation: 4,
                         shape: RoundedRectangleBorder(
@@ -69,14 +69,12 @@ class _FinancersAdminPageState extends State<FinancersAdminPage> {
                         ),
                         child: Column(
                           children: [
-                            Container(
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.network(
-                                  'https://housefunderstorage.blob.core.windows.net/images/${snapshot.data![index].image}',
-                                  height: 100,
-                                  fit: BoxFit.fill,
-                                ),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.network(
+                                'https://housefunderstorage.blob.core.windows.net/images/${snapshot.data![index].image}',
+                                height: 100,
+                                fit: BoxFit.fill,
                               ),
                             ),
                             Padding(

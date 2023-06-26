@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_computacao_movel/data/partnerships.dart';
+import 'package:projeto_computacao_movel/data/users.dart';
 import 'package:projeto_computacao_movel/modules/arguments/home_page_arguments.dart';
 import 'package:projeto_computacao_movel/modules/partnership.dart';
 
@@ -76,7 +76,7 @@ class _FilterState extends State<Filter> {
   void initState() {
     super.initState();
     _maxPrice = widget.maxPrice;
-    _partnerships = Partnerships.fetchPartnerships();
+    _partnerships = Users.fetchPartnerships();
   }
 
   @override

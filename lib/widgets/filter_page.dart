@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_computacao_movel/data/users.dart';
 import 'package:projeto_computacao_movel/modules/arguments/home_page_arguments.dart';
-
-import '../data/partnerships.dart';
 import '../modules/partnership.dart';
 
 List<String> regions = [
@@ -52,7 +51,7 @@ class _FilterPageState extends State<FilterPage> {
   void initState() {
     super.initState();
     _maxPrice = widget.maxPrice;
-    _partnerships = Partnerships.fetchPartnerships();
+    _partnerships = Users.fetchPartnerships();
   }
 
   @override

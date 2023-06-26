@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_computacao_movel/data/auth/login.dart';
 import 'package:projeto_computacao_movel/data/users.dart';
-import 'package:projeto_computacao_movel/modules/arguments/home_page_arguments.dart';
 import '../utils/validations.dart';
 
 class ResetPassword extends StatefulWidget {
@@ -52,31 +50,31 @@ class _ResetPasswordState extends State<ResetPassword> {
                 onPressed: () => Navigator.pop(context),
               ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Row(),
-                Text(
-                  "Reset Password",
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge!
-                      .copyWith(color: Colors.white),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  "Enter your new password.",
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium!
-                      .copyWith(color: Colors.white),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 15, 20, 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Row(),
+                  Text(
+                    "Reset Password",
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge!
+                        .copyWith(color: Colors.white),
+                  ),
+                  Text(
+                    "Enter your new password.",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: Colors.white),
+                  ),
+                ],
+              ),
             ),
             const SizedBox(
-              height: 60,
+              height: 40,
             ),
             Expanded(
               child: Container(
@@ -209,8 +207,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 40),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 40),
                       ),
                       ElevatedButton(
                         style: ButtonStyle(
@@ -240,7 +238,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                           }
                         },
                         child: Text(
-                          "Send",
+                          "Reset Password",
                           style: Theme.of(context)
                               .textTheme
                               .bodyLarge!
@@ -248,9 +246,6 @@ class _ResetPasswordState extends State<ResetPassword> {
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 40),
                       ),
                     ],
                   ),

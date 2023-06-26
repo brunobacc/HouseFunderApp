@@ -1,18 +1,16 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:projeto_computacao_movel/data/edit_profile_request.dart';
 import 'package:projeto_computacao_movel/data/notifications.dart';
-import 'package:projeto_computacao_movel/data/queries/filter_projects.dart';
+import 'package:projeto_computacao_movel/data/projects.dart';
+import 'package:projeto_computacao_movel/data/users.dart';
 import 'package:projeto_computacao_movel/modules/product.dart';
 import 'package:projeto_computacao_movel/modules/user.dart';
 import 'package:projeto_computacao_movel/widgets/popups/pop_up_info.dart';
-import '../../data/finance_project.dart';
 import '../../data/images.dart';
-import '../../data/queries/financers_query.dart';
 import '../../modules/project.dart';
 import '../../modules/project_financed.dart';
-import '../../modules/queries/financer_query.dart';
+import '../../modules/project_financer.dart';
 import '../../modules/user_notification.dart';
 import '../utils/validations.dart';
 
@@ -284,13 +282,12 @@ class _EditState extends State<Edit> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         // create a new variable to store the bool received from the "EditProfileRequest" function
-                        Future<bool> editProfile =
-                            EditProfileRequest.editProfile(
-                                usernameController.text,
-                                emailController.text,
-                                passwordController.text,
-                                widget.token,
-                                widget.user!.userId);
+                        Future<bool> editProfile = Users.editProfile(
+                            usernameController.text,
+                            emailController.text,
+                            passwordController.text,
+                            widget.token,
+                            widget.user!.userId);
 
                         // when editProfile receives a bool value, it will present an information popUp
                         editProfile.then(
@@ -464,12 +461,12 @@ class FinancedProjects extends StatefulWidget {
 }
 
 class _FinancedProjectsState extends State<FinancedProjects> {
-  late Future<List<FinancerQuery>> _financers;
+  late Future<List<ProjectFinancer>> _financers;
 
   @override
   void initState() {
     super.initState();
-    _financers = FinancersQuery.fetchNext(widget.project.projectId);
+    _financers = Projects.fetchProjectFinancers(widget.project.projectId);
   }
 
   @override
@@ -741,7 +738,7 @@ class _FinanceState extends State<Finance> {
               InkWell(
                 onTap: () {
                   // create a new variable to store the bool received from the "DeletePlayer" function
-                  Future<bool> financeStatus = FinanceProject.financeProject(
+                  Future<bool> financeStatus = Projects.financeProject(
                     widget.project,
                     double.parse(amountFinancedController.text),
                     widget.token,
@@ -948,7 +945,7 @@ class _ProductBought extends State<ProductBought> {
   @override
   void initState() {
     super.initState();
-    _projects = FilterProjects.fetchNext(
+    _projects = Projects.fetchFilteredP(
         false, false, false, false, null, null, null, null);
   }
 
@@ -1019,8 +1016,7 @@ class _ProductBought extends State<ProductBought> {
                       ),
                       onTap: () {
                         // create a new variable to store the bool received from the "DeletePlayer" function
-                        Future<bool> financeStatus =
-                            FinanceProject.financeProject(
+                        Future<bool> financeStatus = Projects.financeProject(
                           snapshot.data![index],
                           widget.product.value ?? 0,
                           widget.token,
@@ -1030,10 +1026,8 @@ class _ProductBought extends State<ProductBought> {
                         financeStatus.then(
                           (value) {
                             if (value) {
-                              EditProfileRequest.updatePoints(
-                                  widget.product.price,
-                                  widget.token,
-                                  widget.user!.userId);
+                              Users.updatePoints(widget.product.price,
+                                  widget.token, widget.user!.userId);
                               PopUpInfo.info(
                                 context,
                                 'Success',

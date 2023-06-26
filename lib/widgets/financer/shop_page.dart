@@ -30,7 +30,7 @@ class _ShopPageState extends State<ShopPage> {
   }
 
   Future<void> _fetchUser() async {
-    final user = await Users.fetchNext(widget.token);
+    final user = await Users.fetchUser(widget.token);
     setState(() {
       _user = user;
     });
@@ -40,7 +40,7 @@ class _ShopPageState extends State<ShopPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: FutureBuilder<User?>(
-          future: Users.fetchNext(widget.token),
+          future: Users.fetchUser(widget.token),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               return DrawerWidget(token: widget.token, user: snapshot.data);

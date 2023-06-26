@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_computacao_movel/data/users.dart';
 import '../../data/products.dart';
-import '../../data/register.dart';
 import '../../modules/product.dart';
 
 class PopUpsAdmin {
@@ -126,7 +126,7 @@ class _CreateAdminState extends State<CreateAdmin> {
                     child: const Text('Add'),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        RegisterUser.register(
+                        Users.register(
                                 'Admin', 'Admin@gmail.com', 'adminadmin', 3)
                             .then((_) {
                           Navigator.pop(context); // Close the popup

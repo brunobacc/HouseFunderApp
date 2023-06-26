@@ -1,17 +1,17 @@
-class FinancerQuery2 {
+class Financer {
   String username;
   String image;
   int financingDone;
   double totalAmountFinanced;
 
-  FinancerQuery2(
+  Financer(
       {required this.username,
       required this.image,
       required this.financingDone,
       required this.totalAmountFinanced});
 
-  factory FinancerQuery2.fromJson(Map<String, dynamic> json) {
-    return FinancerQuery2(
+  factory Financer.fromJson(Map<String, dynamic> json) {
+    return Financer(
       username: json['username'],
       image: json['image'],
       financingDone: json['financingDone'],

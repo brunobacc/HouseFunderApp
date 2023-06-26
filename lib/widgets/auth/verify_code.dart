@@ -46,31 +46,32 @@ class _VerifyCodeState extends State<VerifyCode> {
                 onPressed: () => Navigator.pop(context),
               ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Row(),
-                Text(
-                  "Verify Code",
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge!
-                      .copyWith(color: Colors.white),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  "Enter the code sent by email, to verify the owner.",
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium!
-                      .copyWith(color: Colors.white),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 15, 20, 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Row(),
+                  Text(
+                    "Reset Password",
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge!
+                        .copyWith(color: Colors.white),
+                  ),
+                  Text(
+                    "Enter the code sent by email, to verify \n the owner.",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
             ),
             const SizedBox(
-              height: 60,
+              height: 40,
             ),
             Expanded(
               child: Container(
@@ -134,8 +135,8 @@ class _VerifyCodeState extends State<VerifyCode> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 40),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 40),
                       ),
                       ElevatedButton(
                         style: ButtonStyle(
@@ -172,7 +173,7 @@ class _VerifyCodeState extends State<VerifyCode> {
                           }
                         },
                         child: Text(
-                          "Send",
+                          "Verify Code",
                           style: Theme.of(context)
                               .textTheme
                               .bodyLarge!
@@ -180,9 +181,6 @@ class _VerifyCodeState extends State<VerifyCode> {
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 40),
                       ),
                     ],
                   ),

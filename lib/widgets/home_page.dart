@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_computacao_movel/data/queries/filter_projects.dart';
+import 'package:projeto_computacao_movel/data/projects.dart';
 import 'package:projeto_computacao_movel/data/users.dart';
 import 'package:projeto_computacao_movel/modules/arguments/project_arguments.dart';
 import 'package:projeto_computacao_movel/modules/project.dart';
@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _maxPrice = widget.maxPrice;
-    _projects = FilterProjects.fetchNext(
+    _projects = Projects.fetchFilteredP(
       widget.newest,
       widget.oldest,
       widget.lowHigh,
@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _fetchUser() async {
-    final user = await Users.fetchNext(widget.token);
+    final user = await Users.fetchUser(widget.token);
     setState(() {
       _user = user;
     });

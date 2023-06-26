@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_computacao_movel/data/validate_projects.dart';
+import 'package:projeto_computacao_movel/data/projects.dart';
 import '../../modules/arguments/project_arguments.dart';
 import '../../modules/project.dart';
 import '../../modules/user.dart';
@@ -22,7 +22,7 @@ class _AdminValidatePageState extends State<AdminValidatePage> {
   @override
   void initState() {
     super.initState();
-    _projects = ValidateProjects.fetchNext();
+    _projects = Projects.fetchProjectsForValidation();
   }
 
   @override

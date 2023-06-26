@@ -52,7 +52,7 @@ class _EmailVerificationState extends State<EmailVerification> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.fromLTRB(20, 15, 20, 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -65,9 +65,6 @@ class _EmailVerificationState extends State<EmailVerification> {
                           .copyWith(color: Colors.white),
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
                   Center(
                     child: Text(
                       "Enter your email address and we will \nsend a code to verify if you are the owner.",
@@ -75,6 +72,7 @@ class _EmailVerificationState extends State<EmailVerification> {
                           .textTheme
                           .bodyMedium!
                           .copyWith(color: Colors.white),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ],
@@ -217,6 +215,7 @@ void sendEmail({required String recipient, required int code}) async {
   try {
     await send(message, smtpServer);
   } on MailerException catch (e) {
-    print('error: $e');
+    //print('error: $e');
+    throw Exception('error: $e');
   }
 }

@@ -21,7 +21,7 @@ import 'package:projeto_computacao_movel/widgets/financer/shop_page.dart';
 import 'package:projeto_computacao_movel/widgets/auth/verify_code.dart';
 import 'package:projeto_computacao_movel/widgets/project_details.dart';
 
-import '../widgets/utils/validate_project.dart';
+import '../widgets/validate_project.dart';
 
 class AppRouter {
   static Route onGenerateRoute(RouteSettings settings) {

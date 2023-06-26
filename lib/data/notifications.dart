@@ -1,8 +1,6 @@
 import 'dart:convert';
-
-import 'package:http/http.dart' as http;
-
 import '../modules/user_notification.dart';
+import 'package:http/http.dart' as http;
 
 class Notifications {
   static const String url = '10.0.2.2:5048';
@@ -37,22 +35,20 @@ class Notifications {
     }
   }
 
-  static Future<bool> delete(String? token, int notification_id) async {
+  static Future<bool> delete(String? token, int notificationId) async {
     // ask data to server
     final response = await http.delete(Uri.http(
       url,
-      '/api/notifications/$notification_id',
+      '/api/notifications/$notificationId',
     ));
 
     if (response.statusCode == 200) {
-      bool status = bool.parse(response.body);
-      if (status) {
+      if (response.body == 'true') {
         return true;
-      } else {
-        return false;
       }
     } else {
       throw Exception('Failed to load Products');
     }
+    return false;
   }
 }

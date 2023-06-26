@@ -1,14 +1,14 @@
-class FinancerQuery {
+class ProjectFinancer {
   String username;
   String image;
 
-  FinancerQuery({
+  ProjectFinancer({
     required this.username,
     required this.image,
   });
 
-  factory FinancerQuery.fromJson(Map<String, dynamic> json) {
-    return FinancerQuery(
+  factory ProjectFinancer.fromJson(Map<String, dynamic> json) {
+    return ProjectFinancer(
       username: json['username'],
       image: json['image'],
     );
