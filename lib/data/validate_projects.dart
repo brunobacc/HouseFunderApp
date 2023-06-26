@@ -28,19 +28,17 @@ class ValidateProjects {
     }
   }
 
-    static Future<bool> validateProject( String? token, int projectId, statusId) async {
-
+  static Future<bool> validateProject(
+      String? token, int statusId, int projectId) async {
     if (token != null) {
       try {
         final response = await http.put(
-          Uri.http(url, '/api/projects/status/$projectId'),
+          Uri.http(url, '/api/Projects/$projectId'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
             'Token': token,
           },
-          body: jsonEncode(<String, dynamic>{
-            "status_id": statusId,
-          }),
+          body: jsonEncode(statusId),
         );
 
         //print('Response Body: ${response.body}');
