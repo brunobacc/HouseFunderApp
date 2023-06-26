@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/data/validate_projects.dart';
-
 import '../../modules/arguments/project_arguments.dart';
 import '../../modules/project.dart';
 import '../../modules/user.dart';
@@ -18,12 +17,12 @@ class AdminValidatePage extends StatefulWidget {
 }
 
 class _AdminValidatePageState extends State<AdminValidatePage> {
-  late final Future<List<Project>> projects;
+  late final Future<List<Project>> _projects;
 
   @override
   void initState() {
     super.initState();
-    projects = ValidateProjects.fetchNext();
+    _projects = ValidateProjects.fetchNext();
   }
 
   @override
@@ -40,7 +39,7 @@ class _AdminValidatePageState extends State<AdminValidatePage> {
             // Projects
             Expanded(
               child: FutureBuilder<List<Project>>(
-                future: projects,
+                future: _projects,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     final filteredProjects = snapshot.data!

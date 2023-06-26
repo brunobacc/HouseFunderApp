@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/data/auth/login.dart';
+import 'package:projeto_computacao_movel/data/users.dart';
 import 'package:projeto_computacao_movel/modules/arguments/home_page_arguments.dart';
 import '../utils/validations.dart';
 
@@ -117,7 +118,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                   ),
                                 ),
                                 child: TextFormField(
-                                  controller: emailController,
+                                  controller: passwordController,
                                   style: Theme.of(context).textTheme.bodyMedium,
                                   decoration: InputDecoration(
                                     hintText: "Password",
@@ -126,9 +127,29 @@ class _ResetPasswordState extends State<ResetPassword> {
                                         .bodyMedium!
                                         .copyWith(color: Colors.grey),
                                     border: InputBorder.none,
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        // based on passwordVisible state choose the icon
+                                        _passwordVisible
+                                            ? Icons.visibility_off
+                                            : Icons.visibility,
+                                        color:
+                                            Theme.of(context).primaryColorDark,
+                                      ),
+                                      onPressed: () {
+                                        // update the state
+                                        setState(
+                                          () {
+                                            _passwordVisible =
+                                                !_passwordVisible;
+                                          },
+                                        );
+                                      },
+                                    ),
                                   ),
                                   validator: (value) {
-                                    if (value != null && !value.isValidEmail) {
+                                    if (value != null &&
+                                        !value.isValidPassword) {
                                       return 'Password not valid!';
                                     }
                                     return null;
@@ -144,7 +165,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                   ),
                                 ),
                                 child: TextFormField(
-                                  controller: emailController,
+                                  controller: repeatPasswordController,
                                   style: Theme.of(context).textTheme.bodyMedium,
                                   decoration: InputDecoration(
                                     hintText: "Repeat Password",
@@ -153,10 +174,30 @@ class _ResetPasswordState extends State<ResetPassword> {
                                         .bodyMedium!
                                         .copyWith(color: Colors.grey),
                                     border: InputBorder.none,
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        // based on passwordVisible state choose the icon
+                                        _passwordVisible
+                                            ? Icons.visibility_off
+                                            : Icons.visibility,
+                                        color:
+                                            Theme.of(context).primaryColorDark,
+                                      ),
+                                      onPressed: () {
+                                        // update the state
+                                        setState(
+                                          () {
+                                            _repeatPasswordVisible =
+                                                !_repeatPasswordVisible;
+                                          },
+                                        );
+                                      },
+                                    ),
                                   ),
                                   validator: (value) {
-                                    if (value != null && !value.isValidEmail) {
-                                      return 'Password not valid!';
+                                    if (passwordController.text !=
+                                        repeatPasswordController.text) {
+                                      return 'Passwords don\'t match!';
                                     }
                                     return null;
                                   },
@@ -185,45 +226,9 @@ class _ResetPasswordState extends State<ResetPassword> {
                         ),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            // Validating the Register credentials and getting a future token
-                            final tokenFuture = Login.validate(
-                              emailController.text,
-                              passwordController.text,
-                            );
-
-                            // when tokenFuture receives a value, it will validate if the token isn't null
-                            tokenFuture.then((token) {
-                              if (token != null) {
-                                Navigator.pushNamed(
-                                  context,
-                                  '/',
-                                  arguments: HomePageArguments(
-                                    false,
-                                    false,
-                                    false,
-                                    false,
-                                    false,
-                                    null,
-                                    null,
-                                    null,
-                                    0,
-                                    token,
-                                  ),
-                                );
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Invalid Credentials!'),
-                                  ),
-                                );
-                              }
-                            }).catchError((error) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Failed to validate Register'),
-                                ),
-                              );
-                            });
+                            Users.resetPassword(
+                                widget.email, passwordController.text);
+                            Navigator.pushNamed(context, '/login');
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(

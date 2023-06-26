@@ -44,7 +44,7 @@ class Users {
       //print('Status Code: ${response.statusCode}');
 
       if (response.statusCode != 200) {
-        throw Exception('Something happen when updating the points!');
+        throw Exception('Something happen when updating the password!');
       }
     } catch (e) {
       //print('Error: $e');
