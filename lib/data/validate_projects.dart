@@ -42,7 +42,7 @@ class ValidateProjects {
         );
 
         //print('Response Body: ${response.body}');
-        //print('Status Code: ${response.statusCode}');
+        print('Status Code: ${response.statusCode}');
 
         if (response.statusCode == 200) {
           return true;
