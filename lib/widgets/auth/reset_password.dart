@@ -4,9 +4,10 @@ import 'package:projeto_computacao_movel/modules/arguments/home_page_arguments.d
 import '../utils/validations.dart';
 
 class ResetPassword extends StatefulWidget {
-  const ResetPassword({super.key});
+  final String email;
+  const ResetPassword({required this.email, super.key});
 
-  static const String routeName = '/Reset';
+  static const String routeName = '/reset';
 
   @override
   State<ResetPassword> createState() => _ResetPasswordState();
@@ -14,9 +15,11 @@ class ResetPassword extends StatefulWidget {
 
 class _ResetPasswordState extends State<ResetPassword> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  bool _passwordVisible = true;
+  final TextEditingController repeatPasswordController =
+      TextEditingController();
+  bool _passwordVisible = false;
+  bool _repeatPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +48,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                   size: 50,
                   color: Colors.white,
                 ),
-                onPressed: () =>
-                    Navigator.pushNamed(context, '/', arguments: null),
+                onPressed: () => Navigator.pop(context),
               ),
             ),
             Column(

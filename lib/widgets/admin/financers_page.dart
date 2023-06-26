@@ -72,8 +72,8 @@ class _FinancersAdminPageState extends State<FinancersAdminPage> {
                             Container(
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
-                                child: Image.asset(
-                                  'assets/images/avatars/${financer.image}',
+                                child: Image.network(
+                                  'https://housefunderstorage.blob.core.windows.net/images/${snapshot.data![index].image}',
                                   height: 100,
                                   fit: BoxFit.fill,
                                 ),
@@ -101,13 +101,14 @@ class _FinancersAdminPageState extends State<FinancersAdminPage> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        ' ${financer.financingDone}',
+                                        '${financer.financingDone}',
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium,
                                       ),
                                       Text(
-                                        ' ${financer.totalAmountFinanced}',
+                                        financer.totalAmountFinanced
+                                            .toStringAsFixed(2),
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium,

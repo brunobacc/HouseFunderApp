@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:projeto_computacao_movel/data/edit_profile_request.dart';
+import 'package:projeto_computacao_movel/data/notifications.dart';
 import 'package:projeto_computacao_movel/data/queries/filter_projects.dart';
 import 'package:projeto_computacao_movel/modules/product.dart';
 import 'package:projeto_computacao_movel/modules/user.dart';
@@ -12,6 +13,7 @@ import '../../data/queries/financers_query.dart';
 import '../../modules/project.dart';
 import '../../modules/project_financed.dart';
 import '../../modules/queries/financer_query.dart';
+import '../../modules/user_notification.dart';
 import '../utils/validations.dart';
 
 class PopUpsFinancer {
@@ -134,6 +136,23 @@ class PopUpsFinancer {
     );
     showDialog(
       barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) => popUp,
+    );
+  }
+
+  static void showNotifications(
+      BuildContext context, String? token, User? user) {
+    var popUp = AlertDialog(
+      content: ShowNotifications(token: token, user: user),
+      contentPadding: EdgeInsets.zero,
+      insetPadding: EdgeInsets.zero,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      elevation: 3,
+    );
+    showDialog(
       context: context,
       builder: (BuildContext context) => popUp,
     );
@@ -277,7 +296,7 @@ class _EditState extends State<Edit> {
                         editProfile.then(
                           (value) {
                             value
-                                ? PopUpInfo.info(context, 'Sucess',
+                                ? PopUpInfo.info(context, 'Success',
                                     'The player was edited!', widget.token)
                                 : PopUpInfo.info(
                                     context,
@@ -464,10 +483,8 @@ class _FinancedProjectsState extends State<FinancedProjects> {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Image(
-                image: AssetImage(
-                  'assets/images/projects/${widget.project.image}',
-                ),
+              child: Image.network(
+                'https://housefunderstorage.blob.core.windows.net/projects/${widget.project.image}',
                 width: MediaQuery.sizeOf(context).width,
                 fit: BoxFit.cover,
               ),
@@ -574,8 +591,8 @@ class _FinancedProjectsState extends State<FinancedProjects> {
                                   children: [
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(10),
-                                      child: Image.asset(
-                                        'assets/images/avatars/${snapshot.data![index].image}',
+                                      child: Image.network(
+                                        'https://housefunderstorage.blob.core.windows.net/images/${snapshot.data![index].image}',
                                         fit: BoxFit.fill,
                                       ),
                                     ),
@@ -736,7 +753,7 @@ class _FinanceState extends State<Finance> {
                       value
                           ? PopUpInfo.info(
                               context,
-                              'Sucess',
+                              'Success',
                               'The project was financed!',
                               widget.token,
                             )
@@ -950,7 +967,6 @@ class _ProductBought extends State<ProductBought> {
               itemCount: snapshot.data!.length,
               itemBuilder: (BuildContext context, int index) {
                 // Display the projects in Cards
-                // If the user is an admin present the create project CARD
                 return InkWell(
                   child: Card(
                     shape: const RoundedRectangleBorder(
@@ -1020,7 +1036,7 @@ class _ProductBought extends State<ProductBought> {
                                   widget.user!.userId);
                               PopUpInfo.info(
                                 context,
-                                'Sucess',
+                                'Success',
                                 'The project was financed!',
                                 widget.token,
                               );
@@ -1038,6 +1054,138 @@ class _ProductBought extends State<ProductBought> {
                     ),
                   ),
                 );
+              },
+            );
+          } else if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+          }
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class ShowNotifications extends StatefulWidget {
+  final String? token;
+  final User? user;
+  const ShowNotifications({required this.token, required this.user, super.key});
+
+  @override
+  State<ShowNotifications> createState() => _ShowNotifications();
+}
+
+class _ShowNotifications extends State<ShowNotifications> {
+  late Future<List<UserNotification>> _notifications;
+
+  @override
+  void initState() {
+    super.initState();
+    _notifications = Notifications.fetchNext(widget.token, widget.user!.userId);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: MediaQuery.sizeOf(context).width * 0.9,
+      height: MediaQuery.sizeOf(context).height * 0.85,
+      child: FutureBuilder(
+        future: _notifications,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return ListView.builder(
+              padding: const EdgeInsets.only(
+                  top: 0), // change the default top padding of a ListView
+              itemCount: snapshot.data!.length,
+              itemBuilder: (BuildContext context, int index) {
+                // Display the notifications in Cards
+                return Card(
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        snapshot.data![index].title == 'Finance'
+                            ? Icon(Icons.euro)
+                            : Icon(Icons.file_copy),
+                        Container(
+                          width: MediaQuery.sizeOf(context).width * 0.6,
+                          child: Text(
+                            snapshot.data![index].description,
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        ),
+                        IconButton(
+                            onPressed: () {
+                              showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text(
+                                      "Are you sure?",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium,
+                                    ),
+                                    content: Text(
+                                      "That you want to buy this product.",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium,
+                                    ),
+                                    actions: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              Future<bool> notificationStatus =
+                                                  Notifications.delete(
+                                                widget.token,
+                                                snapshot.data![index].id,
+                                              );
+                                              // when playerDeleted receives a bool value, it will present an information popUp
+                                              notificationStatus.then(
+                                                (value) {
+                                                  value
+                                                      ? PopUpInfo.info(
+                                                          context,
+                                                          'Success',
+                                                          'The Notification was deleted!',
+                                                          widget.token,
+                                                        )
+                                                      : PopUpInfo.info(
+                                                          context,
+                                                          'Error',
+                                                          'Something happen when it was financing the project!',
+                                                          widget.token,
+                                                        );
+                                                },
+                                              );
+                                            },
+                                            child: const Text("Continue"),
+                                          ),
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text("Cancel"),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            icon: Icon(Icons.delete))
+                      ],
+                    ));
               },
             );
           } else if (snapshot.hasError) {

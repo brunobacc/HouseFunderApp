@@ -148,6 +148,7 @@ class _HomePageState extends State<HomePage> {
                                     size: 50,
                                   ),
                                 ),
+                                // create new project
                                 onTap: () {},
                               ),
                             );

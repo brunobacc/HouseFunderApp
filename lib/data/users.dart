@@ -28,4 +28,27 @@ class Users {
     }
   }
 
+  static Future<void> resetPassword(String email, String password) async {
+    try {
+      final response = await http.put(
+        Uri.http(url, '/api/users/resetPassword/$email'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+          password,
+        ),
+      );
+
+      //print('Response Body: ${response.body}');
+      //print('Status Code: ${response.statusCode}');
+
+      if (response.statusCode != 200) {
+        throw Exception('Something happen when updating the points!');
+      }
+    } catch (e) {
+      //print('Error: $e');
+      throw Exception('Error: $e');
+    }
+  }
 }

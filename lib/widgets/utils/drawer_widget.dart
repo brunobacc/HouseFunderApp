@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/modules/arguments/home_page_arguments.dart';
+import 'package:projeto_computacao_movel/widgets/popups/pop_ups_financer.dart';
 import '../../main.dart';
 import '../../modules/arguments/user_arguments.dart';
 import '../../modules/my_flutter_app_icons.dart';
@@ -60,13 +61,19 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           widget.user?.permissionLevel == 3
               ? ExpansionTile(
                   title: Text('Management',
-                      style: Theme.of(context).textTheme.headlineMedium),
-                  leading: const Icon(MyFlutterApp.management),
+                      style: Theme.of(context).textTheme.titleSmall),
+                  leading: IconTheme(
+                    data: Theme.of(context).iconTheme,
+                    child: const Icon(MyFlutterApp.management),
+                  ),
                   children: [
                     ListTile(
                       title: Text('Projects',
                           style: Theme.of(context).textTheme.bodySmall),
-                      leading: const Icon(MyFlutterApp.blueprint),
+                      leading: IconTheme(
+                        data: Theme.of(context).iconTheme,
+                        child: const Icon(MyFlutterApp.blueprint),
+                      ),
                       onTap: () {
                         Navigator.pushNamed(context, '/',
                             arguments: HomePageArguments(
@@ -85,7 +92,10 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     ListTile(
                       title: Text('Administrators',
                           style: Theme.of(context).textTheme.bodySmall),
-                      leading: const Icon(Icons.manage_accounts),
+                      leading: IconTheme(
+                        data: Theme.of(context).iconTheme,
+                        child: const Icon(Icons.manage_accounts),
+                      ),
                       onTap: () {
                         Navigator.pushNamed(context, '/administrators',
                             arguments:
@@ -95,7 +105,10 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     ListTile(
                       title: Text('Partners',
                           style: Theme.of(context).textTheme.bodySmall),
-                      leading: const Icon(Icons.handshake),
+                      leading: IconTheme(
+                        data: Theme.of(context).iconTheme,
+                        child: const Icon(Icons.handshake),
+                      ),
                       onTap: () {
                         Navigator.pushNamed(context, '/partnerships',
                             arguments:
@@ -105,7 +118,10 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     ListTile(
                       title: Text('Financers',
                           style: Theme.of(context).textTheme.bodySmall),
-                      leading: const Icon(MyFlutterApp.user),
+                      leading: IconTheme(
+                        data: Theme.of(context).iconTheme,
+                        child: const Icon(MyFlutterApp.user),
+                      ),
                       onTap: () {
                         Navigator.pushNamed(context, '/financers',
                             arguments:
@@ -115,7 +131,10 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     ListTile(
                       title: Text('Products',
                           style: Theme.of(context).textTheme.bodySmall),
-                      leading: const Icon(Icons.shopping_cart),
+                      leading: IconTheme(
+                        data: Theme.of(context).iconTheme,
+                        child: const Icon(Icons.shopping_cart),
+                      ),
                       onTap: () {
                         Navigator.pushNamed(context, '/shopadmin',
                             arguments:
@@ -125,7 +144,10 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     ListTile(
                       title: Text('Proposals',
                           style: Theme.of(context).textTheme.bodySmall),
-                      leading: const Icon(MyFlutterApp.document),
+                      leading: IconTheme(
+                        data: Theme.of(context).iconTheme,
+                        child: const Icon(MyFlutterApp.document),
+                      ),
                       onTap: () {
                         Navigator.pushNamed(context, '/validateProposal',
                             arguments:
@@ -137,25 +159,39 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               : ListTile(
                   title: Text(
                     'Propose',
-                    style: Theme.of(context).textTheme.headlineMedium,
+                    style: Theme.of(context).textTheme.titleSmall,
                   ),
-                  leading: const Icon(Icons.edit_document),
+                  leading: IconTheme(
+                    data: Theme.of(context).iconTheme,
+                    child: const Icon(Icons.edit_document),
+                  ),
                   onTap: () => widget.token != null
                       ? Navigator.pushNamed(context, '/proposal')
-                      : Navigator.pushNamed(context, '/login')),
+                      : Navigator.pushNamed(context, '/login'),
+                ),
           widget.user?.permissionLevel != 3
               ? ListTile(
                   title: Text(
                     'Notifications',
-                    style: Theme.of(context).textTheme.headlineMedium,
+                    style: Theme.of(context).textTheme.titleSmall,
                   ),
-                  leading: const Icon(Icons.notifications),
+                  leading: IconTheme(
+                    data: Theme.of(context).iconTheme,
+                    child: const Icon(Icons.notifications),
+                  ),
+                  onTap: () => widget.token != null
+                      ? PopUpsFinancer.showNotifications(
+                          context, widget.token, widget.user)
+                      : Navigator.pushNamed(context, '/login'),
                 )
               : const SizedBox(),
           ExpansionTile(
-            title: Text('Options',
-                style: Theme.of(context).textTheme.headlineMedium),
-            leading: const Icon(Icons.settings),
+            title:
+                Text('Options', style: Theme.of(context).textTheme.titleSmall),
+            leading: IconTheme(
+              data: Theme.of(context).iconTheme,
+              child: const Icon(Icons.settings),
+            ),
             children: [
               ListTile(
                 title: Text('Dark Mode',
@@ -180,18 +216,24 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               ? ListTile(
                   title: Text(
                     'About Us',
-                    style: Theme.of(context).textTheme.headlineMedium,
+                    style: Theme.of(context).textTheme.titleSmall,
                   ),
-                  leading: const Icon(Icons.info),
+                  leading: IconTheme(
+                    data: Theme.of(context).iconTheme,
+                    child: const Icon(Icons.info),
+                  ),
                 )
               : const SizedBox(),
           widget.token != null
               ? ListTile(
                   title: Text(
                     'Logout',
-                    style: Theme.of(context).textTheme.headlineMedium,
+                    style: Theme.of(context).textTheme.titleSmall,
                   ),
-                  leading: const Icon(Icons.logout),
+                  leading: IconTheme(
+                    data: Theme.of(context).iconTheme,
+                    child: const Icon(Icons.logout),
+                  ),
                   onTap: () {
                     Navigator.pushNamed(
                       context,
@@ -203,9 +245,12 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               : ListTile(
                   title: Text(
                     'LogIn',
-                    style: Theme.of(context).textTheme.headlineMedium,
+                    style: Theme.of(context).textTheme.titleSmall,
                   ),
-                  leading: const Icon(Icons.login),
+                  leading: IconTheme(
+                    data: Theme.of(context).iconTheme,
+                    child: const Icon(Icons.login),
+                  ),
                   onTap: () => Navigator.pushNamed(context, '/login'),
                 ),
         ],

@@ -6,7 +6,7 @@ import '../utils/validations.dart';
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
-  static const String routeName = '/Register';
+  static const String routeName = '/register';
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();

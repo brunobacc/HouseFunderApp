@@ -108,8 +108,8 @@ class _ShopPageAdminState extends State<ShopPageAdmin> {
                               children: [
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
-                                  child: Image.asset(
-                                    'assets/images/products/${snapshot.data![index].image}',
+                                  child: Image.network(
+                                    'https://housefunderstorage.blob.core.windows.net/products/${snapshot.data![index].image}',
                                     fit: BoxFit.cover,
                                   ),
                                 ),

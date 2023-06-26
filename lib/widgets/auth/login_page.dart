@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/data/auth/login.dart';
 import 'package:projeto_computacao_movel/modules/arguments/home_page_arguments.dart';
@@ -49,28 +51,31 @@ class _LoginPageState extends State<LoginPage> {
                     Navigator.pushNamed(context, '/', arguments: null),
               ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Row(),
-                Text(
-                  "Login",
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge!
-                      .copyWith(color: Colors.white),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  "Enter your Details!",
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium!
-                      .copyWith(color: Colors.white),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Row(),
+                  Text(
+                    "Login",
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge!
+                        .copyWith(color: Colors.white),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Enter your Details!",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: Colors.white),
+                  ),
+                ],
+              ),
             ),
             const SizedBox(
               height: 60,
@@ -106,80 +111,66 @@ class _LoginPageState extends State<LoginPage> {
                           key: _formKey,
                           child: Column(
                             children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 5),
-                                decoration: const BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(color: Colors.grey),
+                              TextFormField(
+                                controller: emailController,
+                                style: Theme.of(context).textTheme.bodyMedium,
+                                decoration: InputDecoration(
+                                  hintText: "Email",
+                                  hintStyle: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(color: Colors.grey),
+                                  border: const UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey),
                                   ),
                                 ),
-                                child: TextFormField(
-                                  controller: emailController,
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                  decoration: InputDecoration(
-                                    hintText: "Email",
-                                    hintStyle: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(color: Colors.grey),
-                                    border: InputBorder.none,
-                                  ),
-                                  validator: (value) {
-                                    if (value != null && !value.isValidEmail) {
-                                      return 'Email not valid!';
-                                    }
-                                    return null;
-                                  },
-                                ),
+                                validator: (value) {
+                                  if (value != null && !value.isValidEmail) {
+                                    return 'Email not valid!';
+                                  }
+                                  return null;
+                                },
                               ),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 5),
-                                decoration: const BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(color: Colors.grey),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              TextFormField(
+                                controller: passwordController,
+                                style: Theme.of(context).textTheme.bodyMedium,
+                                obscureText: _passwordVisible,
+                                decoration: InputDecoration(
+                                  hintText: "Password",
+                                  hintStyle: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(color: Colors.grey),
+                                  border: const UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey),
                                   ),
-                                ),
-                                child: TextFormField(
-                                  controller: passwordController,
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                  obscureText: _passwordVisible,
-                                  decoration: InputDecoration(
-                                    hintText: "Password",
-                                    hintStyle: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(color: Colors.grey),
-                                    border: InputBorder.none,
-                                    suffixIcon: IconButton(
-                                      icon: Icon(
-                                        // based on passwordVisible state choose the icon
-                                        _passwordVisible
-                                            ? Icons.visibility_off
-                                            : Icons.visibility,
-                                        color:
-                                            Theme.of(context).primaryColorDark,
-                                      ),
-                                      onPressed: () {
-                                        // update the state
-                                        setState(
-                                          () {
-                                            _passwordVisible =
-                                                !_passwordVisible;
-                                          },
-                                        );
-                                      },
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      // based on passwordVisible state choose the icon
+                                      _passwordVisible
+                                          ? Icons.visibility_off
+                                          : Icons.visibility,
+                                      color: Theme.of(context).primaryColorDark,
                                     ),
+                                    onPressed: () {
+                                      // update the state
+                                      setState(
+                                        () {
+                                          _passwordVisible = !_passwordVisible;
+                                        },
+                                      );
+                                    },
                                   ),
-                                  validator: (value) {
-                                    if (value != null &&
-                                        !value.isValidPassword) {
-                                      return 'Password not valid!';
-                                    }
-                                    return null;
-                                  },
                                 ),
+                                validator: (value) {
+                                  if (value != null && !value.isValidPassword) {
+                                    return 'Password not valid!';
+                                  }
+                                  return null;
+                                },
                               ),
                             ],
                           ),
@@ -187,12 +178,14 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 40),
-                        child: Text(
+                        child: SelectableText(
                           "Forgot Password?",
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium!
                               .copyWith(color: Colors.grey),
+                          onTap: () => Navigator.pushNamed(
+                              context, '/emailVerification'),
                         ),
                       ),
                       ElevatedButton(

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:projeto_computacao_movel/modules/queries/financer_query.dart';
 import 'package:projeto_computacao_movel/data/queries/financers_query.dart';
 import 'package:projeto_computacao_movel/modules/project.dart';
-import 'package:projeto_computacao_movel/widgets/popups/pop_ups_financer.dart';
 import '../../data/validate_projects.dart';
 import '../../modules/user.dart';
 

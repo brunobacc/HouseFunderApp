@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_computacao_movel/data/auth/login.dart';
-import 'package:projeto_computacao_movel/modules/arguments/home_page_arguments.dart';
 import '../utils/validations.dart';
 
 class VerifyCode extends StatefulWidget {
-  const VerifyCode({super.key});
+  final String email;
+  final int code;
+  const VerifyCode({required this.email, required this.code, super.key});
 
-  static const String routeName = '/Verify';
+  static const String routeName = '/verify';
 
   @override
   State<VerifyCode> createState() => _VerifyCodeState();
@@ -14,9 +14,7 @@ class VerifyCode extends StatefulWidget {
 
 class _VerifyCodeState extends State<VerifyCode> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  bool _passwordVisible = true;
+  final TextEditingController codeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +43,7 @@ class _VerifyCodeState extends State<VerifyCode> {
                   size: 50,
                   color: Colors.white,
                 ),
-                onPressed: () =>
-                    Navigator.pushNamed(context, '/', arguments: null),
+                onPressed: () => Navigator.pop(context),
               ),
             ),
             Column(
@@ -115,7 +112,7 @@ class _VerifyCodeState extends State<VerifyCode> {
                                   ),
                                 ),
                                 child: TextFormField(
-                                  controller: emailController,
+                                  controller: codeController,
                                   style: Theme.of(context).textTheme.bodyMedium,
                                   decoration: InputDecoration(
                                     hintText: "Code",
@@ -126,7 +123,7 @@ class _VerifyCodeState extends State<VerifyCode> {
                                     border: InputBorder.none,
                                   ),
                                   validator: (value) {
-                                    if (value != null && !value.isValidEmail) {
+                                    if (value != null && !value.isValidCode) {
                                       return 'Code not valid!';
                                     }
                                     return null;
@@ -156,45 +153,16 @@ class _VerifyCodeState extends State<VerifyCode> {
                         ),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            // Validating the Register credentials and getting a future token
-                            final tokenFuture = Login.validate(
-                              emailController.text,
-                              passwordController.text,
-                            );
-
-                            // when tokenFuture receives a value, it will validate if the token isn't null
-                            tokenFuture.then((token) {
-                              if (token != null) {
-                                Navigator.pushNamed(
-                                  context,
-                                  '/',
-                                  arguments: HomePageArguments(
-                                    false,
-                                    false,
-                                    false,
-                                    false,
-                                    false,
-                                    null,
-                                    null,
-                                    null,
-                                    0,
-                                    token,
-                                  ),
-                                );
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Invalid Credentials!'),
-                                  ),
-                                );
-                              }
-                            }).catchError((error) {
+                            if (int.parse(codeController.text) == widget.code) {
+                              Navigator.pushNamed(context, '/reset',
+                                  arguments: widget.email);
+                            } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                  content: Text('Failed to validate Register'),
+                                  content: Text('Invalid Code!'),
                                 ),
                               );
-                            });
+                            }
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(

@@ -22,7 +22,6 @@ class _AdminValidatePageState extends State<AdminValidatePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     projects = ValidateProjects.fetchNext();
   }

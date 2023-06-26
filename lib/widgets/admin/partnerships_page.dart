@@ -56,8 +56,8 @@ class _PartnershipsPageState extends State<PartnershipsPage> {
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      crossAxisSpacing: 10.0,
-                      mainAxisSpacing: 10.0,
+                      crossAxisSpacing: 5.0,
+                      mainAxisSpacing: 5.0,
                     ),
                     itemBuilder: (context, index) {
                       final Partnership partnership = partnerships[index];
@@ -72,9 +72,10 @@ class _PartnershipsPageState extends State<PartnershipsPage> {
                             Expanded(
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
-                                child: Image.asset(
-                                  'assets/images/partnerships/${snapshot.data![index].image}',
-                                  fit: BoxFit.fill,
+                                child: Image.network(
+                                  'https://housefunderstorage.blob.core.windows.net/images/${snapshot.data![index].image}',
+                                  height: 100,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                             ),

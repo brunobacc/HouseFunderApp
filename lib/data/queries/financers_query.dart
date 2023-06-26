@@ -12,12 +12,12 @@ class FinancersQuery {
     List<FinancerQuery> financers;
 
     // add the parameters
-    final queryParameters = {'projectId': '$projectId'};
+    final queryParameters = {'project_id': '$projectId'};
 
     // ask data to server
     final response = await http.get(Uri.http(
       url,
-      '/api/financersquery/projectId',
+      '/api/financersquery/project_id',
       queryParameters,
     ));
 

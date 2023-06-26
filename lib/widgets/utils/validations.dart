@@ -17,8 +17,8 @@ extension ExtString on String {
     return passwordRegExp.hasMatch(this);
   }
 
-  bool get isValidPhone {
-    final phoneRegExp = RegExp(r"^\+?0[0-9]{10}$");
-    return phoneRegExp.hasMatch(this);
+  bool get isValidCode {
+    final codeRegExp = RegExp(r"^[1-9][0-9]{5}");
+    return codeRegExp.hasMatch(this);
   }
 }

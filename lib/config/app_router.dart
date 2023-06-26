@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/modules/arguments/filter_page_arguments.dart';
 import 'package:projeto_computacao_movel/modules/arguments/home_page_arguments.dart';
 import 'package:projeto_computacao_movel/modules/arguments/project_arguments.dart';
+import 'package:projeto_computacao_movel/modules/arguments/reset_password_arguments.dart';
 import 'package:projeto_computacao_movel/modules/arguments/user_arguments.dart';
 import 'package:projeto_computacao_movel/widgets/admin/admin_shop_page.dart';
 import 'package:projeto_computacao_movel/widgets/admin/admin_validate_page.dart';
@@ -58,7 +59,7 @@ class AppRouter {
             user: args.user,
           ),
         );
-              case ProjectDetailsValidate.routeName:
+      case ProjectDetailsValidate.routeName:
         ProjectArguments args = settings.arguments as ProjectArguments;
         return MaterialPageRoute(
           builder: (_) => ProjectDetailsValidate(
@@ -80,12 +81,20 @@ class AppRouter {
           builder: (_) => const EmailVerification(),
         );
       case VerifyCode.routeName:
+        ResetPasswordArguments args =
+            settings.arguments as ResetPasswordArguments;
         return MaterialPageRoute(
-          builder: (_) => const VerifyCode(),
+          builder: (_) => VerifyCode(
+            email: args.email,
+            code: args.code,
+          ),
         );
       case ResetPassword.routeName:
+        String args = settings.arguments as String;
         return MaterialPageRoute(
-          builder: (_) => const ResetPassword(),
+          builder: (_) => ResetPassword(
+            email: args,
+          ),
         );
       case Profile.routeName:
         String? args = settings.arguments as String?;
@@ -140,7 +149,7 @@ class AppRouter {
             user: args?.user,
           ),
         );
-              case AdminValidatePage.routeName:
+      case AdminValidatePage.routeName:
         UserArguments? args = settings.arguments as UserArguments?;
         return MaterialPageRoute(
           builder: (_) => AdminValidatePage(

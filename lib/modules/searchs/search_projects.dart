@@ -85,9 +85,9 @@ class SearchProjects extends SearchDelegate {
                       padding: const EdgeInsets.only(top: 10),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
-                        child: Image(
-                          image: AssetImage(
-                              'assets/images/projects/${filteredProjects[i].image}'),
+                        child: Image.network(
+                          'https://housefunderstorage.blob.core.windows.net/projects/${filteredProjects[i].image}',
+                          height: MediaQuery.sizeOf(context).height * 0.2,
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -169,11 +169,10 @@ class SearchProjects extends SearchDelegate {
                       padding: const EdgeInsets.only(top: 10),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
-                        child: Image(
-                          image: AssetImage(
-                              'assets/images/projects/${filteredProjects[i].image}'),
+                        child: Image.network(
+                          'https://housefunderstorage.blob.core.windows.net/projects/${filteredProjects[i].image}',
                           height: MediaQuery.sizeOf(context).height * 0.2,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.fill,
                         ),
                       ),
                     ),

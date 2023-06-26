@@ -1,13 +1,29 @@
-import 'package:flutter/material.dart';
+import 'dart:math';
 
-class EmailVerification extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server/gmail.dart';
+import 'package:projeto_computacao_movel/modules/arguments/reset_password_arguments.dart';
+import 'package:projeto_computacao_movel/widgets/utils/validations.dart';
+
+class EmailVerification extends StatefulWidget {
   const EmailVerification({super.key});
 
   static const String routeName = '/emailVerification';
 
   @override
+  State<EmailVerification> createState() => _EmailVerificationState();
+}
+
+class _EmailVerificationState extends State<EmailVerification> {
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
+  final code = Random().nextInt(900000) + 100000;
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         width: double.infinity,
         decoration: const BoxDecoration(
@@ -23,8 +39,16 @@ class EmailVerification extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const SizedBox(
-              height: 80,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 25),
+              child: IconButton(
+                icon: const Icon(
+                  Icons.arrow_back,
+                  size: 50,
+                  color: Colors.white,
+                ),
+                onPressed: () => Navigator.pop(context),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(20),
@@ -63,22 +87,21 @@ class EmailVerification extends StatelessWidget {
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(60),
-                    topRight: Radius.circular(60),
+                    topLeft: Radius.circular(40),
+                    topRight: Radius.circular(40),
                   ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(20),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
                   child: Column(
                     children: <Widget>[
-                      const SizedBox(
-                        height: 80,
-                      ),
                       Container(
-                        padding: const EdgeInsets.all(20),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 20),
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(20),
                           boxShadow: const [
                             BoxShadow(
                               color: Color.fromRGBO(225, 95, 27, .3),
@@ -87,42 +110,102 @@ class EmailVerification extends StatelessWidget {
                             ),
                           ],
                         ),
-                        child: Column(children: <Widget>[
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: const BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(color: Colors.grey),
+                        child: Form(
+                          key: _formKey,
+                          child: TextFormField(
+                            controller: emailController,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                            decoration: InputDecoration(
+                              hintText: "Email",
+                              hintStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(color: Colors.grey),
+                              border: const UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey),
                               ),
                             ),
-                            child: const TextField(
-                              decoration: InputDecoration(
-                                hintText: "Email",
-                                hintStyle: TextStyle(color: Colors.grey),
-                                border: InputBorder.none,
-                              ),
-                            ),
+                            validator: (value) {
+                              if (value != null && !value.isValidEmail) {
+                                return 'Email not valid!';
+                              }
+                              return null;
+                            },
                           ),
-                        ]),
+                        ),
                       ),
                       const SizedBox(
                         height: 40,
                       ),
-                      Container(
-                        height: 50,
-                        margin: const EdgeInsets.symmetric(horizontal: 50),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          color: const Color(0xFFD9C5AD),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            "Send",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          shape: MaterialStatePropertyAll(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                          ),
+                          padding: const MaterialStatePropertyAll(
+                            EdgeInsets.symmetric(horizontal: 110, vertical: 10),
+                          ),
+                          backgroundColor: const MaterialStatePropertyAll(
+                            Color(0xFFD9C5AD),
                           ),
                         ),
+                        child: const Text('Send'),
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            sendEmail(
+                                recipient: emailController.text, code: code);
+                            Navigator.pushNamed(context, '/verify',
+                                arguments: ResetPasswordArguments(
+                                    email: emailController.text, code: code));
+                            // Validating the login credentials and getting a future token
+                            /*final tokenFuture = Login.validate(
+                              emailController.text,
+                              passwordController.text,
+                            );
+
+                            // when tokenFuture receives a value, it will validate if the token isn't null
+                            tokenFuture.then((token) {
+                              if (token != null) {
+                                Navigator.pushNamed(
+                                  context,
+                                  '/',
+                                  arguments: HomePageArguments(
+                                    false,
+                                    false,
+                                    false,
+                                    false,
+                                    false,
+                                    null,
+                                    null,
+                                    null,
+                                    0,
+                                    token,
+                                  ),
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Invalid Credentials!'),
+                                  ),
+                                );
+                              }
+                            }).catchError((error) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Failed to validate login'),
+                                ),
+                              );
+                            });*/
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Please fill input!'),
+                              ),
+                            );
+                          }
+                        },
                       ),
                       const SizedBox(
                         height: 40,
@@ -136,5 +219,21 @@ class EmailVerification extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+void sendEmail({required String recipient, required int code}) async {
+  const email = 'housefunder2004@gmail.com';
+
+  final smtpServer = gmail(email, 'btbbihoqwathdbyw');
+  final message = Message()
+    ..from = const Address(email, 'HouseFunder')
+    ..recipients = [recipient]
+    ..subject = 'Code 123'
+    ..text = 'Use the code $code';
+  try {
+    await send(message, smtpServer);
+  } on MailerException catch (e) {
+    print('error: $e');
   }
 }
