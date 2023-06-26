@@ -24,14 +24,7 @@ class ProjectDetailsValidate extends StatefulWidget {
 }
 
 class _ProjectDetailsValidateState extends State<ProjectDetailsValidate> {
-  late Future<List<FinancerQuery>> _financers;
   final TextEditingController _descriptionController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    _financers = FinancersQuery.fetchNext(widget.project.projectId);
-  }
 
   @override
   void dispose() {
@@ -120,10 +113,13 @@ class _ProjectDetailsValidateState extends State<ProjectDetailsValidate> {
                       onPressed: () {
                         if (widget.user?.permissionLevel == 3) {
                           ValidateProjects.validateProject(
-                              widget.token, widget.project.projectId, 5);
+                              widget.token, 5, widget.project.projectId);
+                          print(widget.project.statusId);
+                          Navigator.pop(context);
                         } else {
                           ValidateProjects.validateProject(
-                              widget.token, widget.project.projectId, 2);
+                              widget.token, 2, widget.project.projectId);
+                          Navigator.pop(context);
                         }
                       },
                       child: Text(

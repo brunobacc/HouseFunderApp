@@ -98,7 +98,7 @@ class _MyAppState extends State<MyApp> {
       ),
       themeMode: _themeMode,
       onGenerateRoute: AppRouter.onGenerateRoute,
-      initialRoute: '/Verify',
+      initialRoute: '/',
     );
   }
 }
