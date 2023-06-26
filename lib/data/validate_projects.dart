@@ -33,7 +33,7 @@ class ValidateProjects {
     if (token != null) {
       try {
         final response = await http.put(
-          Uri.http(url, '/api/Projects/$projectId'),
+          Uri.http(url, '/api/Projects/status/$projectId'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
             'Token': token,
