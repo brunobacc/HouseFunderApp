@@ -28,6 +28,27 @@ class Users {
     }
   }
 
+  static Future<bool> validEmail(String email) async {
+    try {
+      final response = await http.put(
+        Uri.http(url, '/api/users/validEmail/$email'),
+      );
+
+      //print('Response Body: ${response.body}');
+      //print('Status Code: ${response.statusCode}');
+
+      if (response.statusCode == 200) {
+        if (response.body == 'true') {
+          return true;
+        }
+      }
+    } catch (e) {
+      //print('Error: $e');
+      throw Exception('Error: $e');
+    }
+    return false;
+  }
+
   static Future<void> resetPassword(String email, String password) async {
     try {
       final response = await http.put(

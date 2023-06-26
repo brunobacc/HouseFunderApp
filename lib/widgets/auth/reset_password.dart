@@ -119,6 +119,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                 ),
                                 child: TextFormField(
                                   controller: passwordController,
+                                  obscureText: _passwordVisible,
                                   style: Theme.of(context).textTheme.bodyMedium,
                                   decoration: InputDecoration(
                                     hintText: "Password",
@@ -166,6 +167,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                 ),
                                 child: TextFormField(
                                   controller: repeatPasswordController,
+                                  obscureText: _repeatPasswordVisible,
                                   style: Theme.of(context).textTheme.bodyMedium,
                                   decoration: InputDecoration(
                                     hintText: "Repeat Password",
@@ -177,7 +179,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                     suffixIcon: IconButton(
                                       icon: Icon(
                                         // based on passwordVisible state choose the icon
-                                        _passwordVisible
+                                        _repeatPasswordVisible
                                             ? Icons.visibility_off
                                             : Icons.visibility,
                                         color:

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/gmail.dart';
+import 'package:projeto_computacao_movel/data/users.dart';
 import 'package:projeto_computacao_movel/modules/arguments/reset_password_arguments.dart';
 import 'package:projeto_computacao_movel/widgets/utils/validations.dart';
 
@@ -154,50 +155,32 @@ class _EmailVerificationState extends State<EmailVerification> {
                         child: const Text('Send'),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            sendEmail(
-                                recipient: emailController.text, code: code);
-                            Navigator.pushNamed(context, '/verify',
-                                arguments: ResetPasswordArguments(
-                                    email: emailController.text, code: code));
-                            // Validating the login credentials and getting a future token
-                            /*final tokenFuture = Login.validate(
+                            // validate if the email exists
+                            Future<bool> exists = Users.validEmail(
                               emailController.text,
-                              passwordController.text,
                             );
 
                             // when tokenFuture receives a value, it will validate if the token isn't null
-                            tokenFuture.then((token) {
-                              if (token != null) {
-                                Navigator.pushNamed(
-                                  context,
-                                  '/',
-                                  arguments: HomePageArguments(
-                                    false,
-                                    false,
-                                    false,
-                                    false,
-                                    false,
-                                    null,
-                                    null,
-                                    null,
-                                    0,
-                                    token,
-                                  ),
-                                );
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Invalid Credentials!'),
-                                  ),
-                                );
-                              }
-                            }).catchError((error) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Failed to validate login'),
-                                ),
-                              );
-                            });*/
+                            exists.then(
+                              (value) {
+                                if (value) {
+                                  sendEmail(
+                                      recipient: emailController.text,
+                                      code: code);
+                                  Navigator.pushNamed(context, '/verify',
+                                      arguments: ResetPasswordArguments(
+                                          email: emailController.text,
+                                          code: code));
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content:
+                                          Text('No account with that email!'),
+                                    ),
+                                  );
+                                }
+                              },
+                            );
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
