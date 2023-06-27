@@ -654,6 +654,7 @@ class Finance extends StatefulWidget {
 }
 
 class _FinanceState extends State<Finance> {
+  final _formKey = GlobalKey<FormState>();
   TextEditingController amountFinancedController =
       TextEditingController(text: '0');
 
@@ -680,11 +681,29 @@ class _FinanceState extends State<Finance> {
           ),
           Row(
             children: [
-              Expanded(
-                child: TextField(
-                  controller: amountFinancedController,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                  decoration: const InputDecoration(),
+              Form(
+                key: _formKey,
+                child: Expanded(
+                  child: TextFormField(
+                      controller: amountFinancedController,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      decoration: const InputDecoration(),
+                      validator: (value) {
+                        if (value != null) {
+                          if (double.parse(value) < 1) {
+                            return '>=1';
+                          } else if (double.parse(value) >
+                              (widget.project.finalValue -
+                                  widget.project.totalFinanced)) {
+                            amountFinancedController.text =
+                                (widget.project.finalValue -
+                                        widget.project.totalFinanced)
+                                    .toString();
+                            return '<=Price Needed';
+                          }
+                        }
+                        return null;
+                      }),
                 ),
               ),
               const SizedBox(
@@ -737,31 +756,33 @@ class _FinanceState extends State<Finance> {
             children: [
               InkWell(
                 onTap: () {
-                  // create a new variable to store the bool received from the "DeletePlayer" function
-                  Future<bool> financeStatus = Projects.financeProject(
-                    widget.project,
-                    double.parse(amountFinancedController.text),
-                    widget.token,
-                    widget.user,
-                  );
-                  // when playerDeleted receives a bool value, it will present an information popUp
-                  financeStatus.then(
-                    (value) {
-                      value
-                          ? PopUpInfo.info(
-                              context,
-                              'Success',
-                              'The project was financed!',
-                              widget.token,
-                            )
-                          : PopUpInfo.info(
-                              context,
-                              'Error',
-                              'Something happen when it was financing the project!',
-                              widget.token,
-                            );
-                    },
-                  );
+                  if (_formKey.currentState!.validate()) {
+                    // create a new variable to store the bool received from the "DeletePlayer" function
+                    Future<bool> financeStatus = Projects.financeProject(
+                      widget.project,
+                      double.parse(amountFinancedController.text),
+                      widget.token,
+                      widget.user,
+                    );
+                    // when playerDeleted receives a bool value, it will present an information popUp
+                    financeStatus.then(
+                      (value) {
+                        value
+                            ? PopUpInfo.info(
+                                context,
+                                'Success',
+                                'The project was financed!',
+                                widget.token,
+                              )
+                            : PopUpInfo.info(
+                                context,
+                                'Error',
+                                'Something happen when it was financing the project!',
+                                widget.token,
+                              );
+                      },
+                    );
+                  }
                 },
                 child: Image.asset(
                   'assets/images/multibanco.png',
@@ -1096,20 +1117,25 @@ class _ShowNotifications extends State<ShowNotifications> {
               itemBuilder: (BuildContext context, int index) {
                 // Display the notifications in Cards
                 return Card(
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
+                    margin: EdgeInsets.all(5),
+                    color: Colors.white,
+                    elevation: 5,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         snapshot.data![index].title == 'Finance'
-                            ? Icon(Icons.euro)
-                            : Icon(Icons.file_copy),
+                            ? const Icon(
+                                Icons.euro,
+                                size: 30,
+                              )
+                            : const Icon(Icons.price_change),
                         Container(
+                          margin: const EdgeInsets.symmetric(vertical: 5),
                           width: MediaQuery.sizeOf(context).width * 0.6,
                           child: Text(
                             snapshot.data![index].description,
                             style: Theme.of(context).textTheme.bodySmall,
+                            textAlign: TextAlign.center,
                           ),
                         ),
                         IconButton(
@@ -1126,7 +1152,7 @@ class _ShowNotifications extends State<ShowNotifications> {
                                           .titleMedium,
                                     ),
                                     content: Text(
-                                      "That you want to buy this product.",
+                                      "That you want to delete this notification.",
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyMedium,
@@ -1156,7 +1182,7 @@ class _ShowNotifications extends State<ShowNotifications> {
                                                       : PopUpInfo.info(
                                                           context,
                                                           'Error',
-                                                          'Something happen when it was financing the project!',
+                                                          'Something happen when it was deleting the notification!',
                                                           widget.token,
                                                         );
                                                 },

@@ -152,23 +152,26 @@ class Users {
     int level,
   ) async {
     try {
+      print('$username | $email | $password | $level');
+      // add the parameters
+      final queryParameters = {
+        'username': username,
+        'email': email,
+        'password': password,
+        'permission_level': level.toString(),
+      };
+      print('ola');
+
       final response = await http.post(
-        Uri.http(url, '/api/register'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, dynamic>{
-          "username": username,
-          "email": email,
-          "password": password,
-          "permission_level": level
-        }),
+        Uri.http(url, '/api/register', queryParameters),
       );
 
-      //print('Response Body: ${response.body}');
-      //print('Status Code: ${response.statusCode}');
+      print('Response Body: ${response.body}');
+      print('Status Code: ${response.statusCode}');
       if (response.statusCode == 200) {
-        return true;
+        if (response.body == 'true') {
+          return true;
+        }
       }
     } catch (e) {
       ('Error: $e');

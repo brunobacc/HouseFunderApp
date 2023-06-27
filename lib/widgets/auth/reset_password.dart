@@ -17,8 +17,8 @@ class _ResetPasswordState extends State<ResetPassword> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController repeatPasswordController =
       TextEditingController();
-  bool _passwordVisible = false;
-  bool _repeatPasswordVisible = false;
+  bool _passwordVisible = true;
+  bool _repeatPasswordVisible = true;
 
   @override
   Widget build(BuildContext context) {
@@ -208,7 +208,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                         ),
                       ),
                       const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 40),
+                        padding: EdgeInsets.symmetric(vertical: 30),
                       ),
                       ElevatedButton(
                         style: ButtonStyle(
@@ -218,7 +218,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                             ),
                           ),
                           padding: const MaterialStatePropertyAll(
-                            EdgeInsets.symmetric(horizontal: 110, vertical: 10),
+                            EdgeInsets.symmetric(horizontal: 90, vertical: 10),
                           ),
                           backgroundColor: const MaterialStatePropertyAll(
                             Color(0xFFD9C5AD),

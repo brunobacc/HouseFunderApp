@@ -11,18 +11,16 @@ class Notifications {
     Iterable iterable;
     List<UserNotification> notifications;
 
-    // add the parameters
-    final queryParameters = {'financer_id': '$financerId'};
-
     // ask data to server
     final response = await http.get(Uri.http(
       url,
-      '/api/notifications/financer_id',
-      queryParameters,
+      '/api/notifications/$financerId',
     ));
 
     // deserialize process for a list
     iterable = json.decode(response.body);
+
+    print(response.statusCode);
 
     if (response.statusCode == 200) {
       // deserialize the body

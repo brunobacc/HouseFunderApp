@@ -361,6 +361,7 @@ class _ProfileState extends State<Profile> {
       bottomNavigationBar: BottomNavigationBarWidget(
         selectedIndex: 2,
         token: widget.token,
+        level: 1,
       ),
     );
   }

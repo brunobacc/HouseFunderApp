@@ -170,10 +170,6 @@ class _ShopPageAdminState extends State<ShopPageAdmin> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBarWidget(
-        selectedIndex: 0,
-        token: widget.token,
-      ),
     );
   }
 }

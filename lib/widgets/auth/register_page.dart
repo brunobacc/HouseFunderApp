@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/data/users.dart';
-import 'package:projeto_computacao_movel/modules/arguments/home_page_arguments.dart';
 import '../utils/validations.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -18,6 +17,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool _passwordVisible = true;
+  bool _partnership = false;
 
   @override
   Widget build(BuildContext context) {
@@ -190,8 +190,23 @@ class _RegisterPageState extends State<RegisterPage> {
                                   return null;
                                 },
                               ),
+                              Row(
+                                children: [
+                                  Checkbox(
+                                    value: _partnership,
+                                    onChanged: (_) => setState(() {
+                                      _partnership = !_partnership;
+                                    }),
+                                  ),
+                                  Text(
+                                    'Partnership',
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                ],
+                              ),
                               const Padding(
-                                padding: EdgeInsets.symmetric(vertical: 20),
+                                padding: EdgeInsets.symmetric(vertical: 5),
                               ),
                               ElevatedButton(
                                 style: ButtonStyle(
@@ -211,46 +226,31 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ),
                                 onPressed: () {
                                   if (_formKey.currentState!.validate()) {
-                                    // Validating the Register credentials and getting a future token
-                                    final tokenFuture = Users.login(
-                                      emailController.text,
-                                      passwordController.text,
-                                    );
+                                    // register the user and get a future bool
+                                    final registerStatus = Users.register(
+                                        usernameController.text,
+                                        emailController.text,
+                                        passwordController.text,
+                                        _partnership ? 2 : 1);
 
-                                    // when tokenFuture receives a value, it will validate if the token isn't null
-                                    tokenFuture.then((token) {
-                                      if (token != null) {
-                                        Navigator.pushNamed(
-                                          context,
-                                          '/',
-                                          arguments: HomePageArguments(
-                                            false,
-                                            false,
-                                            false,
-                                            false,
-                                            false,
-                                            null,
-                                            null,
-                                            null,
-                                            0,
-                                            token,
-                                          ),
-                                        );
+                                    // when registerStatus receives a value, it will validate whether the register was successful or in error
+                                    registerStatus.then((value) {
+                                      if (value) {
+                                        Navigator.pushNamed(context, '/login');
                                       } else {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           const SnackBar(
-                                            content:
-                                                Text('Invalid Credentials!'),
+                                            content: Text(
+                                                'The email or username inserted already in use!'),
                                           ),
                                         );
                                       }
                                     }).catchError((error) {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
-                                        const SnackBar(
-                                          content: Text(
-                                              'Failed to validate Register'),
+                                        SnackBar(
+                                          content: Text('Got error: $error'),
                                         ),
                                       );
                                     });
@@ -277,7 +277,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 40),
+                        padding: const EdgeInsets.symmetric(vertical: 30),
                         child: Text(
                           "----------- Already have an account? -----------",
                           style: Theme.of(context)

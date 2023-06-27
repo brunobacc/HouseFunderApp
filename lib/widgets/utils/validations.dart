@@ -6,7 +6,7 @@ extension ExtString on String {
   }
 
   bool get isValidName {
-    final nameRegExp = RegExp(r"^[A-Za-z]\\w{4,14}$");
+    final nameRegExp = RegExp(r"^[A-Za-z1-9]{4,14}$");
     return nameRegExp.hasMatch(this);
   }
 
