@@ -3,7 +3,7 @@ import 'package:projeto_computacao_movel/modules/arguments/home_page_arguments.d
 import 'package:projeto_computacao_movel/widgets/popups/pop_ups_financer.dart';
 import '../../main.dart';
 import '../../modules/arguments/user_arguments.dart';
-import '../../modules/my_flutter_app_icons.dart';
+import '../../modules/custom_icons.dart';
 import '../../modules/user.dart';
 
 class DrawerWidget extends StatefulWidget {
@@ -64,7 +64,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                       style: Theme.of(context).textTheme.titleSmall),
                   leading: IconTheme(
                     data: Theme.of(context).iconTheme,
-                    child: const Icon(MyFlutterApp.management),
+                    child: const Icon(CustomIcons.management),
                   ),
                   children: [
                     ListTile(
@@ -72,7 +72,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                           style: Theme.of(context).textTheme.bodySmall),
                       leading: IconTheme(
                         data: Theme.of(context).iconTheme,
-                        child: const Icon(MyFlutterApp.blueprint),
+                        child: const Icon(CustomIcons.blueprint),
                       ),
                       onTap: () {
                         Navigator.pushNamed(context, '/',
@@ -120,7 +120,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                           style: Theme.of(context).textTheme.bodySmall),
                       leading: IconTheme(
                         data: Theme.of(context).iconTheme,
-                        child: const Icon(MyFlutterApp.user),
+                        child: const Icon(CustomIcons.user),
                       ),
                       onTap: () {
                         Navigator.pushNamed(context, '/financers',
@@ -146,7 +146,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                           style: Theme.of(context).textTheme.bodySmall),
                       leading: IconTheme(
                         data: Theme.of(context).iconTheme,
-                        child: const Icon(MyFlutterApp.document),
+                        child: const Icon(CustomIcons.document),
                       ),
                       onTap: () {
                         Navigator.pushNamed(context, '/validateProposal',

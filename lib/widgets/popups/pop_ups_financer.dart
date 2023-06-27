@@ -8,6 +8,7 @@ import 'package:projeto_computacao_movel/modules/product.dart';
 import 'package:projeto_computacao_movel/modules/user.dart';
 import 'package:projeto_computacao_movel/widgets/popups/pop_up_info.dart';
 import '../../data/images.dart';
+import '../../modules/custom_icons.dart';
 import '../../modules/project.dart';
 import '../../modules/project_financed.dart';
 import '../../modules/project_financer.dart';
@@ -51,7 +52,7 @@ class PopUpsFinancer {
         token: token,
       ),
       insetPadding: EdgeInsets.zero,
-      contentPadding: EdgeInsets.zero,
+      contentPadding: const EdgeInsets.all(10),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
@@ -355,7 +356,7 @@ class _EditImageState extends State<EditImage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -382,6 +383,9 @@ class _EditImageState extends State<EditImage> {
                 Text('From Camera'),
               ],
             ),
+          ),
+          const SizedBox(
+            height: 10,
           ),
           image != null
               ? Padding(
@@ -1123,12 +1127,18 @@ class _ShowNotifications extends State<ShowNotifications> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        snapshot.data![index].title == 'Finance'
-                            ? const Icon(
-                                Icons.euro,
-                                size: 30,
-                              )
-                            : const Icon(Icons.price_change),
+                        Padding(
+                          padding: const EdgeInsets.all(5),
+                          child: snapshot.data![index].title == 'Finance'
+                              ? const Icon(
+                                  CustomIcons.finance,
+                                  size: 50,
+                                )
+                              : const Icon(
+                                  CustomIcons.finished,
+                                  size: 50,
+                                ),
+                        ),
                         Container(
                           margin: const EdgeInsets.symmetric(vertical: 5),
                           width: MediaQuery.sizeOf(context).width * 0.6,

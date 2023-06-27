@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/data/projects.dart';
+import 'package:projeto_computacao_movel/widgets/popups/pop_up_validation.dart';
 import '../../modules/arguments/project_arguments.dart';
 import '../../modules/project.dart';
 import '../../modules/user.dart';
@@ -114,10 +115,10 @@ class _AdminValidatePageState extends State<AdminValidatePage> {
                                   )
                                 ],
                               ),
-                              onTap: () => Navigator.pushNamed(
-                                  context, '/projectDetailsValidate',
-                                  arguments: ProjectArguments(widget.token,
-                                      filteredProjects[index], widget.user)),
+                              onTap: () => PopUpValidation.validate(
+                                  context: context,
+                                  project: filteredProjects[index],
+                                  token: widget.token),
                             ),
                           );
                         } else {

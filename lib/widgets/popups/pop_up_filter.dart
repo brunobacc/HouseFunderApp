@@ -40,6 +40,7 @@ List<String> regions = [
   'Évora',
   'Faro',
   'Guarda',
+  'Guimarães',
   'Leiria',
   'Lisboa',
   'Portalegre',

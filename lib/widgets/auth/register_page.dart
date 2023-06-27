@@ -90,7 +90,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: Column(
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(20),
+                        padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20),
@@ -205,75 +205,71 @@ class _RegisterPageState extends State<RegisterPage> {
                                   ),
                                 ],
                               ),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(vertical: 5),
-                              ),
-                              ElevatedButton(
-                                style: ButtonStyle(
-                                  shape: MaterialStatePropertyAll(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(50),
-                                    ),
-                                  ),
-                                  padding: const MaterialStatePropertyAll(
-                                    EdgeInsets.symmetric(
-                                        horizontal: 95, vertical: 10),
-                                  ),
-                                  backgroundColor:
-                                      const MaterialStatePropertyAll(
-                                    Color(0xFFD9C5AD),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
-                                    // register the user and get a future bool
-                                    final registerStatus = Users.register(
-                                        usernameController.text,
-                                        emailController.text,
-                                        passwordController.text,
-                                        _partnership ? 2 : 1);
-
-                                    // when registerStatus receives a value, it will validate whether the register was successful or in error
-                                    registerStatus.then((value) {
-                                      if (value) {
-                                        Navigator.pushNamed(context, '/login');
-                                      } else {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                            content: Text(
-                                                'The email or username inserted already in use!'),
-                                          ),
-                                        );
-                                      }
-                                    }).catchError((error) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text('Got error: $error'),
-                                        ),
-                                      );
-                                    });
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text('Please fill input!'),
-                                      ),
-                                    );
-                                  }
-                                },
-                                child: Text(
-                                  "Register",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .copyWith(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                ),
-                              ),
                             ],
                           ),
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                      ),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          shape: MaterialStatePropertyAll(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                          ),
+                          padding: const MaterialStatePropertyAll(
+                            EdgeInsets.symmetric(horizontal: 95, vertical: 10),
+                          ),
+                          backgroundColor: const MaterialStatePropertyAll(
+                            Color(0xFFD9C5AD),
+                          ),
+                        ),
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            // register the user and get a future bool
+                            final registerStatus = Users.register(
+                                usernameController.text,
+                                emailController.text,
+                                passwordController.text,
+                                _partnership ? 2 : 1);
+
+                            // when registerStatus receives a value, it will validate whether the register was successful or in error
+                            registerStatus.then((value) {
+                              if (value) {
+                                Navigator.pushNamed(context, '/login');
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                        'The email or username inserted already in use!'),
+                                  ),
+                                );
+                              }
+                            }).catchError((error) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Got error: $error'),
+                                ),
+                              );
+                            });
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Please fill input!'),
+                              ),
+                            );
+                          }
+                        },
+                        child: Text(
+                          "Register",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
                         ),
                       ),
                       Padding(

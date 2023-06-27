@@ -167,100 +167,93 @@ class _LoginPageState extends State<LoginPage> {
                                   return null;
                                 },
                               ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 40),
-                                child: SelectableText(
-                                  "Forgot Password?",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!
-                                      .copyWith(color: Colors.grey),
-                                  onTap: () => Navigator.pushNamed(
-                                      context, '/emailVerification'),
-                                ),
-                              ),
-                              ElevatedButton(
-                                style: ButtonStyle(
-                                  shape: MaterialStatePropertyAll(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(50),
-                                    ),
-                                  ),
-                                  padding: const MaterialStatePropertyAll(
-                                    EdgeInsets.symmetric(
-                                        horizontal: 110, vertical: 10),
-                                  ),
-                                  backgroundColor:
-                                      const MaterialStatePropertyAll(
-                                    Color(0xFFD9C5AD),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
-                                    // Validating the login credentials and getting a future token
-                                    final tokenFuture = Users.login(
-                                      emailController.text,
-                                      passwordController.text,
-                                    );
-
-                                    // when tokenFuture receives a value, it will validate if the token isn't null
-                                    tokenFuture.then((token) {
-                                      if (token != null) {
-                                        Navigator.pushNamed(
-                                          context,
-                                          '/',
-                                          arguments: HomePageArguments(
-                                            false,
-                                            false,
-                                            false,
-                                            false,
-                                            false,
-                                            null,
-                                            null,
-                                            null,
-                                            0,
-                                            token,
-                                          ),
-                                        );
-                                      } else {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                            content:
-                                                Text('Invalid Credentials!'),
-                                          ),
-                                        );
-                                      }
-                                    }).catchError((error) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        const SnackBar(
-                                          content:
-                                              Text('Failed to validate login'),
-                                        ),
-                                      );
-                                    });
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text('Please fill input!'),
-                                      ),
-                                    );
-                                  }
-                                },
-                                child: Text(
-                                  "Login",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .copyWith(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                ),
-                              ),
                             ],
                           ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 40),
+                        child: SelectableText(
+                          "Forgot Password?",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(color: Colors.grey),
+                          onTap: () => Navigator.pushNamed(
+                              context, '/emailVerification'),
+                        ),
+                      ),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          shape: MaterialStatePropertyAll(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                          ),
+                          padding: const MaterialStatePropertyAll(
+                            EdgeInsets.symmetric(horizontal: 110, vertical: 10),
+                          ),
+                          backgroundColor: const MaterialStatePropertyAll(
+                            Color(0xFFD9C5AD),
+                          ),
+                        ),
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            // Validating the login credentials and getting a future token
+                            final tokenFuture = Users.login(
+                              emailController.text,
+                              passwordController.text,
+                            );
+
+                            // when tokenFuture receives a value, it will validate if the token isn't null
+                            tokenFuture.then((token) {
+                              if (token != null) {
+                                Navigator.pushNamed(
+                                  context,
+                                  '/',
+                                  arguments: HomePageArguments(
+                                    false,
+                                    false,
+                                    false,
+                                    false,
+                                    false,
+                                    null,
+                                    null,
+                                    null,
+                                    0,
+                                    token,
+                                  ),
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Invalid Credentials!'),
+                                  ),
+                                );
+                              }
+                            }).catchError((error) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Failed to validate login'),
+                                ),
+                              );
+                            });
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Please fill input!'),
+                              ),
+                            );
+                          }
+                        },
+                        child: Text(
+                          "Login",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
                         ),
                       ),
                       Padding(

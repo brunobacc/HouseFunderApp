@@ -41,6 +41,9 @@ class Users {
     // deserialize process for a list
     iterable = json.decode(response.body);
 
+    print(response.statusCode);
+    print(response.body);
+
     if (response.statusCode == 200) {
       // deserialize the body
       partnerships =
@@ -152,7 +155,6 @@ class Users {
     int level,
   ) async {
     try {
-      print('$username | $email | $password | $level');
       // add the parameters
       final queryParameters = {
         'username': username,
@@ -160,14 +162,10 @@ class Users {
         'password': password,
         'permission_level': level.toString(),
       };
-      print('ola');
 
       final response = await http.post(
         Uri.http(url, '/api/register', queryParameters),
       );
-
-      print('Response Body: ${response.body}');
-      print('Status Code: ${response.statusCode}');
       if (response.statusCode == 200) {
         if (response.body == 'true') {
           return true;

@@ -67,7 +67,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                         children: [
                           SizedBox.expand(
                             child: LinearProgressIndicator(
-                              backgroundColor: Colors.black45,
+                              backgroundColor: Colors.grey,
                               value: (widget.project.totalFinanced /
                                   widget.project.finalValue),
                               valueColor: const AlwaysStoppedAnimation(
