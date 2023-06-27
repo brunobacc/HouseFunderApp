@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:projeto_computacao_movel/modules/project.dart';
+import 'package:projeto_computacao_movel/modules/project_add.dart';
 import 'package:projeto_computacao_movel/modules/project_financer.dart';
 import '../modules/project_financed.dart';
 import '../modules/user.dart';
@@ -239,5 +241,37 @@ class Projects {
       }
     }
     return false;
+  }
+
+  static Future<bool> proposeProject(int partnershipId, String location,
+      File imageFile, String title, String description, double value) async {
+    ProjectAdd project = ProjectAdd(
+        statusId: 4,
+        categoryId: 1,
+        partnershipId: partnershipId,
+        location: location,
+        title: title,
+        description: description,
+        finalValue: value);
+
+    var request = http.MultipartRequest('POST', Uri.http(url, '/api/projects'));
+    request.files
+        .add(await http.MultipartFile.fromPath('image_file', imageFile.path));
+    print(jsonEncode(project));
+    request.fields['project_add'] = jsonEncode(project);
+
+    try {
+      var response = await request.send();
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        // Handle error response
+        return false;
+      }
+    } catch (e) {
+      // Handle network or server errors
+      throw Exception('Error: $e');
+    }
   }
 }

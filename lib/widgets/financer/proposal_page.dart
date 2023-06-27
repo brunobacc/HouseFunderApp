@@ -1,8 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:projeto_computacao_movel/data/projects.dart';
 import 'package:projeto_computacao_movel/widgets/utils/drawer_widget.dart';
 
 import '../../data/users.dart';
 import '../../modules/partnership.dart';
+import '../popups/pop_up_info.dart';
 
 class ProposalPage extends StatefulWidget {
   final String? token;
@@ -15,13 +20,25 @@ class ProposalPage extends StatefulWidget {
 }
 
 class _ProposalPageState extends State<ProposalPage> {
+  XFile? image;
   final _formKey = GlobalKey<FormState>();
-
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController locationController = TextEditingController();
   final TextEditingController valueNeededController = TextEditingController();
   late Future<List<Partnership>> _partnerships;
-  String? selectedPartnership;
+  int? selectedPartnership;
+
+  final ImagePicker picker = ImagePicker();
+
+  //we can upload image from camera or from gallery based on parameter
+  Future getImage(ImageSource media) async {
+    var img = await picker.pickImage(source: media);
+
+    setState(() {
+      image = img;
+    });
+  }
 
   @override
   void initState() {
@@ -32,6 +49,7 @@ class _ProposalPageState extends State<ProposalPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
           'Proposal',
@@ -44,6 +62,7 @@ class _ProposalPageState extends State<ProposalPage> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
                 controller: titleController,
@@ -66,7 +85,7 @@ class _ProposalPageState extends State<ProposalPage> {
                 },
               ),
               const SizedBox(
-                height: 20,
+                height: 10,
               ),
               TextFormField(
                 controller: descriptionController,
@@ -90,7 +109,30 @@ class _ProposalPageState extends State<ProposalPage> {
                 },
               ),
               const SizedBox(
-                height: 20,
+                height: 10,
+              ),
+              TextFormField(
+                controller: locationController,
+                style: Theme.of(context).textTheme.bodyMedium,
+                decoration: InputDecoration(
+                  hintText: "Location",
+                  hintStyle: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(color: Colors.grey),
+                  border: const UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                ),
+                validator: (value) {
+                  if (value == null || value == '') {
+                    return 'Insert the location!';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(
+                height: 10,
               ),
               TextFormField(
                 controller: valueNeededController,
@@ -114,7 +156,7 @@ class _ProposalPageState extends State<ProposalPage> {
                 },
               ),
               const SizedBox(
-                height: 20,
+                height: 10,
               ),
               FutureBuilder<List<Partnership>>(
                 future: _partnerships,
@@ -129,7 +171,7 @@ class _ProposalPageState extends State<ProposalPage> {
                       value: selectedPartnership,
                       items: snapshot.data!
                           .map((p) => DropdownMenuItem(
-                                value: p.name,
+                                value: p.id,
                                 child: Text(
                                   p.name,
                                   style: Theme.of(context).textTheme.bodyMedium,
@@ -147,6 +189,94 @@ class _ProposalPageState extends State<ProposalPage> {
                     child: CircularProgressIndicator(),
                   );
                 },
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  Text(
+                    'Image: ',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      getImage(ImageSource.gallery);
+                    },
+                    icon: const Icon(
+                      Icons.upload,
+                      size: 30,
+                    ),
+                  ),
+                ],
+              ),
+              image != null
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Center(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.file(
+                            //to show image, you type like this.
+                            File(image!.path),
+                            fit: BoxFit.fitHeight,
+                            height: 200,
+                          ),
+                        ),
+                      ),
+                    )
+                  : const Center(
+                      child: Text(
+                        "Select an Image!",
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
+              const SizedBox(
+                height: 20,
+              ),
+              Center(
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    shape: MaterialStatePropertyAll(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                    ),
+                    padding: const MaterialStatePropertyAll(
+                      EdgeInsets.symmetric(horizontal: 110, vertical: 10),
+                    ),
+                  ),
+                  onPressed: () {
+                    if (image != null) {
+                      Future<bool> editProfileStatus = Projects.proposeProject(
+                          selectedPartnership!,
+                          locationController.text,
+                          File(image!.path),
+                          titleController.text,
+                          descriptionController.text,
+                          double.parse(valueNeededController.text));
+                      // when playerDeleted receives a bool value, it will present an information popUp
+                      editProfileStatus.then(
+                        (value) {
+                          value
+                              ? PopUpInfo.info(
+                                  context,
+                                  'Success',
+                                  'The image was updated!',
+                                  widget.token,
+                                )
+                              : PopUpInfo.info(
+                                  context,
+                                  'Error',
+                                  'Something happen when it was uploding the image!',
+                                  widget.token,
+                                );
+                        },
+                      );
+                    }
+                  },
+                  child: const Text('Propose'),
+                ),
               ),
             ],
           ),

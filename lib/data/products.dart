@@ -64,9 +64,9 @@ class Products {
         body: jsonEncode(<String, dynamic>{
           "title": title,
           "description": description,
-          "price": price.toString(),
+          "price": price,
           "image": image,
-          "value": value.toString()
+          "value": value
         }),
       );
 
