@@ -140,7 +140,6 @@ class _ValidateState extends State<Validate> {
                       if (widget.user?.permissionLevel == 3) {
                         Projects.validateProject(
                             widget.token, 5, widget.project.projectId);
-                        print(widget.project.statusId);
                         Navigator.pop(context);
                       } else {
                         Projects.validateProject(
