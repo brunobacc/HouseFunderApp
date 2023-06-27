@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:projeto_computacao_movel/modules/project.dart';
-import 'package:projeto_computacao_movel/modules/project_add.dart';
 import 'package:projeto_computacao_movel/modules/project_financer.dart';
 import '../modules/project_financed.dart';
 import '../modules/user.dart';
@@ -245,20 +244,22 @@ class Projects {
 
   static Future<bool> proposeProject(int partnershipId, String location,
       File imageFile, String title, String description, double value) async {
-    ProjectAdd project = ProjectAdd(
-        statusId: 4,
-        categoryId: 1,
-        partnershipId: partnershipId,
-        location: location,
-        title: title,
-        description: description,
-        finalValue: value);
-
+    var headers = {
+      //'Content-Type': 'application/json',
+      'Content-Type': 'multipart/form-data',
+      //'Authorization': 'Bearer $token'
+    };
     var request = http.MultipartRequest('POST', Uri.http(url, '/api/projects'));
+    request.headers.addAll(headers);
     request.files
         .add(await http.MultipartFile.fromPath('image_file', imageFile.path));
-    print(jsonEncode(project));
-    request.fields['project_add'] = jsonEncode(project);
+    request.fields['status_id'] = '4';
+    request.fields['category_id'] = '1';
+    request.fields['partnership_id'] = partnershipId.toString();
+    request.fields['location'] = location;
+    request.fields['title'] = title;
+    request.fields['description'] = description;
+    request.fields['final_value'] = value.toString();
 
     try {
       var response = await request.send();
@@ -266,12 +267,37 @@ class Projects {
       if (response.statusCode == 200) {
         return true;
       } else {
-        // Handle error response
         return false;
       }
     } catch (e) {
       // Handle network or server errors
       throw Exception('Error: $e');
+    }
+  }
+
+  static Future<void> addProject(Project project, String? token) async {
+    final response = await http.post(
+      Uri.http(url, '/api/projects'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Token': token!
+      },
+      body: jsonEncode(<String, dynamic>{
+        "status_id": project.statusId,
+        "category_id": project.categoryId,
+        "partnership_id": project.partnershipId,
+        "location": project.location,
+        "image": project.image,
+        "title": project.title,
+        "description": project.description,
+        "total_financed": project.totalFinanced,
+        "final_value": project.finalValue,
+        "date_created": project.dateCreated,
+      }),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to add product');
     }
   }
 }
