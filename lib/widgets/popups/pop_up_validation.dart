@@ -41,11 +41,12 @@ class Validate extends StatefulWidget {
   final String? token;
   final User? user;
 
-  const Validate(
-      {required this.project,
-      required this.token,
-      required this.user,
-      super.key});
+  const Validate({
+    required this.project,
+    required this.token,
+    required this.user,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<Validate> createState() => _ValidateState();
@@ -65,7 +66,7 @@ class _ValidateState extends State<Validate> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: SizedBox(
-        width: MediaQuery.sizeOf(context).width * 0.8,
+        width: MediaQuery.of(context).size.width * 0.8,
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,7 +82,7 @@ class _ValidateState extends State<Validate> {
                 borderRadius: BorderRadius.circular(10),
                 child: Image.network(
                   'https://housefunderstorage.blob.core.windows.net/projects/${widget.project.image}',
-                  width: MediaQuery.sizeOf(context).width,
+                  width: MediaQuery.of(context).size.width,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -153,20 +154,62 @@ class _ValidateState extends State<Validate> {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () => TextFormField(
-                      controller: _descriptionController,
-                      decoration:
-                          const InputDecoration(labelText: 'Description'),
-                      validator: (value) {
-                        if (value != null) {
-                          return null;
-                        }
-                        return 'Please enter a description';
-                      },
-                    ),
                     child: Text(
                       'Decline',
                       style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    onPressed: () => showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          actions: [
+                            TextFormField(
+                              controller: _descriptionController,
+                              decoration: InputDecoration(
+                                labelText: 'Description',
+                                labelStyle: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 16,
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey[300]!,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.red,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.red,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                errorStyle: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 14,
+                                ),
+                              ),
+                              validator: (value) {
+                                if (value != null) {
+                                  return null;
+                                }
+                                return 'Please enter a description';
+                              },
+                            ),
+                          ],
+                        );
+                      },
                     ),
                   ),
                 ],

@@ -45,4 +45,42 @@ class Products {
       throw Exception('Failed to add product');
     }
   }
+
+  static Future<bool> updateProduct(
+      String title,
+      String description,
+      int productId,
+      int price,
+      String image,
+      double value,
+      String? token) async {
+    try {
+      final response = await http.put(
+        Uri.http(url, '/api/Products/${productId}'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Token': token!,
+        },
+        body: jsonEncode(<String, dynamic>{
+          "title": title,
+          "description": description,
+          "price": price.toString(),
+          "image": image,
+          "value": value.toString()
+        }),
+      );
+
+      print('Response Body: ${response.body}');
+      print('Status Code: ${response.statusCode}');
+
+      // this "if" is needed to give the administrator information after trying to delete a player
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      //print('Error: $e');
+      return false;
+    }
+  }
 }
