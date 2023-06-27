@@ -78,8 +78,10 @@ class _ShopPageState extends State<ShopPage> {
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       List<Product> products = snapshot.data!;
+                      final activeProducts =
+                          products.where((p) => p.active == true);
                       return GridView.builder(
-                        itemCount: products.length,
+                        itemCount: activeProducts.length,
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,

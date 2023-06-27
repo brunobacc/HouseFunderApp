@@ -55,8 +55,10 @@ class _ShopPageAdminState extends State<ShopPageAdmin> {
                     return Text('${snapshot.error ?? "Error occurred"}');
                   } else if (snapshot.hasData) {
                     List<Product> products = snapshot.data!;
+                    final activeProducts =
+                        products.where((p) => p.active == true);
                     return GridView.builder(
-                      itemCount: products.length + 1,
+                      itemCount: activeProducts.length + 1,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
@@ -162,7 +164,20 @@ class _ShopPageAdminState extends State<ShopPageAdmin> {
                                         context: context,
                                         product: product,
                                         token: widget.token),
-                                    icon: Icon(Icons.edit,
+                                    icon: const Icon(Icons.edit,
+                                        color: Colors.white, size: 25),
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  right: -10,
+                                  height: 320,
+                                  child: IconButton(
+                                    onPressed: () => PopUpsAdmin.deleteProduct(
+                                        context: context,
+                                        product: product,
+                                        token: widget.token),
+                                    icon: const Icon(Icons.delete,
                                         color: Colors.white, size: 25),
                                   ),
                                 ),

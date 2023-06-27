@@ -64,9 +64,9 @@ class Products {
         body: jsonEncode(<String, dynamic>{
           "title": title,
           "description": description,
-          "price": price.toString(),
+          "price": price,
           "image": image,
-          "value": value.toString()
+          "value": value
         }),
       );
 
@@ -82,5 +82,22 @@ class Products {
       //print('Error: $e');
       return false;
     }
+  }
+
+  static Future<bool> delete(String? token, int productId) async {
+    // ask data to server
+    final response = await http.delete(Uri.http(
+      url,
+      '/api/Products/$productId',
+    ));
+    
+    if (response.statusCode == 200) {
+      if (response.body == 'true') {
+        return true;
+      }
+    } else {
+      throw Exception('Failed to delete Products');
+    }
+    return false;
   }
 }

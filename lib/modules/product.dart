@@ -5,6 +5,7 @@ class Product {
   String description;
   int price;
   double? value;
+  bool active;
 
   Product({
     required this.productId,
@@ -13,6 +14,7 @@ class Product {
     required this.description,
     required this.price,
     required this.value,
+    required this.active,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
@@ -24,6 +26,7 @@ class Product {
       title: json['title'],
       value:
           json['value'] != null ? double.parse(json['value'].toString()) : null,
+      active: json['active'],
     );
   }
 }
