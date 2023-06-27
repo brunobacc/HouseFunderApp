@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/data/projects.dart';
 import 'package:projeto_computacao_movel/widgets/popups/pop_up_validation.dart';
-import '../../modules/arguments/project_arguments.dart';
 import '../../modules/project.dart';
 import '../../modules/user.dart';
+import '../utils/bottom_navigation_bar_widget.dart';
 import '../utils/drawer_widget.dart';
 
-class AdminValidatePage extends StatefulWidget {
+class ValidatePage extends StatefulWidget {
   final String? token;
   final User? user;
-  const AdminValidatePage({required this.token, required this.user, super.key});
+  const ValidatePage({required this.token, required this.user, super.key});
 
   static const String routeName = '/validateProposal';
 
   @override
-  State<AdminValidatePage> createState() => _AdminValidatePageState();
+  State<ValidatePage> createState() => _ValidatePageState();
 }
 
-class _AdminValidatePageState extends State<AdminValidatePage> {
+class _ValidatePageState extends State<ValidatePage> {
   late final Future<List<Project>> _projects;
 
   @override
@@ -30,7 +30,11 @@ class _AdminValidatePageState extends State<AdminValidatePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('hahaha'),
+        title: Text(
+          'Proposals',
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        centerTitle: true,
       ),
       drawer: DrawerWidget(token: widget.token, user: widget.user),
       body: Padding(
@@ -47,7 +51,9 @@ class _AdminValidatePageState extends State<AdminValidatePage> {
                         .where((project) => project.statusId == 4)
                         .toList();
                     final filteredPartnersProjects = snapshot.data!
-                        .where((project) => project.statusId == 5)
+                        .where((project) =>
+                            project.statusId == 5 &&
+                            project.partnershipId == widget.user!.userId)
                         .toList();
                     final itemCount = widget.user?.permissionLevel == 3
                         ? filteredProjects.length
@@ -182,12 +188,10 @@ class _AdminValidatePageState extends State<AdminValidatePage> {
                                   )
                                 ],
                               ),
-                              onTap: () => Navigator.pushNamed(
-                                  context, '/projectDetails',
-                                  arguments: ProjectArguments(
-                                      widget.token,
-                                      filteredPartnersProjects[index],
-                                      widget.user)),
+                              onTap: () => PopUpValidation.validate(
+                                  context: context,
+                                  project: filteredPartnersProjects[index],
+                                  token: widget.token),
                             ),
                           );
                         }
@@ -205,6 +209,13 @@ class _AdminValidatePageState extends State<AdminValidatePage> {
           ],
         ),
       ),
+      bottomNavigationBar: widget.user!.permissionLevel == 2
+          ? BottomNavigationBarWidget(
+              selectedIndex: 0,
+              token: widget.token,
+              user: widget.user,
+            )
+          : null,
     );
   }
 }

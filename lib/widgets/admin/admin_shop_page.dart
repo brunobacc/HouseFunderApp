@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/widgets/popups/pop_ups_admin.dart';
-import 'package:projeto_computacao_movel/widgets/utils/bottom_navigation_bar_widget.dart';
 import '../../modules/product.dart';
 import '../../data/products.dart';
 import '../../modules/user.dart';

@@ -241,7 +241,7 @@ class _HomePageState extends State<HomePage> {
           ? BottomNavigationBarWidget(
               selectedIndex: 1,
               token: widget.token,
-              level: _user?.permissionLevel,
+              user: _user,
             )
           : null,
     );
