@@ -176,7 +176,7 @@ class _ShopPageState extends State<ShopPage> {
       bottomNavigationBar: BottomNavigationBarWidget(
         selectedIndex: 0,
         token: widget.token,
-        level: 1,
+        user: _user,
       ),
     );
   }

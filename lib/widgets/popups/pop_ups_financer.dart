@@ -832,7 +832,7 @@ class BuyProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: MediaQuery.sizeOf(context).height * 0.45,
       width: MediaQuery.sizeOf(context).width * 0.8,
       child: Column(
@@ -1122,7 +1122,7 @@ class _ShowNotifications extends State<ShowNotifications> {
               itemBuilder: (BuildContext context, int index) {
                 // Display the notifications in Cards
                 return Card(
-                    margin: EdgeInsets.all(5),
+                    margin: const EdgeInsets.all(5),
                     color: Colors.white,
                     elevation: 5,
                     child: Row(
@@ -1214,7 +1214,7 @@ class _ShowNotifications extends State<ShowNotifications> {
                                 },
                               );
                             },
-                            icon: Icon(Icons.delete))
+                            icon: const Icon(Icons.delete))
                       ],
                     ));
               },

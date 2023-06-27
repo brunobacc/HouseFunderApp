@@ -20,7 +20,7 @@ class Notifications {
     // deserialize process for a list
     iterable = json.decode(response.body);
 
-    print(response.statusCode);
+    //print(response.statusCode);
 
     if (response.statusCode == 200) {
       // deserialize the body
