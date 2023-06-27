@@ -240,4 +240,30 @@ class Projects {
     }
     return false;
   }
+
+  static Future<void> addProject(Project project, String? token) async {
+    final response = await http.post(
+      Uri.http(url, '/api/projects'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Token': token!
+      },
+      body: jsonEncode(<String, dynamic>{
+        "status_id": project.statusId,
+        "category_id": project.categoryId,
+        "partnership_id": project.partnershipId,
+        "location": project.location,
+        "image": project.image,
+        "title": project.title,
+        "description": project.description,
+        "total_financed": project.totalFinanced,
+        "final_value": project.finalValue,
+        "date_created": project.dateCreated,
+      }),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to add product');
+    }
+  }
 }

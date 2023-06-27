@@ -70,8 +70,8 @@ class Products {
         }),
       );
 
-      print('Response Body: ${response.body}');
-      print('Status Code: ${response.statusCode}');
+      //print('Response Body: ${response.body}');
+      //print('Status Code: ${response.statusCode}');
 
       // this "if" is needed to give the administrator information after trying to delete a player
       if (response.statusCode == 200) {
@@ -90,7 +90,7 @@ class Products {
       url,
       '/api/Products/$productId',
     ));
-    
+
     if (response.statusCode == 200) {
       if (response.body == 'true') {
         return true;

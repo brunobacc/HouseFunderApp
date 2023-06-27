@@ -502,4 +502,6 @@ class _CreateProductState extends State<CreateProduct> {
       ),
     );
   }
+
 }
+
