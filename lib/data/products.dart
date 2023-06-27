@@ -70,8 +70,8 @@ class Products {
         }),
       );
 
-      print('Response Body: ${response.body}');
-      print('Status Code: ${response.statusCode}');
+      //print('Response Body: ${response.body}');
+      //print('Status Code: ${response.statusCode}');
 
       // this "if" is needed to give the administrator information after trying to delete a player
       if (response.statusCode == 200) {
@@ -82,5 +82,22 @@ class Products {
       //print('Error: $e');
       return false;
     }
+  }
+
+  static Future<bool> delete(String? token, int productId) async {
+    // ask data to server
+    final response = await http.delete(Uri.http(
+      url,
+      '/api/Products/$productId',
+    ));
+
+    if (response.statusCode == 200) {
+      if (response.body == 'true') {
+        return true;
+      }
+    } else {
+      throw Exception('Failed to delete Products');
+    }
+    return false;
   }
 }

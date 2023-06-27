@@ -149,7 +149,10 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                                 // create new project
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, '/createProject');
+                                },
                               ),
                             );
                           }
