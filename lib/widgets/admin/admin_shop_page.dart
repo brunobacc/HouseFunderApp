@@ -153,6 +153,19 @@ class _ShopPageAdminState extends State<ShopPageAdmin> {
                                     ),
                                   ),
                                 ),
+                                Positioned(
+                                  bottom: 0,
+                                  right: 20,
+                                  height: 320,
+                                  child: IconButton(
+                                    onPressed: () => PopUpsAdmin.editProduct(
+                                        context: context,
+                                        product: product,
+                                        token: widget.token),
+                                    icon: Icon(Icons.edit,
+                                        color: Colors.white, size: 25),
+                                  ),
+                                ),
                               ],
                             ),
                           ),

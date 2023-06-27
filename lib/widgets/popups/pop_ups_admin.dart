@@ -37,6 +37,24 @@ class PopUpsAdmin {
       builder: (BuildContext context) => popUp,
     );
   }
+
+  static void editProduct(
+      {required BuildContext context,
+      required Product? product,
+      required String? token}) {
+    var popUp = AlertDialog(
+      content: EditProduct(product: product, token: token),
+      contentPadding: EdgeInsets.zero,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      elevation: 3,
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => popUp,
+    );
+  }
 }
 
 class CreateAdmin extends StatefulWidget {
@@ -127,7 +145,10 @@ class _CreateAdminState extends State<CreateAdmin> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         Users.register(
-                                'Admin', 'Admin@gmail.com', 'adminadmin', 3)
+                                _nameController.text,
+                                _emailController.text,
+                                _passwordController.text,
+                                3)
                             .then((_) {
                           Navigator.pop(context); // Close the popup
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -139,6 +160,142 @@ class _CreateAdminState extends State<CreateAdmin> {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Failed to add admin'),
+                            ),
+                          );
+                        });
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class EditProduct extends StatefulWidget {
+  final Product? product;
+  final String? token;
+  const EditProduct({required this.product, required this.token, super.key});
+
+  @override
+  State<EditProduct> createState() => _EditProductState();
+}
+
+class _EditProductState extends State<EditProduct> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _imageController = TextEditingController();
+  final TextEditingController _priceContorller = TextEditingController();
+  final TextEditingController _valueController = TextEditingController();
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _descriptionController.dispose();
+    _imageController.dispose();
+    _priceContorller.dispose();
+    _valueController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: Container(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextFormField(
+                controller: _titleController,
+                decoration: const InputDecoration(labelText: 'Title'),
+                validator: (value) {
+                  if (value != null) {
+                    return null;
+                  }
+                  return 'Please enter a Title';
+                },
+              ),
+              TextFormField(
+                controller: _descriptionController,
+                decoration: const InputDecoration(labelText: 'Description'),
+                validator: (value) {
+                  if (value != null) {
+                    return null;
+                  }
+                  return 'Please enter a Description';
+                },
+              ),
+              TextFormField(
+                controller: _priceContorller,
+                decoration: const InputDecoration(labelText: 'Price'),
+                validator: (value) {
+                  if (value != null) {
+                    return null;
+                  }
+                  return 'Please enter a price';
+                },
+              ),
+              TextFormField(
+                controller: _valueController,
+                decoration: const InputDecoration(labelText: 'Value'),
+                validator: (value) {
+                  if (value != null) {
+                    return null;
+                  }
+                  return 'Please enter a value';
+                },
+              ),
+              TextFormField(
+                controller: _imageController,
+                decoration: const InputDecoration(labelText: 'Image'),
+                validator: (value) {
+                  if (value != null) {
+                    return null;
+                  }
+                  return 'Please enter an image';
+                },
+              ),
+              const SizedBox(height: 16.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    child: const Text('Cancel'),
+                    onPressed: () {
+                      Navigator.pop(context); // Close the popup
+                    },
+                  ),
+                  ElevatedButton(
+                    child: const Text('Edit'),
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        Products.updateProduct(
+                                _titleController.text,
+                                _descriptionController.text,
+                                widget.product!.productId,
+                                int.parse(_priceContorller.text),
+                                _imageController.text,
+                                double.parse(_valueController.text),
+                                widget.token)
+                            .then((_) {
+                          Navigator.pop(context); // Close the popup
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Product edited  successfully'),
+                            ),
+                          );
+                        }).catchError((error) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Failed to edit product'),
                             ),
                           );
                         });
@@ -253,7 +410,7 @@ class _CreateProductState extends State<CreateProduct> {
                           description: _descriptionController.text,
                           price: int.parse(_priceController.text),
                           image: _imageController.text,
-                          value: double.parse(_valueController.text),
+                          value: double.tryParse(_valueController.text),
                         );
 
                         Products.addProduct(newProduct).then((_) {

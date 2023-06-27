@@ -950,6 +950,7 @@ class BuyProduct extends StatelessWidget {
   }
 }
 
+
 class ProductBought extends StatefulWidget {
   final String? token;
   final Product product;
