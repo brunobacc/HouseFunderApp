@@ -215,7 +215,7 @@ class Projects {
   }
 
   static Future<bool> validateProject(
-      String? token, int statusId, int projectId) async {
+      String? token, int statusId, int projectId, String? motive) async {
     if (token != null) {
       try {
         final response = await http.put(
@@ -243,7 +243,7 @@ class Projects {
   }
 
   static Future<bool> proposeProject(int partnershipId, String location,
-      File imageFile, String title, String description, double value) async {
+      File imageFile, String title, String description, int value) async {
     var headers = {
       //'Content-Type': 'application/json',
       'Content-Type': 'multipart/form-data',

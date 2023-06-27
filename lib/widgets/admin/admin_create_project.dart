@@ -1,9 +1,6 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:projeto_computacao_movel/data/projects.dart';
-
 import '../../data/users.dart';
 import '../../modules/partnership.dart';
 import '../../modules/project.dart';

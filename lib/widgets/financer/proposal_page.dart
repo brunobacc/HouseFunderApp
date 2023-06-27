@@ -1,10 +1,7 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:projeto_computacao_movel/data/projects.dart';
-import 'package:projeto_computacao_movel/widgets/utils/drawer_widget.dart';
-
 import '../../data/users.dart';
 import '../../modules/partnership.dart';
 import '../popups/pop_up_info.dart';
@@ -48,6 +45,7 @@ class _ProposalPageState extends State<ProposalPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.token);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -248,27 +246,27 @@ class _ProposalPageState extends State<ProposalPage> {
                   ),
                   onPressed: () {
                     if (image != null) {
-                      Future<bool> editProfileStatus = Projects.proposeProject(
+                      Future<bool> proposalStatus = Projects.proposeProject(
                           selectedPartnership!,
                           locationController.text,
                           File(image!.path),
                           titleController.text,
                           descriptionController.text,
-                          double.parse(valueNeededController.text));
+                          int.parse(valueNeededController.text));
                       // when playerDeleted receives a bool value, it will present an information popUp
-                      editProfileStatus.then(
+                      proposalStatus.then(
                         (value) {
                           value
                               ? PopUpInfo.info(
                                   context,
                                   'Success',
-                                  'The image was updated!',
+                                  'The project was proposed!',
                                   widget.token,
                                 )
                               : PopUpInfo.info(
                                   context,
                                   'Error',
-                                  'Something happen when it was uploding the image!',
+                                  'Something happened when the project was being processed!',
                                   widget.token,
                                 );
                         },

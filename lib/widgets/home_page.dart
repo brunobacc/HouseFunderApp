@@ -40,7 +40,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   late Future<List<Project>> _projects;
   late List<Project> projects;
   late double _maxPrice;
@@ -74,20 +73,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
       drawer: DrawerWidget(token: widget.token, user: _user),
       appBar: AppBar(
-        leading: SizedBox(
-          width: 10,
-          child: IconButton(
-            padding: const EdgeInsets.all(
-                0), // used to make the icon with centered inside the button
-            icon: const Icon(
-              Icons.menu,
-            ),
-            onPressed: () => _scaffoldKey.currentState?.openDrawer(),
-          ),
-        ),
         actions: [
           IconButton(
             onPressed: () async {

@@ -166,7 +166,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     child: const Icon(Icons.edit_document),
                   ),
                   onTap: () => widget.token != null
-                      ? Navigator.pushNamed(context, '/proposal')
+                      ? Navigator.pushNamed(context, '/proposal',
+                          arguments: widget.token)
                       : Navigator.pushNamed(context, '/login'),
                 ),
           widget.user?.permissionLevel != 3

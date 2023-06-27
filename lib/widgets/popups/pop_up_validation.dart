@@ -54,7 +54,7 @@ class Validate extends StatefulWidget {
 
 class _ValidateState extends State<Validate> {
   late Future<List<Partnership>> _partnerships;
-  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _motiveController = TextEditingController();
 
   @override
   void initState() {
@@ -140,11 +140,11 @@ class _ValidateState extends State<Validate> {
                     onPressed: () {
                       if (widget.user?.permissionLevel == 3) {
                         Projects.validateProject(
-                            widget.token, 5, widget.project.projectId);
+                            widget.token, 5, widget.project.projectId, null);
                         Navigator.pop(context);
                       } else {
                         Projects.validateProject(
-                            widget.token, 2, widget.project.projectId);
+                            widget.token, 2, widget.project.projectId, null);
                         Navigator.pop(context);
                       }
                     },
@@ -162,50 +162,44 @@ class _ValidateState extends State<Validate> {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
+                          content: Text(
+                            'Motive',
+                            style: Theme.of(context).textTheme.titleMedium,
+                            textAlign: TextAlign.center,
+                          ),
+                          contentPadding: const EdgeInsets.all(5),
                           actions: [
                             TextFormField(
-                              controller: _descriptionController,
-                              decoration: InputDecoration(
-                                labelText: 'Description',
-                                labelStyle: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 16,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.grey[300]!,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Theme.of(context).primaryColor,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.red,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.red,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                errorStyle: TextStyle(
-                                  color: Colors.red,
-                                  fontSize: 14,
+                              controller: _motiveController,
+                              style: Theme.of(context).textTheme.bodyMedium,
+                              maxLines: 5,
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.grey),
                                 ),
                               ),
                               validator: (value) {
-                                if (value != null) {
-                                  return null;
+                                if (value == null || value == '') {
+                                  return 'Insert the description!';
                                 }
-                                return 'Please enter a description';
+                                return null;
                               },
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Center(
+                              child: ElevatedButton(
+                                onPressed: () => Projects.validateProject(
+                                    widget.token,
+                                    1,
+                                    widget.project.projectId,
+                                    _motiveController.text),
+                                child: Text(
+                                  'Send',
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                              ),
                             ),
                           ],
                         );
