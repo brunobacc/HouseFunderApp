@@ -53,7 +53,7 @@ class _CreateProjectState extends State<CreateProject> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
-          'Proposal',
+          'Create project',
           style: Theme.of(context).textTheme.titleMedium,
         ),
         centerTitle: true,
@@ -262,7 +262,8 @@ class _CreateProjectState extends State<CreateProject> {
                         finalValue: double.parse(valueNeededController.text),
                         dateCreated: DateTime.now(),
                       );
-                      Projects.addProject(newProject, widget.token);
+                      //Projects.addProject(newProject, widget.token);
+                      Navigator.pop(context);
                     }
                   },
                   child: const Text('Add project'),
