@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/modules/partnership.dart';
+import 'package:projeto_computacao_movel/widgets/popups/pop_up_info.dart';
 
 import '../../data/projects.dart';
 import '../../data/users.dart';
@@ -139,13 +140,45 @@ class _ValidateState extends State<Validate> {
                   ElevatedButton(
                     onPressed: () {
                       if (widget.user?.permissionLevel == 3) {
-                        Projects.validateProject(
+                        Future<bool> projectStatus = Projects.validateProject(
                             widget.token, 5, widget.project.projectId);
-                        Navigator.pop(context);
+                        projectStatus.then(
+                          (value) {
+                            value
+                                ? PopUpInfo.info(
+                                    context,
+                                    'Success',
+                                    'The project was accepted!',
+                                    widget.token,
+                                  )
+                                : PopUpInfo.info(
+                                    context,
+                                    'Error',
+                                    'Something happened when the project was being accepted!',
+                                    widget.token,
+                                  );
+                          },
+                        );
                       } else {
-                        Projects.validateProject(
+                        Future<bool> projectStatus = Projects.validateProject(
                             widget.token, 2, widget.project.projectId);
-                        Navigator.pop(context);
+                        projectStatus.then(
+                          (value) {
+                            value
+                                ? PopUpInfo.info(
+                                    context,
+                                    'Success',
+                                    'The project was accepted!',
+                                    widget.token,
+                                  )
+                                : PopUpInfo.info(
+                                    context,
+                                    'Error',
+                                    'Something happened when the project was being accepted!',
+                                    widget.token,
+                                  );
+                          },
+                        );
                       }
                     },
                     child: Text(
@@ -154,63 +187,32 @@ class _ValidateState extends State<Validate> {
                     ),
                   ),
                   ElevatedButton(
-                      child: Text(
-                        'Decline',
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                      onPressed: () {
-                        Projects.validateProject(
-                            widget.token, 1, widget.project.projectId);
-                        Navigator.pop(context);
-                      }
-                      /*showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          content: Text(
-                            'Motive',
-                            style: Theme.of(context).textTheme.titleMedium,
-                            textAlign: TextAlign.center,
-                          ),
-                          contentPadding: const EdgeInsets.all(5),
-                          actions: [
-                            TextFormField(
-                              controller: _motiveController,
-                              style: Theme.of(context).textTheme.bodyMedium,
-                              maxLines: 5,
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.grey),
-                                ),
-                              ),
-                              validator: (value) {
-                                if (value == null || value == '') {
-                                  return 'Insert the description!';
-                                }
-                                return null;
-                              },
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Center(
-                              child: ElevatedButton(
-                                onPressed: () => Projects.validateProject(
-                                    widget.token,
-                                    1,
-                                    widget.project.projectId,
-                                    ),
-                                child: Text(
-                                  'Send',
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    ),*/
-                      ),
+                    child: Text(
+                      'Decline',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    onPressed: () {
+                      Future<bool> projectStatus = Projects.validateProject(
+                          widget.token, 1, widget.project.projectId);
+                      projectStatus.then(
+                        (value) {
+                          value
+                              ? PopUpInfo.info(
+                                  context,
+                                  'Success',
+                                  'The project was declined!',
+                                  widget.token,
+                                )
+                              : PopUpInfo.info(
+                                  context,
+                                  'Error',
+                                  'Something happened when the project was being declined!',
+                                  widget.token,
+                                );
+                        },
+                      );
+                    },
+                  ),
                 ],
               ),
             ],
