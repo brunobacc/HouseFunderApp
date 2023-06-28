@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
@@ -29,58 +30,73 @@ class Products {
     }
   }
 
-  static Future<void> addProduct(Product product) async {
-    final response = await http.post(
-      Uri.http(url, '/api/products'),
-      headers: {'Content-Type': 'application/json; charset=UTF-8'},
-      body: jsonEncode(<String, dynamic>{
-        'description': product.description,
-        'image': product.image,
-        'price': product.price,
-        'title': product.title
-      }),
-    );
+  static Future<bool> createProduct(
+    String title,
+    String description,
+    File imageFile,
+    int price,
+    int? value,
+  ) async {
+    var headers = {
+      'Content-Type': 'multipart/form-data',
+    };
 
-    if (response.statusCode != 200) {
-      throw Exception('Failed to add product');
+    var request = http.MultipartRequest('POST', Uri.http(url, '/api/products'));
+    request.headers.addAll(headers);
+    request.files
+        .add(await http.MultipartFile.fromPath('image_file', imageFile.path));
+    request.fields['title'] = title;
+    request.fields['description'] = description;
+    request.fields['price'] = price.toString();
+    request.fields['value'] = value.toString();
+
+    try {
+      var response = await request.send();
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      // Handle network or server errors
+      throw Exception('Error: $e');
     }
   }
 
-  static Future<bool> updateProduct(
-      String title,
-      String description,
-      int productId,
-      int price,
-      String image,
-      double value,
-      String? token) async {
+  static Future<bool> editProduct(
+    String title,
+    String description,
+    File imageFile,
+    int price,
+    int? value,
+    int productId,
+  ) async {
+    var headers = {
+      'Content-Type': 'multipart/form-data',
+    };
+
+    var request = http.MultipartRequest(
+        'POST', Uri.http(url, '/api/products/$productId'));
+    request.headers.addAll(headers);
+    request.files
+        .add(await http.MultipartFile.fromPath('image_file', imageFile.path));
+    request.fields['title'] = title;
+    request.fields['description'] = description;
+    request.fields['price'] = price.toString();
+    request.fields['value'] = value.toString();
+
     try {
-      final response = await http.put(
-        Uri.http(url, '/api/Products/$productId'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Token': token!,
-        },
-        body: jsonEncode(<String, dynamic>{
-          "title": title,
-          "description": description,
-          "price": price,
-          "image": image,
-          "value": value
-        }),
-      );
-
-      //print('Response Body: ${response.body}');
-      //print('Status Code: ${response.statusCode}');
-
-      // this "if" is needed to give the administrator information after trying to delete a player
+      var response = await request.send();
+      print(response.statusCode);
       if (response.statusCode == 200) {
         return true;
+      } else {
+        return false;
       }
-      return false;
     } catch (e) {
-      //print('Error: $e');
-      return false;
+      // Handle network or server errors
+      throw Exception('Error: $e');
     }
   }
 
@@ -91,12 +107,9 @@ class Products {
     ));
 
     if (response.statusCode == 200) {
-      if (response.body == 'true') {
-        return true;
-      }
+      return true;
     } else {
-      throw Exception('Failed to delete Product!');
+      return false;
     }
-    return false;
   }
 }

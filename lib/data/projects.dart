@@ -286,7 +286,7 @@ class Projects {
     }
   }
 
-  static Future<bool> editProject(
+/*  static Future<bool> editProject(
       int statusId,
       int partnershipId,
       int financerId,
@@ -300,7 +300,7 @@ class Projects {
       'Content-Type': 'multipart/form-data',
       //'Authorization': 'Bearer $token'
     };
-    var request = http.MultipartRequest('POST', Uri.http(url, '/api/projects'));
+    var request = http.MultipartRequest('PUT', Uri.http(url, '/api/projects'));
     request.headers.addAll(headers);
     request.files
         .add(await http.MultipartFile.fromPath('image_file', imageFile.path));
@@ -339,5 +339,5 @@ class Projects {
     } else {
       return false;
     }
-  }
+  }*/
 }

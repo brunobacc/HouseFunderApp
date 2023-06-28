@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/data/users.dart';
 import '../../modules/admnistrator.dart';
 import '../../modules/user.dart';
+import '../popups/pop_up_info.dart';
 import '../popups/pop_ups_admin.dart';
+import '../utils/drawer_widget.dart';
 
 class AdministratorsPage extends StatefulWidget {
   final String? token;
@@ -17,8 +19,7 @@ class AdministratorsPage extends StatefulWidget {
 }
 
 class _AdministratorsPageState extends State<AdministratorsPage> {
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  late final Future<List<Administrator>> administrators;
+  late Future<List<Administrator>> administrators;
 
   @override
   void initState() {
@@ -29,8 +30,7 @@ class _AdministratorsPageState extends State<AdministratorsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
-      //drawer: const DrawerWidget(),
+      drawer: DrawerWidget(token: widget.token, user: widget.user),
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
@@ -72,8 +72,7 @@ class _AdministratorsPageState extends State<AdministratorsPage> {
                             ),
                           ),
                           onTap: () {
-                            PopUpsAdmin.createAdmin(context);
-                            Users.fetchAdministrators();
+                            PopUpsAdmin.createAdmin(context, widget.token);
                           },
                         );
                       }
@@ -87,14 +86,101 @@ class _AdministratorsPageState extends State<AdministratorsPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            Expanded(
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.asset(
-                                  'assets/images/avatars/${snapshot.data![index].image}',
-                                  fit: BoxFit.fill,
+                            Stack(
+                              children: [
+                                Center(
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Image.network(
+                                      'https://housefunderstorage.blob.core.windows.net/images/${administrator.image}',
+                                      height: 100,
+                                      fit: BoxFit.fitHeight,
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                Positioned(
+                                  top: -10,
+                                  right: 20,
+                                  child: IconButton(
+                                    onPressed: () => PopUpsAdmin.editAdmin(
+                                        context: context,
+                                        user: administrator,
+                                        token: widget.token),
+                                    icon: const Icon(Icons.edit,
+                                        color: Colors.white, size: 25),
+                                  ),
+                                ),
+                                Positioned(
+                                  top: -10,
+                                  right: -10,
+                                  child: IconButton(
+                                    onPressed: () => showDialog(
+                                      barrierDismissible: false,
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: Text(
+                                            "Are you sure?",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleMedium,
+                                          ),
+                                          content: Text(
+                                            "That you want to delete this administrator.",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium,
+                                          ),
+                                          actions: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    Future<bool> userStatus =
+                                                        Users.delete(
+                                                            widget.token,
+                                                            administrator
+                                                                .userId);
+                                                    // when projectStatus receives a bool value, it will present an information popUp
+                                                    userStatus.then(
+                                                      (value) {
+                                                        value
+                                                            ? PopUpInfo.info(
+                                                                context,
+                                                                'Success',
+                                                                'The Administrator was deleted!',
+                                                                widget.token,
+                                                              )
+                                                            : PopUpInfo.info(
+                                                                context,
+                                                                'Error',
+                                                                'Something happen when it was deleting the administrator!',
+                                                                widget.token,
+                                                              );
+                                                      },
+                                                    );
+                                                  },
+                                                  child: const Text("Continue"),
+                                                ),
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text("Cancel"),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    ),
+                                    icon: const Icon(Icons.delete,
+                                        color: Colors.white, size: 25),
+                                  ),
+                                ),
+                              ],
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8),
@@ -114,7 +200,8 @@ class _AdministratorsPageState extends State<AdministratorsPage> {
                                   Align(
                                     alignment: Alignment.center,
                                     child: Text(
-                                      'Validated Proposals: ${administrator.validatedProposals}',
+                                      administrator.validatedProposals
+                                          .toString(),
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyMedium,

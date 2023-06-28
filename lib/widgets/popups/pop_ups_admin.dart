@@ -3,11 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:projeto_computacao_movel/data/users.dart';
-import 'package:projeto_computacao_movel/modules/project.dart';
+import 'package:projeto_computacao_movel/modules/admnistrator.dart';
 import 'package:projeto_computacao_movel/widgets/popups/pop_up_info.dart';
+import 'package:projeto_computacao_movel/widgets/utils/validations.dart';
 import '../../data/products.dart';
-import '../../data/projects.dart';
-import '../../modules/partnership.dart';
 import '../../modules/product.dart';
 import '../../modules/user.dart';
 
@@ -16,28 +15,9 @@ class PopUpsAdmin {
 
   PopUpsAdmin(this.context);
 
-  static void createAdmin(BuildContext context) {
+  static void createAdmin(BuildContext context, String? token) {
     var popUp = AlertDialog(
-      content: const CreateAdmin(),
-      contentPadding: EdgeInsets.zero,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      elevation: 3,
-    );
-    showDialog(
-      context: context,
-      builder: (BuildContext context) => popUp,
-    );
-  }
-
-  static void deleteProduct(
-      {required BuildContext context,
-      required Product? product,
-      required String? token}) {
-    var popUp = AlertDialog(
-      content: DeleteProduct(
-        product: product,
+      content: CreateAdmin(
         token: token,
       ),
       contentPadding: EdgeInsets.zero,
@@ -52,9 +32,32 @@ class PopUpsAdmin {
     );
   }
 
-  static void createProduct(BuildContext context) {
+  static void editAdmin(
+      {required BuildContext context,
+      required Administrator user,
+      required String? token}) {
     var popUp = AlertDialog(
-      content: const CreateProduct(),
+      content: EditAdmin(token: token, user: user),
+      contentPadding: EdgeInsets.zero,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      elevation: 3,
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => popUp,
+    );
+  }
+
+  static void createProduct(
+    BuildContext context,
+    String? token,
+  ) {
+    var popUp = AlertDialog(
+      content: CreateProduct(
+        token: token,
+      ),
       contentPadding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
@@ -69,7 +72,7 @@ class PopUpsAdmin {
 
   static void editProduct(
       {required BuildContext context,
-      required Product? product,
+      required Product product,
       required String? token}) {
     var popUp = AlertDialog(
       content: EditProduct(product: product, token: token),
@@ -85,7 +88,7 @@ class PopUpsAdmin {
     );
   }
 
-  static void editProject({
+/*  static void editProject({
     required BuildContext context,
     required User? user,
     required String? token,
@@ -108,121 +111,515 @@ class PopUpsAdmin {
       context: context,
       builder: (BuildContext context) => popUp,
     );
-  }
+  }*/
 }
 
 class CreateAdmin extends StatefulWidget {
-  const CreateAdmin({super.key});
+  final String? token;
+  const CreateAdmin({required this.token, super.key});
 
   @override
   State<CreateAdmin> createState() => _CreateAdminState();
 }
 
 class _CreateAdminState extends State<CreateAdmin> {
+  XFile? image;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _imageController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  bool _passwordVisible = true;
 
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _imageController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
+  final ImagePicker picker = ImagePicker();
+
+  //we can upload image from camera or from gallery based on parameter
+  Future getImage(ImageSource media) async {
+    var img = await picker.pickImage(source: media);
+
+    setState(() {
+      image = img;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      child: Container(
-        padding: const EdgeInsets.all(16.0),
+    return SizedBox(
+      width: MediaQuery.sizeOf(context).width * 0.9,
+      child: SingleChildScrollView(
         child: Form(
           key: _formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextFormField(
-                controller: _nameController,
-                decoration: const InputDecoration(labelText: 'Name'),
-                validator: (value) {
-                  if (value != null) {
-                    return null;
-                  }
-                  return 'Please enter a name';
-                },
-              ),
-              TextFormField(
-                controller: _emailController,
-                decoration: const InputDecoration(labelText: 'email'),
-                validator: (value) {
-                  if (value != null) {
-                    return null;
-                  }
-                  return 'Please enter a email';
-                },
-              ),
-              TextFormField(
-                controller: _passwordController,
-                decoration: const InputDecoration(labelText: 'Password'),
-                validator: (value) {
-                  if (value != null) {
-                    return null;
-                  }
-                  return 'Please enter a password';
-                },
-              ),
-              TextFormField(
-                controller: _imageController,
-                decoration: const InputDecoration(labelText: 'Image'),
-                validator: (value) {
-                  if (value != null) {
-                    return null;
-                  }
-                  return 'Please enter an image';
-                },
-              ),
-              const SizedBox(height: 16.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  TextButton(
-                    child: const Text('Cancel'),
-                    onPressed: () {
-                      Navigator.pop(context); // Close the popup
-                    },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Text(
+                    'Create',
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
-                  ElevatedButton(
-                    child: const Text('Add'),
+                ),
+                TextFormField(
+                  controller: usernameController,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  decoration: InputDecoration(
+                    hintText: "Username",
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: Colors.grey),
+                    border: const UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value != null && !value.isValidName) {
+                      return 'Please insert an Username!';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  controller: emailController,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  decoration: InputDecoration(
+                    hintText: "Email",
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: Colors.grey),
+                    border: const UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value != null && !value.isValidEmail) {
+                      return 'Email not valid!';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  controller: passwordController,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  obscureText: _passwordVisible,
+                  decoration: InputDecoration(
+                    hintText: "Password",
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: Colors.grey),
+                    border: const UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        // based on passwordVisible state choose the icon
+                        _passwordVisible
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                        color: Theme.of(context).primaryColorDark,
+                      ),
+                      onPressed: () {
+                        // update the state
+                        setState(
+                          () {
+                            _passwordVisible = !_passwordVisible;
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value != null && !value.isValidPassword) {
+                      return 'Password not valid!';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      'Image: ',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        getImage(ImageSource.gallery);
+                      },
+                      icon: const Icon(
+                        Icons.upload,
+                        size: 30,
+                      ),
+                    ),
+                  ],
+                ),
+                image != null
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Center(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.file(
+                              //to show image, you type like this.
+                              File(image!.path),
+                              fit: BoxFit.fitHeight,
+                              height: 150,
+                            ),
+                          ),
+                        ),
+                      )
+                    : const Center(
+                        child: Text(
+                          "Select an Image!",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Center(
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      shape: MaterialStatePropertyAll(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                      ),
+                      padding: const MaterialStatePropertyAll(
+                        EdgeInsets.symmetric(horizontal: 110, vertical: 10),
+                      ),
+                    ),
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        Users.register(
-                                _nameController.text,
-                                _emailController.text,
-                                _passwordController.text,
-                                3)
-                            .then((_) {
-                          Navigator.pop(context); // Close the popup
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Administrator added successfully'),
-                            ),
-                          );
-                        }).catchError((error) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Failed to add admin'),
-                            ),
-                          );
-                        });
+                      if (_formKey.currentState!.validate() && image != null) {
+                        Future<bool> administratorStatus =
+                            Users.createAdministrator(
+                          usernameController.text,
+                          emailController.text,
+                          passwordController.text,
+                          File(image!.path),
+                        );
+                        // when administratorStatus receives a bool value, it will present an information popUp
+                        administratorStatus.then(
+                          (value) {
+                            value
+                                ? PopUpInfo.info(
+                                    context,
+                                    'Success',
+                                    'The administrator was created!',
+                                    widget.token,
+                                  )
+                                : PopUpInfo.info(
+                                    context,
+                                    'Error',
+                                    'Something happened when the administrator was being created!',
+                                    widget.token,
+                                  );
+                          },
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Please fill input!'),
+                          ),
+                        );
                       }
                     },
+                    child: Text(
+                      'Create',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
                   ),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class EditAdmin extends StatefulWidget {
+  final String? token;
+  final Administrator? user;
+  const EditAdmin({required this.token, required this.user, super.key});
+
+  @override
+  State<EditAdmin> createState() => _EditAdminState();
+}
+
+class _EditAdminState extends State<EditAdmin> {
+  XFile? image;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController repeatPasswordController =
+      TextEditingController();
+  bool _passwordVisible = true;
+  bool _repeatPasswordVisible = true;
+
+  final ImagePicker picker = ImagePicker();
+
+  //we can upload image from camera or from gallery based on parameter
+  Future getImage(ImageSource media) async {
+    var img = await picker.pickImage(source: media);
+
+    setState(() {
+      image = img;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    usernameController.text = widget.user!.name;
+    emailController.text = widget.user!.email;
+
+    return SizedBox(
+      width: MediaQuery.sizeOf(context).width * 0.9,
+      child: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Text(
+                    'Edit',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                ),
+                TextFormField(
+                  controller: usernameController,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  decoration: InputDecoration(
+                    hintText: "Username",
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: Colors.grey),
+                    border: const UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value != null && !value.isValidName) {
+                      return 'Please insert an Username!';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  controller: emailController,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  decoration: InputDecoration(
+                    hintText: "Email",
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: Colors.grey),
+                    border: const UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value != null && !value.isValidEmail) {
+                      return 'Email not valid!';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  controller: passwordController,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  obscureText: _passwordVisible,
+                  decoration: InputDecoration(
+                    hintText: "Password",
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: Colors.grey),
+                    border: const UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        // based on passwordVisible state choose the icon
+                        _passwordVisible
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                        color: Theme.of(context).primaryColorDark,
+                      ),
+                      onPressed: () {
+                        // update the state
+                        setState(
+                          () {
+                            _passwordVisible = !_passwordVisible;
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  controller: repeatPasswordController,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  obscureText: _repeatPasswordVisible,
+                  decoration: InputDecoration(
+                    hintText: "Repeat Password",
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: Colors.grey),
+                    border: const UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        // based on passwordVisible state choose the icon
+                        _passwordVisible
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                        color: Theme.of(context).primaryColorDark,
+                      ),
+                      onPressed: () {
+                        // update the state
+                        setState(
+                          () {
+                            _repeatPasswordVisible = !_repeatPasswordVisible;
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                  validator: (value) {
+                    if (passwordController.text !=
+                        repeatPasswordController.text) {
+                      return 'Passwords don\'t match!';
+                    }
+                    return null;
+                  },
+                ),
+                Row(
+                  children: [
+                    Text(
+                      'Image: ',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        getImage(ImageSource.gallery);
+                      },
+                      icon: const Icon(
+                        Icons.upload,
+                        size: 30,
+                      ),
+                    ),
+                  ],
+                ),
+                image != null
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Center(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.file(
+                              //to show image, you type like this.
+                              File(image!.path),
+                              fit: BoxFit.fitHeight,
+                              height: 150,
+                            ),
+                          ),
+                        ),
+                      )
+                    : const Center(
+                        child: Text(
+                          "Select an Image!",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Center(
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      shape: MaterialStatePropertyAll(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                      ),
+                      padding: const MaterialStatePropertyAll(
+                        EdgeInsets.symmetric(horizontal: 110, vertical: 10),
+                      ),
+                    ),
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        Future<bool> administratorStatus =
+                            Users.editAdministrator(
+                          usernameController.text,
+                          emailController.text,
+                          passwordController.text,
+                          File(image!.path),
+                          widget.user!.userId,
+                        );
+                        // when administratorStatus receives a bool value, it will present an information popUp
+                        administratorStatus.then(
+                          (value) {
+                            value
+                                ? PopUpInfo.info(
+                                    context,
+                                    'Success',
+                                    'The administrator was edited!',
+                                    widget.token,
+                                  )
+                                : PopUpInfo.info(
+                                    context,
+                                    'Error',
+                                    'Something happened when the administrator was being edited!',
+                                    widget.token,
+                                  );
+                          },
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Please fill input!'),
+                          ),
+                        );
+                      }
+                    },
+                    child: Text(
+                      'Edit',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -231,7 +628,7 @@ class _CreateAdminState extends State<CreateAdmin> {
 }
 
 class EditProduct extends StatefulWidget {
-  final Product? product;
+  final Product product;
   final String? token;
   const EditProduct({required this.product, required this.token, super.key});
 
@@ -240,305 +637,480 @@ class EditProduct extends StatefulWidget {
 }
 
 class _EditProductState extends State<EditProduct> {
+  XFile? image;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _descriptionController = TextEditingController();
-  final TextEditingController _imageController = TextEditingController();
-  final TextEditingController _priceContorller = TextEditingController();
-  final TextEditingController _valueController = TextEditingController();
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController priceContorller = TextEditingController();
+  final TextEditingController valueController = TextEditingController();
 
-  @override
-  void dispose() {
-    _titleController.dispose();
-    _descriptionController.dispose();
-    _imageController.dispose();
-    _priceContorller.dispose();
-    _valueController.dispose();
-    super.dispose();
+  final ImagePicker picker = ImagePicker();
+
+  //we can upload image from camera or from gallery based on parameter
+  Future getImage(ImageSource media) async {
+    var img = await picker.pickImage(source: media);
+
+    setState(() {
+      image = img;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextFormField(
-              controller: _titleController,
-              decoration: const InputDecoration(labelText: 'Title'),
-              validator: (value) {
-                if (value != null) {
-                  return null;
-                }
-                return 'Please enter a Title';
-              },
-            ),
-            TextFormField(
-              controller: _descriptionController,
-              decoration: const InputDecoration(labelText: 'Description'),
-              validator: (value) {
-                if (value != null) {
-                  return null;
-                }
-                return 'Please enter a Description';
-              },
-            ),
-            TextFormField(
-              controller: _priceContorller,
-              decoration: const InputDecoration(labelText: 'Price'),
-              validator: (value) {
-                if (value != null) {
-                  return null;
-                }
-                return 'Please enter a price';
-              },
-            ),
-            TextFormField(
-              controller: _valueController,
-              decoration: const InputDecoration(labelText: 'Value'),
-              validator: (value) {
-                if (value != null) {
-                  return null;
-                }
-                return 'Please enter a value';
-              },
-            ),
-            TextFormField(
-              controller: _imageController,
-              decoration: const InputDecoration(labelText: 'Image'),
-              validator: (value) {
-                if (value != null) {
-                  return null;
-                }
-                return 'Please enter an image';
-              },
-            ),
-            const SizedBox(height: 16.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+    titleController.text = widget.product.title;
+    descriptionController.text = widget.product.description;
+    priceContorller.text = widget.product.price.toString();
+    valueController.text = widget.product.value.toString();
+
+    return SizedBox(
+      width: MediaQuery.sizeOf(context).width * 0.9,
+      child: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextButton(
-                  child: const Text('Cancel'),
-                  onPressed: () {
-                    Navigator.pop(context); // Close the popup
+                Center(
+                  child: Text(
+                    'Edit',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                ),
+                TextFormField(
+                  controller: titleController,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  decoration: InputDecoration(
+                    hintText: "Title",
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: Colors.grey),
+                    border: const UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value == '') {
+                      return 'Insert the title!';
+                    }
+                    return null;
                   },
                 ),
-                ElevatedButton(
-                  child: const Text('Edit'),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      Products.updateProduct(
-                              _titleController.text,
-                              _descriptionController.text,
-                              widget.product!.productId,
-                              int.parse(_priceContorller.text),
-                              _imageController.text,
-                              double.parse(_valueController.text),
-                              widget.token)
-                          .then((_) {
-                        Navigator.pop(context); // Close the popup
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Product edited  successfully'),
-                          ),
-                        );
-                      }).catchError((error) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Failed to edit product'),
-                          ),
-                        );
-                      });
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  controller: descriptionController,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  maxLines: 5,
+                  decoration: InputDecoration(
+                    hintText: "Description",
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: Colors.grey),
+                    border: const UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value == '') {
+                      return 'Insert the description!';
                     }
+                    return null;
                   },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  controller: priceContorller,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  decoration: InputDecoration(
+                    hintText: "Price",
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: Colors.grey),
+                    border: const UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                  ),
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value == null || value == '') {
+                      return 'Insert the Price!';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  controller: valueController,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  decoration: InputDecoration(
+                    hintText: "Value",
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: Colors.grey),
+                    border: const UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                  ),
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value == null || value == '') {
+                      return 'Insert the value!';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      'Image: ',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        getImage(ImageSource.gallery);
+                      },
+                      icon: const Icon(
+                        Icons.upload,
+                        size: 30,
+                      ),
+                    ),
+                  ],
+                ),
+                image != null
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Center(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.file(
+                              //to show image, you type like this.
+                              File(image!.path),
+                              fit: BoxFit.fitHeight,
+                              height: 150,
+                            ),
+                          ),
+                        ),
+                      )
+                    : const Center(
+                        child: Text(
+                          "Select an Image!",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Center(
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      shape: MaterialStatePropertyAll(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                      ),
+                      padding: const MaterialStatePropertyAll(
+                        EdgeInsets.symmetric(horizontal: 110, vertical: 10),
+                      ),
+                    ),
+                    onPressed: () {
+                      if (image != null) {
+                        Future<bool> productStatus = Products.editProduct(
+                          titleController.text,
+                          descriptionController.text,
+                          File(image!.path),
+                          int.parse(priceContorller.text),
+                          int.parse(valueController.text),
+                          widget.product.productId,
+                        );
+                        // when productStatus receives a bool value, it will present an information popUp
+                        productStatus.then(
+                          (value) {
+                            value
+                                ? PopUpInfo.info(
+                                    context,
+                                    'Success',
+                                    'The product was created!',
+                                    widget.token,
+                                  )
+                                : PopUpInfo.info(
+                                    context,
+                                    'Error',
+                                    'Something happened when the product was being created!',
+                                    widget.token,
+                                  );
+                          },
+                        );
+                      }
+                    },
+                    child: Text(
+                      'Edit',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
                 ),
               ],
             ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class DeleteProduct extends StatefulWidget {
-  final Product? product;
-  final String? token;
-  const DeleteProduct({required this.product, required this.token, super.key});
-
-  @override
-  State<DeleteProduct> createState() => _DeleteProductState();
-}
-
-class _DeleteProductState extends State<DeleteProduct> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: AlertDialog(
-        title: Text(
-          "Are you sure?",
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        content: Text(
-          "That you want to delete this notification.",
-          style: Theme.of(context).textTheme.bodyMedium,
-        ),
-        actions: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  Products.delete(widget.token, widget.product!.productId);
-                  Navigator.pop(context);
-                },
-                child: const Text("Yes"),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text("Cancel"),
-              ),
-            ],
           ),
-        ],
+        ),
       ),
     );
   }
 }
 
 class CreateProduct extends StatefulWidget {
-  const CreateProduct({super.key});
+  final String? token;
+  const CreateProduct({required this.token, super.key});
 
   @override
   State<CreateProduct> createState() => _CreateProductState();
 }
 
 class _CreateProductState extends State<CreateProduct> {
+  XFile? image;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _descriptionController = TextEditingController();
-  final TextEditingController _priceController = TextEditingController();
-  final TextEditingController _imageController = TextEditingController();
-  final TextEditingController _valueController = TextEditingController();
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController priceContorller = TextEditingController();
+  final TextEditingController valueController = TextEditingController();
 
-  @override
-  void dispose() {
-    _titleController.dispose();
-    _descriptionController.dispose();
-    _priceController.dispose();
-    _imageController.dispose();
-    super.dispose();
+  final ImagePicker picker = ImagePicker();
+
+  //we can upload image from camera or from gallery based on parameter
+  Future getImage(ImageSource media) async {
+    var img = await picker.pickImage(source: media);
+
+    setState(() {
+      image = img;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextFormField(
-              controller: _titleController,
-              decoration: const InputDecoration(labelText: 'Title'),
-              validator: (value) {
-                if (value != null) {
-                  return null;
-                }
-                return 'Please enter a title';
-              },
-            ),
-            TextFormField(
-              controller: _descriptionController,
-              decoration: const InputDecoration(labelText: 'Description'),
-              validator: (value) {
-                if (value != null) {
-                  return null;
-                }
-                return 'Please enter a description';
-              },
-            ),
-            TextFormField(
-              controller: _priceController,
-              decoration: const InputDecoration(labelText: 'Price'),
-              keyboardType: TextInputType.number,
-              validator: (value) {
-                if (value != null) {
-                  return null;
-                }
-                if (double.tryParse(value!) != null) {
-                  return 'Invalid price';
-                }
-                return 'Please enter a price';
-              },
-            ),
-            TextFormField(
-              controller: _imageController,
-              decoration: const InputDecoration(labelText: 'Image'),
-              validator: (value) {
-                if (value != null) {
-                  return null;
-                }
-                return 'Please enter an image';
-              },
-            ),
-            const SizedBox(height: 16.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+    return SizedBox(
+      width: MediaQuery.sizeOf(context).width * 0.9,
+      child: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextButton(
-                  child: const Text('Cancel'),
-                  onPressed: () {
-                    Navigator.pop(context); // Close the popup
+                Center(
+                  child: Text(
+                    'Create',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                ),
+                TextFormField(
+                  controller: titleController,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  decoration: InputDecoration(
+                    hintText: "Title",
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: Colors.grey),
+                    border: const UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value == '') {
+                      return 'Insert the title!';
+                    }
+                    return null;
                   },
                 ),
-                ElevatedButton(
-                  child: const Text('Add'),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      Product newProduct = Product(
-                        productId: 0,
-                        title: _titleController.text,
-                        description: _descriptionController.text,
-                        price: int.parse(_priceController.text),
-                        image: _imageController.text,
-                        value: double.tryParse(_valueController.text),
-                        active: true,
-                      );
-
-                      Products.addProduct(newProduct).then((_) {
-                        Navigator.pop(context); // Close the popup
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Product added successfully'),
-                          ),
-                        );
-                      }).catchError((error) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Failed to add product'),
-                          ),
-                        );
-                      });
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  controller: descriptionController,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  maxLines: 5,
+                  decoration: InputDecoration(
+                    hintText: "Description",
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: Colors.grey),
+                    border: const UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value == '') {
+                      return 'Insert the description!';
                     }
+                    return null;
                   },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  controller: priceContorller,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  decoration: InputDecoration(
+                    hintText: "Price",
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: Colors.grey),
+                    border: const UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                  ),
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value == null || value == '') {
+                      return 'Insert the Price!';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  controller: valueController,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  decoration: InputDecoration(
+                    hintText: "Value",
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: Colors.grey),
+                    border: const UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                  ),
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value == null || value == '') {
+                      return 'Insert the value!';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      'Image: ',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        getImage(ImageSource.gallery);
+                      },
+                      icon: const Icon(
+                        Icons.upload,
+                        size: 30,
+                      ),
+                    ),
+                  ],
+                ),
+                image != null
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Center(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.file(
+                              //to show image, you type like this.
+                              File(image!.path),
+                              fit: BoxFit.fitHeight,
+                              height: 150,
+                            ),
+                          ),
+                        ),
+                      )
+                    : const Center(
+                        child: Text(
+                          "Select an Image!",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Center(
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      shape: MaterialStatePropertyAll(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                      ),
+                      padding: const MaterialStatePropertyAll(
+                        EdgeInsets.symmetric(horizontal: 110, vertical: 10),
+                      ),
+                    ),
+                    onPressed: () {
+                      if (image != null) {
+                        Future<bool> productStatus = Products.createProduct(
+                          titleController.text,
+                          descriptionController.text,
+                          File(image!.path),
+                          int.parse(priceContorller.text),
+                          int.parse(valueController.text),
+                        );
+                        // when productStatus receives a bool value, it will present an information popUp
+                        productStatus.then(
+                          (value) {
+                            value
+                                ? PopUpInfo.info(
+                                    context,
+                                    'Success',
+                                    'The product was created!',
+                                    widget.token,
+                                  )
+                                : PopUpInfo.info(
+                                    context,
+                                    'Error',
+                                    'Something happened when the product was being created!',
+                                    widget.token,
+                                  );
+                          },
+                        );
+                      }
+                    },
+                    child: Text(
+                      'Create',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
                 ),
               ],
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 }
 
-class EditProject extends StatefulWidget {
+/*class EditProject extends StatefulWidget {
   final String? token;
   final User? user;
   final Project project;
@@ -827,3 +1399,4 @@ class _EditProjectState extends State<EditProject> {
     );
   }
 }
+*/

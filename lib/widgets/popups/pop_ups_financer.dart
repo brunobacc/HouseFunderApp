@@ -258,12 +258,8 @@ class _EditState extends State<Edit> {
                   return null;
                 },
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20, bottom: 10),
-                child: Text(
-                  'Image:',
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
+              const SizedBox(
+                height: 10,
               ),
               Center(
                 child: Container(
@@ -295,7 +291,7 @@ class _EditState extends State<Edit> {
                           (value) {
                             value
                                 ? PopUpInfo.info(context, 'Success',
-                                    'The player was edited!', widget.token)
+                                    'The profile was edited!', widget.token)
                                 : PopUpInfo.info(
                                     context,
                                     'Error',
@@ -890,66 +886,68 @@ class BuyProduct extends StatelessWidget {
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
-          Center(
-            child: ElevatedButton(
-              onPressed: () {
-                if (user!.points < product.price) {
-                  PopUpInfo.info(
-                    context,
-                    'Error',
-                    'You can\'t buy this product.',
-                    token,
-                  );
-                } else {
-                  showDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: Text(
-                          "Are you sure?",
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                        content: Text(
-                          "That you want to buy this product.",
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                        actions: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  PopUpsFinancer.productBought(
-                                      context, product, token, user);
-                                },
-                                child: const Text("Continue"),
+          user!.permissionLevel != 3
+              ? Center(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (user!.points < product.price) {
+                        PopUpInfo.info(
+                          context,
+                          'Error',
+                          'You can\'t buy this product.',
+                          token,
+                        );
+                      } else {
+                        showDialog(
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text(
+                                "Are you sure?",
+                                style: Theme.of(context).textTheme.titleMedium,
                               ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text("Cancel"),
+                              content: Text(
+                                "That you want to buy this product.",
+                                style: Theme.of(context).textTheme.bodyMedium,
                               ),
-                            ],
-                          ),
-                        ],
-                      );
+                              actions: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        PopUpsFinancer.productBought(
+                                            context, product, token, user);
+                                      },
+                                      child: const Text("Continue"),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text("Cancel"),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
                     },
-                  );
-                }
-              },
-              child: const Text(
-                'Buy Now',
-              ),
-            ),
-          ),
+                    child: const Text(
+                      'Buy Now',
+                    ),
+                  ),
+                )
+              : const SizedBox(),
         ],
       ),
     );
   }
 }
-
 
 class ProductBought extends StatefulWidget {
   final String? token;
@@ -1044,7 +1042,7 @@ class _ProductBought extends State<ProductBought> {
                         // create a new variable to store the bool received from the "DeletePlayer" function
                         Future<bool> financeStatus = Projects.financeProject(
                           snapshot.data![index],
-                          widget.product.value ?? 0,
+                          double.parse(widget.product.value.toString()),
                           widget.token,
                           widget.user,
                         );
@@ -1130,15 +1128,31 @@ class _ShowNotifications extends State<ShowNotifications> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(5),
-                          child: snapshot.data![index].title == 'Finance'
-                              ? const Icon(
-                                  CustomIcons.finance,
-                                  size: 50,
-                                )
-                              : const Icon(
-                                  CustomIcons.finished,
-                                  size: 50,
-                                ),
+                          child: (() {
+                            if (snapshot.data![index].title == 'Finance') {
+                              return const Icon(
+                                CustomIcons.finance,
+                                size: 50,
+                              );
+                            } else if (snapshot.data![index].title ==
+                                'Project Refused') {
+                              return const Icon(
+                                CustomIcons.refused,
+                                size: 50,
+                              );
+                            } else if (snapshot.data![index].title ==
+                                'Project Accepted') {
+                              return const Icon(
+                                CustomIcons.accepted,
+                                size: 50,
+                              );
+                            } else {
+                              return const Icon(
+                                CustomIcons.finished,
+                                size: 50,
+                              );
+                            }
+                          })(),
                         ),
                         Container(
                           margin: const EdgeInsets.symmetric(vertical: 5),

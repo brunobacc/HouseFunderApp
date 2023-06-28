@@ -61,7 +61,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  widget.user?.permissionLevel == 3
+                  /*widget.user?.permissionLevel == 3
                       ? Positioned(
                           top: -10,
                           right: -10,
@@ -155,7 +155,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                             ],
                           ),
                         )
-                      : const SizedBox(),
+                      : const SizedBox(),*/
                 ],
               ),
               Container(

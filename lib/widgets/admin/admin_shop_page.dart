@@ -3,6 +3,7 @@ import 'package:projeto_computacao_movel/widgets/popups/pop_ups_admin.dart';
 import '../../modules/product.dart';
 import '../../data/products.dart';
 import '../../modules/user.dart';
+import '../popups/pop_up_info.dart';
 import '../popups/pop_ups_financer.dart';
 import '../utils/drawer_widget.dart';
 
@@ -32,8 +33,8 @@ class _ShopPageAdminState extends State<ShopPageAdmin> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          'Shop',
-          style: Theme.of(context).textTheme.titleLarge,
+          'Products',
+          style: Theme.of(context).textTheme.titleMedium,
         ),
       ),
       drawer: DrawerWidget(
@@ -53,11 +54,10 @@ class _ShopPageAdminState extends State<ShopPageAdmin> {
                   } else if (snapshot.hasError) {
                     return Text('${snapshot.error ?? "Error occurred"}');
                   } else if (snapshot.hasData) {
-                    List<Product> products = snapshot.data!;
-                    final activeProducts =
-                        products.where((p) => p.active == true);
+                    List<Product> products =
+                        snapshot.data!.where((p) => p.active == true).toList();
                     return GridView.builder(
-                      itemCount: activeProducts.length + 1,
+                      itemCount: products.length + 1,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
@@ -68,27 +68,16 @@ class _ShopPageAdminState extends State<ShopPageAdmin> {
                         if (index == 0) {
                           return InkWell(
                             child: const Card(
-                              child: Icon(Icons.add),
-                            ),
-                            onTap: () {
-                              PopUpsAdmin.createProduct(context);
-                            },
-                          );
-                        }
-                        /*if (index == 0) {
-                          return InkWell(
-                            child: const Card(
                               child: Icon(
                                 Icons.add,
                                 size: 50,
                               ),
                             ),
                             onTap: () {
-                              ProductPopUp.create(context);
-                              Products.fetchProducts();
+                              PopUpsAdmin.createProduct(context, widget.token);
                             },
                           );
-                        }*/
+                        }
                         index -= 1;
                         Product product = products[index];
                         return InkWell(
@@ -110,7 +99,7 @@ class _ShopPageAdminState extends State<ShopPageAdmin> {
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
                                   child: Image.network(
-                                    'https://housefunderstorage.blob.core.windows.net/products/${snapshot.data![index].image}',
+                                    'https://housefunderstorage.blob.core.windows.net/products/${product.image}',
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -172,10 +161,67 @@ class _ShopPageAdminState extends State<ShopPageAdmin> {
                                   right: -10,
                                   height: 320,
                                   child: IconButton(
-                                    onPressed: () => PopUpsAdmin.deleteProduct(
-                                        context: context,
-                                        product: product,
-                                        token: widget.token),
+                                    onPressed: () => showDialog(
+                                      barrierDismissible: false,
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: Text(
+                                            "Are you sure?",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleMedium,
+                                          ),
+                                          content: Text(
+                                            "That you want to delete this product.",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium,
+                                          ),
+                                          actions: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    Future<bool> productStatus =
+                                                        Products.delete(
+                                                            widget.token,
+                                                            product.productId);
+                                                    // when projectStatus receives a bool value, it will present an information popUp
+                                                    productStatus.then(
+                                                      (value) {
+                                                        value
+                                                            ? PopUpInfo.info(
+                                                                context,
+                                                                'Success',
+                                                                'The Product was deleted!',
+                                                                widget.token,
+                                                              )
+                                                            : PopUpInfo.info(
+                                                                context,
+                                                                'Error',
+                                                                'Something happen when it was deleting the product!',
+                                                                widget.token,
+                                                              );
+                                                      },
+                                                    );
+                                                  },
+                                                  child: const Text("Continue"),
+                                                ),
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text("Cancel"),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    ),
                                     icon: const Icon(Icons.delete,
                                         color: Colors.white, size: 25),
                                   ),

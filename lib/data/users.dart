@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:projeto_computacao_movel/modules/user.dart';
 import '../modules/admnistrator.dart';
 import '../modules/financer.dart';
@@ -269,6 +270,90 @@ class Users {
     } catch (e) {
       //print('Error: $e');
       throw Exception('Error: $e');
+    }
+  }
+
+  static Future<bool> createAdministrator(
+    String username,
+    String email,
+    String password,
+    File imageFile,
+  ) async {
+    var headers = {
+      //'Content-Type': 'application/json',
+      'Content-Type': 'multipart/form-data',
+      //'Authorization': 'Bearer $token'
+    };
+    var request = http.MultipartRequest('POST', Uri.http(url, '/api/users'));
+    request.headers.addAll(headers);
+    request.files
+        .add(await http.MultipartFile.fromPath('image_file', imageFile.path));
+    request.fields['username'] = username;
+    request.fields['email'] = email;
+    request.fields['password'] = password;
+
+    try {
+      var response = await request.send();
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      // Handle network or server errors
+      throw Exception('Error: $e');
+    }
+  }
+
+  static Future<bool> editAdministrator(
+    String username,
+    String email,
+    String? password,
+    File imageFile,
+    int userId,
+  ) async {
+    var headers = {
+      'Content-Type': 'multipart/form-data',
+    };
+
+    final String newPassword;
+    password == null ? newPassword = 'a' : newPassword = password;
+
+    var request =
+        http.MultipartRequest('POST', Uri.http(url, '/api/users/$userId'));
+    request.headers.addAll(headers);
+    request.files
+        .add(await http.MultipartFile.fromPath('image_file', imageFile.path));
+    request.fields['username'] = username;
+    request.fields['email'] = email;
+    request.fields['password'] = newPassword;
+
+    try {
+      var response = await request.send();
+      // print(response.statusCode);
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      // Handle network or server errors
+      throw Exception('Error: $e');
+    }
+  }
+
+  static Future<bool> delete(String? token, int userId) async {
+    final response = await http.delete(Uri.http(
+      url,
+      '/api/users/$userId',
+    ));
+
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

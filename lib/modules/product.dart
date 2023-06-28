@@ -4,7 +4,7 @@ class Product {
   String title;
   String description;
   int price;
-  double? value;
+  int? value;
   bool active;
 
   Product({
@@ -24,8 +24,7 @@ class Product {
       image: json['image'],
       price: json['price'],
       title: json['title'],
-      value:
-          json['value'] != null ? double.parse(json['value'].toString()) : null,
+      value: json['value'] != null ? int.parse(json['value'].toString()) : null,
       active: json['active'],
     );
   }
