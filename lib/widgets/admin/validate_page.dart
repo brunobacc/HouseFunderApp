@@ -122,9 +122,11 @@ class _ValidatePageState extends State<ValidatePage> {
                                 ],
                               ),
                               onTap: () => PopUpValidation.validate(
-                                  context: context,
-                                  project: filteredProjects[index],
-                                  token: widget.token),
+                                context: context,
+                                project: filteredProjects[index],
+                                token: widget.token,
+                                user: widget.user,
+                              ),
                             ),
                           );
                         } else {
@@ -189,9 +191,11 @@ class _ValidatePageState extends State<ValidatePage> {
                                 ],
                               ),
                               onTap: () => PopUpValidation.validate(
-                                  context: context,
-                                  project: filteredPartnersProjects[index],
-                                  token: widget.token),
+                                context: context,
+                                project: filteredPartnersProjects[index],
+                                token: widget.token,
+                                user: widget.user,
+                              ),
                             ),
                           );
                         }

@@ -215,7 +215,7 @@ class Projects {
   }
 
   static Future<bool> validateProject(
-      String? token, int statusId, int projectId, String? motive) async {
+      String? token, int statusId, int projectId) async {
     if (token != null) {
       try {
         final response = await http.put(
@@ -224,7 +224,10 @@ class Projects {
             'Content-Type': 'application/json; charset=UTF-8',
             'Token': token,
           },
-          body: jsonEncode(statusId),
+          body: jsonEncode(<String, dynamic>{
+            "status_id": statusId,
+            "token": token,
+          }),
         );
 
         //print('Response Body: ${response.body}');
@@ -242,8 +245,15 @@ class Projects {
     return false;
   }
 
-  static Future<bool> proposeProject(int partnershipId, String location,
-      File imageFile, String title, String description, int value) async {
+  static Future<bool> createProject(
+      int statusId,
+      int partnershipId,
+      int financerId,
+      String location,
+      File imageFile,
+      String title,
+      String description,
+      int value) async {
     var headers = {
       //'Content-Type': 'application/json',
       'Content-Type': 'multipart/form-data',
@@ -253,9 +263,10 @@ class Projects {
     request.headers.addAll(headers);
     request.files
         .add(await http.MultipartFile.fromPath('image_file', imageFile.path));
-    request.fields['status_id'] = '4';
+    request.fields['status_id'] = statusId.toString();
     request.fields['category_id'] = '1';
     request.fields['partnership_id'] = partnershipId.toString();
+    request.fields['financer_id'] = financerId.toString();
     request.fields['location'] = location;
     request.fields['title'] = title;
     request.fields['description'] = description;
@@ -263,7 +274,7 @@ class Projects {
 
     try {
       var response = await request.send();
-      print(response.statusCode);
+      //print(response.statusCode);
       if (response.statusCode == 200) {
         return true;
       } else {
@@ -275,29 +286,58 @@ class Projects {
     }
   }
 
-  static Future<void> addProject(Project project, String? token) async {
-    final response = await http.post(
-      Uri.http(url, '/api/projects'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Token': token!
-      },
-      body: jsonEncode(<String, dynamic>{
-        "status_id": project.statusId,
-        "category_id": project.categoryId,
-        "partnership_id": project.partnershipId,
-        "location": project.location,
-        "image": project.image,
-        "title": project.title,
-        "description": project.description,
-        "total_financed": project.totalFinanced,
-        "final_value": project.finalValue,
-        "date_created": project.dateCreated,
-      }),
-    );
+  static Future<bool> editProject(
+      int statusId,
+      int partnershipId,
+      int financerId,
+      String location,
+      File imageFile,
+      String title,
+      String description,
+      int value) async {
+    var headers = {
+      //'Content-Type': 'application/json',
+      'Content-Type': 'multipart/form-data',
+      //'Authorization': 'Bearer $token'
+    };
+    var request = http.MultipartRequest('POST', Uri.http(url, '/api/projects'));
+    request.headers.addAll(headers);
+    request.files
+        .add(await http.MultipartFile.fromPath('image_file', imageFile.path));
+    request.fields['status_id'] = statusId.toString();
+    request.fields['category_id'] = '1';
+    request.fields['partnership_id'] = partnershipId.toString();
+    request.fields['financer_id'] = financerId.toString();
+    request.fields['location'] = location;
+    request.fields['title'] = title;
+    request.fields['description'] = description;
+    request.fields['final_value'] = value.toString();
 
-    if (response.statusCode != 200) {
-      throw Exception('Failed to add product');
+    try {
+      var response = await request.send();
+      //print(response.statusCode);
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      // Handle network or server errors
+      throw Exception('Error: $e');
+    }
+  }
+
+  static Future<bool> delete(String? token, int projectId) async {
+    final response = await http.delete(Uri.http(
+      url,
+      '/api/projects/$projectId',
+    ));
+
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

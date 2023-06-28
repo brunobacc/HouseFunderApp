@@ -1,23 +1,25 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:projeto_computacao_movel/data/projects.dart';
+import 'package:projeto_computacao_movel/modules/user.dart';
 import '../../data/users.dart';
 import '../../modules/partnership.dart';
-import '../../modules/project.dart';
-import '../../modules/user.dart';
+import '../popups/pop_up_info.dart';
 
-class CreateProject extends StatefulWidget {
+class ProposalCreatePage extends StatefulWidget {
   final String? token;
   final User? user;
-  const CreateProject({required this.token, required this.user, super.key});
+  const ProposalCreatePage(
+      {required this.token, required this.user, super.key});
 
-  static const String routeName = '/createProject';
+  static const String routeName = '/proposalCreate';
 
   @override
-  State<CreateProject> createState() => _CreateProjectState();
+  State<ProposalCreatePage> createState() => _ProposalCreatePageState();
 }
 
-class _CreateProjectState extends State<CreateProject> {
+class _ProposalCreatePageState extends State<ProposalCreatePage> {
   XFile? image;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController titleController = TextEditingController();
@@ -50,7 +52,7 @@ class _CreateProjectState extends State<CreateProject> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
-          'Create project',
+          widget.user!.permissionLevel == 3 ? 'Create' : 'Proposal',
           style: Theme.of(context).textTheme.titleMedium,
         ),
         centerTitle: true,
@@ -246,24 +248,39 @@ class _CreateProjectState extends State<CreateProject> {
                   ),
                   onPressed: () {
                     if (image != null) {
-                      Project newProject = Project(
-                        projectId: 0,
-                        statusId: 2,
-                        categoryId: 0,
-                        partnershipId: selectedPartnership!,
-                        location: locationController.text,
-                        image: File(image!.path).toString(),
-                        title: titleController.text,
-                        description: descriptionController.text,
-                        totalFinanced: 0,
-                        finalValue: double.parse(valueNeededController.text),
-                        dateCreated: DateTime.now(),
+                      Future<bool> proposalStatus = Projects.createProject(
+                          widget.user!.permissionLevel == 3 ? 2 : 4,
+                          selectedPartnership!,
+                          widget.user!.userId,
+                          locationController.text,
+                          File(image!.path),
+                          titleController.text,
+                          descriptionController.text,
+                          int.parse(valueNeededController.text));
+                      // when playerDeleted receives a bool value, it will present an information popUp
+                      proposalStatus.then(
+                        (value) {
+                          value
+                              ? PopUpInfo.info(
+                                  context,
+                                  'Success',
+                                  'The project was proposed!',
+                                  widget.token,
+                                )
+                              : PopUpInfo.info(
+                                  context,
+                                  'Error',
+                                  'Something happened when the project was being processed!',
+                                  widget.token,
+                                );
+                        },
                       );
-                      //Projects.addProject(newProject, widget.token);
-                      Navigator.pop(context);
                     }
                   },
-                  child: const Text('Add project'),
+                  child: Text(
+                    widget.user!.permissionLevel == 3 ? 'Create' : 'Propose',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
                 ),
               ),
             ],

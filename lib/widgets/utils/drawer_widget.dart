@@ -156,7 +156,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     ),
                   ],
                 )
-              : ListTile(
+              : const SizedBox(),
+          widget.user?.permissionLevel == 1
+              ? ListTile(
                   title: Text(
                     'Propose',
                     style: Theme.of(context).textTheme.titleSmall,
@@ -165,12 +167,13 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     data: Theme.of(context).iconTheme,
                     child: const Icon(Icons.edit_document),
                   ),
-                  onTap: () => widget.token != null
-                      ? Navigator.pushNamed(context, '/proposal',
-                          arguments: widget.token)
-                      : Navigator.pushNamed(context, '/login'),
-                ),
-          widget.user?.permissionLevel != 3
+                  onTap: () => Navigator.pushNamed(
+                        context,
+                        '/proposalCreate',
+                        arguments: UserArguments(widget.token, widget.user),
+                      ))
+              : const SizedBox(),
+          widget.user?.permissionLevel == 1
               ? ListTile(
                   title: Text(
                     'Notifications',
@@ -180,11 +183,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     data: Theme.of(context).iconTheme,
                     child: const Icon(Icons.notifications),
                   ),
-                  onTap: () => widget.token != null
-                      ? PopUpsFinancer.showNotifications(
-                          context, widget.token, widget.user)
-                      : Navigator.pushNamed(context, '/login'),
-                )
+                  onTap: () => PopUpsFinancer.showNotifications(
+                      context, widget.token, widget.user))
               : const SizedBox(),
           ExpansionTile(
             title:
@@ -213,7 +213,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               ),
             ],
           ),
-          widget.user?.permissionLevel == 1
+          widget.user?.permissionLevel != 3
               ? ListTile(
                   title: Text(
                     'About Us',

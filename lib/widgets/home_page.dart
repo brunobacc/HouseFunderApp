@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/data/projects.dart';
 import 'package:projeto_computacao_movel/data/users.dart';
 import 'package:projeto_computacao_movel/modules/arguments/project_arguments.dart';
+import 'package:projeto_computacao_movel/modules/arguments/user_arguments.dart';
 import 'package:projeto_computacao_movel/modules/project.dart';
 import 'package:projeto_computacao_movel/widgets/popups/pop_up_filter.dart';
 import 'package:projeto_computacao_movel/widgets/utils/bottom_navigation_bar_widget.dart';
@@ -138,7 +139,9 @@ class _HomePageState extends State<HomePage> {
                                 // create new project
                                 onTap: () {
                                   Navigator.pushNamed(
-                                      context, '/createProject');
+                                      context, '/proposalCreate',
+                                      arguments:
+                                          UserArguments(widget.token, _user));
                                 },
                               ),
                             );

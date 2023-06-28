@@ -14,7 +14,7 @@ class PopUpValidation {
     required BuildContext context,
     required String? token,
     required Project project,
-    final User? user,
+    required User? user,
   }) {
     var popUp = AlertDialog(
       content: Validate(
@@ -140,11 +140,11 @@ class _ValidateState extends State<Validate> {
                     onPressed: () {
                       if (widget.user?.permissionLevel == 3) {
                         Projects.validateProject(
-                            widget.token, 5, widget.project.projectId, null);
+                            widget.token, 5, widget.project.projectId);
                         Navigator.pop(context);
                       } else {
                         Projects.validateProject(
-                            widget.token, 2, widget.project.projectId, null);
+                            widget.token, 2, widget.project.projectId);
                         Navigator.pop(context);
                       }
                     },
@@ -154,11 +154,16 @@ class _ValidateState extends State<Validate> {
                     ),
                   ),
                   ElevatedButton(
-                    child: Text(
-                      'Decline',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                    onPressed: () => showDialog(
+                      child: Text(
+                        'Decline',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                      onPressed: () {
+                        Projects.validateProject(
+                            widget.token, 1, widget.project.projectId);
+                        Navigator.pop(context);
+                      }
+                      /*showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
@@ -194,7 +199,7 @@ class _ValidateState extends State<Validate> {
                                     widget.token,
                                     1,
                                     widget.project.projectId,
-                                    _motiveController.text),
+                                    ),
                                 child: Text(
                                   'Send',
                                   style: Theme.of(context).textTheme.bodyMedium,
@@ -204,8 +209,8 @@ class _ValidateState extends State<Validate> {
                           ],
                         );
                       },
-                    ),
-                  ),
+                    ),*/
+                      ),
                 ],
               ),
             ],

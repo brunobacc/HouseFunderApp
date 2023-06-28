@@ -56,7 +56,7 @@ class Products {
       String? token) async {
     try {
       final response = await http.put(
-        Uri.http(url, '/api/Products/${productId}'),
+        Uri.http(url, '/api/Products/$productId'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Token': token!,
@@ -85,7 +85,6 @@ class Products {
   }
 
   static Future<bool> delete(String? token, int productId) async {
-    // ask data to server
     final response = await http.delete(Uri.http(
       url,
       '/api/Products/$productId',
@@ -96,7 +95,7 @@ class Products {
         return true;
       }
     } else {
-      throw Exception('Failed to delete Products');
+      throw Exception('Failed to delete Product!');
     }
     return false;
   }

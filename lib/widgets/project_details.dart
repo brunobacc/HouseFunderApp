@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/data/projects.dart';
 import 'package:projeto_computacao_movel/modules/project_financer.dart';
 import 'package:projeto_computacao_movel/modules/project.dart';
+import 'package:projeto_computacao_movel/widgets/popups/pop_up_info.dart';
+import 'package:projeto_computacao_movel/widgets/popups/pop_ups_admin.dart';
 import 'package:projeto_computacao_movel/widgets/popups/pop_ups_financer.dart';
 import '../modules/user.dart';
 
@@ -49,13 +51,112 @@ class _ProjectDetailsState extends State<ProjectDetails> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  'https://housefunderstorage.blob.core.windows.net/projects/${widget.project.image}',
-                  width: MediaQuery.sizeOf(context).width,
-                  fit: BoxFit.cover,
-                ),
+              Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      'https://housefunderstorage.blob.core.windows.net/projects/${widget.project.image}',
+                      width: MediaQuery.sizeOf(context).width,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  widget.user?.permissionLevel == 3
+                      ? Positioned(
+                          top: -10,
+                          right: -10,
+                          child: Row(
+                            children: [
+                              IconButton(
+                                padding: const EdgeInsets.all(0),
+                                onPressed: () => PopUpsAdmin.editProject(
+                                  context: context,
+                                  user: widget.user,
+                                  token: widget.token,
+                                  project: widget.project,
+                                ),
+                                icon: const Icon(
+                                  Icons.edit,
+                                  size: 30,
+                                  color: Colors.blue,
+                                ),
+                              ),
+                              IconButton(
+                                padding: const EdgeInsets.all(0),
+                                onPressed: () => showDialog(
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: Text(
+                                        "Are you sure?",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium,
+                                      ),
+                                      content: Text(
+                                        "That you want to delete this project.",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium,
+                                      ),
+                                      actions: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                Future<bool> projectStatus =
+                                                    Projects.delete(
+                                                  widget.token,
+                                                  widget.project.projectId,
+                                                );
+                                                // when projectStatus receives a bool value, it will present an information popUp
+                                                projectStatus.then(
+                                                  (value) {
+                                                    value
+                                                        ? PopUpInfo.info(
+                                                            context,
+                                                            'Success',
+                                                            'The Project was deleted!',
+                                                            widget.token,
+                                                          )
+                                                        : PopUpInfo.info(
+                                                            context,
+                                                            'Error',
+                                                            'Something happen when it was deleting the project!',
+                                                            widget.token,
+                                                          );
+                                                  },
+                                                );
+                                              },
+                                              child: const Text("Continue"),
+                                            ),
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text("Cancel"),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                ),
+                                //PlayerPopUp.delete(context, player, email),
+                                icon: const Icon(
+                                  Icons.delete,
+                                  size: 30,
+                                  color: Colors.blue,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : const SizedBox(),
+                ],
               ),
               Container(
                 padding: const EdgeInsets.only(top: 10),
@@ -104,20 +205,24 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                   ],
                 ),
               ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  minimumSize:
-                      const Size.fromHeight(35), // make the button expanded
-                ),
-                onPressed: () => widget.token != null
-                    ? PopUpsFinancer.finance(
-                        context, widget.project, widget.token, widget.user)
-                    : Navigator.pushNamed(context, '/login'),
-                child: Text(
-                  'Finance',
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-              ),
+              widget.user!.permissionLevel != 3
+                  ? ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(
+                            35), // make the button expanded
+                      ),
+                      onPressed: () => widget.token != null
+                          ? PopUpsFinancer.finance(context, widget.project,
+                              widget.token, widget.user)
+                          : Navigator.pushNamed(context, '/login'),
+                      child: Text(
+                        'Finance',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    )
+                  : const SizedBox(
+                      height: 10,
+                    ),
               Padding(
                 padding: const EdgeInsets.only(top: 5),
                 child: Row(

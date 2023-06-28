@@ -5,7 +5,6 @@ import 'package:projeto_computacao_movel/modules/arguments/profile_page_argument
 import 'package:projeto_computacao_movel/modules/arguments/project_arguments.dart';
 import 'package:projeto_computacao_movel/modules/arguments/reset_password_arguments.dart';
 import 'package:projeto_computacao_movel/modules/arguments/user_arguments.dart';
-import 'package:projeto_computacao_movel/widgets/admin/admin_create_project.dart';
 import 'package:projeto_computacao_movel/widgets/admin/admin_shop_page.dart';
 import 'package:projeto_computacao_movel/widgets/admin/validate_page.dart';
 import 'package:projeto_computacao_movel/widgets/admin/administrator_page.dart';
@@ -14,7 +13,7 @@ import 'package:projeto_computacao_movel/widgets/admin/partnerships_page.dart';
 import 'package:projeto_computacao_movel/widgets/auth/reset_password.dart';
 import 'package:projeto_computacao_movel/widgets/filter_page.dart';
 import 'package:projeto_computacao_movel/widgets/financer/profile.dart';
-import 'package:projeto_computacao_movel/widgets/financer/proposal_page.dart';
+import 'package:projeto_computacao_movel/widgets/financer/proposal_create_page.dart';
 import 'package:projeto_computacao_movel/widgets/home_page.dart';
 import 'package:projeto_computacao_movel/widgets/auth/login_page.dart';
 import 'package:projeto_computacao_movel/widgets/auth/register_page.dart';
@@ -96,11 +95,12 @@ class AppRouter {
             level: args?.level,
           ),
         );
-      case ProposalPage.routeName:
-        String? args = settings.arguments as String?;
+      case ProposalCreatePage.routeName:
+        UserArguments? args = settings.arguments as UserArguments?;
         return MaterialPageRoute(
-          builder: (_) => ProposalPage(
-            token: args,
+          builder: (_) => ProposalCreatePage(
+            token: args?.token,
+            user: args?.user,
           ),
         );
       case ShopPage.routeName:
@@ -146,14 +146,6 @@ class AppRouter {
         UserArguments? args = settings.arguments as UserArguments?;
         return MaterialPageRoute(
           builder: (_) => ValidatePage(
-            token: args?.token,
-            user: args?.user,
-          ),
-        );
-      case CreateProject.routeName:
-        UserArguments? args = settings.arguments as UserArguments?;
-        return MaterialPageRoute(
-          builder: (_) => CreateProject(
             token: args?.token,
             user: args?.user,
           ),
