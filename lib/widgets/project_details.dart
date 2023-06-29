@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:projeto_computacao_movel/data/projects.dart';
 import 'package:projeto_computacao_movel/modules/project_financer.dart';
 import 'package:projeto_computacao_movel/modules/project.dart';
-import 'package:projeto_computacao_movel/widgets/popups/pop_up_info.dart';
-import 'package:projeto_computacao_movel/widgets/popups/pop_ups_admin.dart';
 import 'package:projeto_computacao_movel/widgets/popups/pop_ups_financer.dart';
 import '../modules/user.dart';
 
@@ -56,7 +54,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.network(
-                      'https://housefunderstorage.blob.core.windows.net/projects/${widget.project.image}',
+                      'https://housefunderstorage1.blob.core.windows.net/projects/${widget.project.image}',
                       width: MediaQuery.sizeOf(context).width,
                       fit: BoxFit.cover,
                     ),
@@ -279,7 +277,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                                       ClipRRect(
                                         borderRadius: BorderRadius.circular(10),
                                         child: Image.network(
-                                          'https://housefunderstorage.blob.core.windows.net/images/${snapshot.data![index].image}',
+                                          'https://housefunderstorage1.blob.core.windows.net/images/${snapshot.data![index].image}',
                                           fit: BoxFit.fill,
                                         ),
                                       ),

@@ -264,13 +264,13 @@ class _ProposalCreatePageState extends State<ProposalCreatePage> {
                               ? PopUpInfo.info(
                                   context,
                                   'Success',
-                                  'The project was proposed!',
+                                  'The project was created!',
                                   widget.token,
                                 )
                               : PopUpInfo.info(
                                   context,
                                   'Error',
-                                  'Something happened when the project was being processed!',
+                                  'Something happened when the project was being created!',
                                   widget.token,
                                 );
                         },

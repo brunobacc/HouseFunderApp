@@ -92,7 +92,7 @@ class _AdministratorsPageState extends State<AdministratorsPage> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(10),
                                     child: Image.network(
-                                      'https://housefunderstorage.blob.core.windows.net/images/${administrator.image}',
+                                      'https://housefunderstorage1.blob.core.windows.net/images/${administrator.image}',
                                       height: 100,
                                       fit: BoxFit.fitHeight,
                                     ),

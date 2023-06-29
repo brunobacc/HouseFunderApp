@@ -8,7 +8,6 @@ import 'package:projeto_computacao_movel/widgets/popups/pop_up_info.dart';
 import 'package:projeto_computacao_movel/widgets/utils/validations.dart';
 import '../../data/products.dart';
 import '../../modules/product.dart';
-import '../../modules/user.dart';
 
 class PopUpsAdmin {
   BuildContext context;

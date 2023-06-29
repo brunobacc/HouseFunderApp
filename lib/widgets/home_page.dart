@@ -163,7 +163,7 @@ class _HomePageState extends State<HomePage> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: Image.network(
-                                  'https://housefunderstorage.blob.core.windows.net/projects/${snapshot.data![index].image}',
+                                  'https://housefunderstorage1.blob.core.windows.net/projects/${snapshot.data![index].image}',
                                   height:
                                       MediaQuery.sizeOf(context).height * 0.2,
                                   fit: BoxFit.cover,

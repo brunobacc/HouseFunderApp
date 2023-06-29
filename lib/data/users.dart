@@ -236,9 +236,11 @@ class Users {
         //print('Status Code: ${response.statusCode}');
 
         if (response.statusCode == 200) {
-          return true;
+          if (response.body == 'true') {
+            return true;
+          }
+          return false;
         }
-        return false;
       } catch (e) {
         //print('Error: $e');
         return false;

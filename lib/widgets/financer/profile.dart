@@ -110,7 +110,7 @@ class _ProfileState extends State<Profile> {
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(100),
                                     child: Image.network(
-                                      'https://housefunderstorage.blob.core.windows.net/images/${snapshot.data!.image}',
+                                      'https://housefunderstorage1.blob.core.windows.net/images/${snapshot.data!.image}',
                                       height: 130,
                                       width: 130,
                                     ),
@@ -415,7 +415,7 @@ class _ProfileState extends State<Profile> {
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
                                   child: Image.network(
-                                    'https://housefunderstorage.blob.core.windows.net/projects/${_projectsFinished![i].image}',
+                                    'https://housefunderstorage1.blob.core.windows.net/projects/${_projectsFinished![i].image}',
                                     width: double.infinity,
                                     height: 200,
                                     fit: BoxFit.fill,
@@ -456,7 +456,7 @@ class _ProfileState extends State<Profile> {
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(10),
                                     child: Image.network(
-                                      'https://housefunderstorage.blob.core.windows.net/projects/${_projectsFinanced![i].image}',
+                                      'https://housefunderstorage1.blob.core.windows.net/projects/${_projectsFinanced![i].image}',
                                       width: double.infinity,
                                       height: 200,
                                       fit: BoxFit.fill,

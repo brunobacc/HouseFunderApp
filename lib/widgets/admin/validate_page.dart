@@ -74,7 +74,7 @@ class _ValidatePageState extends State<ValidatePage> {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
                                   child: Image.network(
-                                    'https://housefunderstorage.blob.core.windows.net/projects/${filteredProjects[index].image}',
+                                    'https://housefunderstorage1.blob.core.windows.net/projects/${filteredProjects[index].image}',
                                     height:
                                         MediaQuery.sizeOf(context).height * 0.2,
                                     fit: BoxFit.cover,
@@ -141,7 +141,7 @@ class _ValidatePageState extends State<ValidatePage> {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
                                   child: Image.network(
-                                    'https://housefunderstorage.blob.core.windows.net/projects/${filteredPartnersProjects[index].image}',
+                                    'https://housefunderstorage1.blob.core.windows.net/projects/${filteredPartnersProjects[index].image}',
                                     height:
                                         MediaQuery.sizeOf(context).height * 0.2,
                                     fit: BoxFit.cover,
